@@ -10,8 +10,8 @@
 <script lang="ts">
 // import Vue from "vue";
 
-import { defineComponent } from "vue";
-import InputTargetValue from "./components/InputTargetValue.vue";
+import { defineComponent } from 'vue'
+import InputTargetValue from './components/InputTargetValue.vue'
 // import HelloWorld from "./components/HelloWorld.vue";
 
 export default defineComponent({
@@ -23,7 +23,7 @@ export default defineComponent({
     testProp: {
       required: false,
       type: String,
-      default: "Text",
+      default: 'Text',
       readonly: true,
     },
   },
@@ -31,7 +31,7 @@ export default defineComponent({
   data() {
     return {
       target: 0.0,
-    };
+    }
   },
   watch: {
     // name: function(value) {
@@ -41,10 +41,10 @@ export default defineComponent({
   },
   methods: {
     setTarget(target: number) {
-      console.log("new target:", target);
+      console.log('new target:', target)
     },
     addRow(row: {}) {
-      console.log("new row:", row);
+      console.log('new row:', row)
     },
   },
   // emits: ["dummy-emit"],
@@ -56,5 +56,5 @@ export default defineComponent({
   // created() {},
   // computed: {},
   // mounted() {},
-});
+})
 </script>
