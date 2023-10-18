@@ -1,0 +1,14 @@
+.DS_Store
+.vscode
+node_modules
+/dist
+/vorlage/
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+
+# Editor directories and files
