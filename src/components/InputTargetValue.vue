@@ -5,10 +5,10 @@
         <v-text-field
           v-model="inputTarget"
           label="Target"
-          :append-icon="'mdi-send'"
+          :append-inner-icon="'mdi-content-save'"
           variant="outlined"
           type="text"
-          @click:append="enterTarget"
+          @click:append-inner="enterTarget"
           @keyup.enter="enterTarget"
         />
       </v-col>
@@ -16,10 +16,10 @@
         <v-text-field
           v-model="inputValue"
           label="Value"
-          :append-icon="'mdi-send'"
+          :append-inner-icon="'mdi-content-save'"
           variant="outlined"
           type="text"
-          @click:append="enterValue"
+          @click:append-inner="enterValue"
           @keyup.enter="enterValue"
         />
       </v-col>
@@ -33,10 +33,10 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   emits: ['set-target', 'add-row'],
   //   components: {},
-  //   props: {},
+  props: { target: { type: Number, default: 0.0 } },
   data() {
     return {
-      inputTarget: '',
+      inputTarget: this.target.toString() || '',
       inputValue: '',
     }
   },
@@ -56,7 +56,7 @@ export default defineComponent({
       }
 
       const date = new Date()
-      const newRow = { value: value, date }
+      const newRow = { date: date, value: value }
       // Emit an event to update the data table
       this.$emit('add-row', newRow)
       this.inputValue = ''
