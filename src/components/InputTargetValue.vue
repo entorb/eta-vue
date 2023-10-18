@@ -28,39 +28,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  emits: ["set-target", "add-row"],
+  emits: ['set-target', 'add-row'],
   //   components: {},
   //   props: {},
   data() {
     return {
-      inputTarget: "",
-      inputValue: "",
-    };
+      inputTarget: '',
+      inputValue: '',
+    }
   },
   methods: {
     enterTarget() {
-      const target = parseFloat(this.inputTarget);
+      const target = parseFloat(this.inputTarget)
       if (isNaN(target)) {
-        this.inputTarget = "";
-        return;
+        this.inputTarget = ''
+        return
       }
-      this.$emit("set-target", target);
+      this.$emit('set-target', target)
     },
     enterValue() {
-      const value = parseFloat(this.inputValue);
+      const value = parseFloat(this.inputValue)
       if (isNaN(value)) {
-        return;
+        return
       }
 
-      const date = new Date();
-      const newRow = { value: value, date };
+      const date = new Date()
+      const newRow = { value: value, date }
       // Emit an event to update the data table
-      this.$emit("add-row", newRow);
-      this.inputValue = "";
+      this.$emit('add-row', newRow)
+      this.inputValue = ''
     },
   },
-});
+})
 </script>
