@@ -3,6 +3,7 @@
     <v-main>
       <!-- <HelloWorld /> -->
       <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
+      <DataTable :data="data" />
     </v-main>
   </v-app>
 </template>
@@ -12,6 +13,7 @@
 
 import { defineComponent } from 'vue'
 import InputTargetValue from './components/InputTargetValue.vue'
+import DataTable from './components/DataTable.vue'
 // import HelloWorld from "./components/HelloWorld.vue";
 
 // type DataRow = {
@@ -22,6 +24,7 @@ import InputTargetValue from './components/InputTargetValue.vue'
 export default defineComponent({
   components: {
     InputTargetValue,
+    DataTable,
     // HelloWorld,
   },
   props: {
