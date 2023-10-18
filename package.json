@@ -5,7 +5,10 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix --ignore-path .gitignore"
+    "format": "npx prettier src/ --cache --write",
+    "lint": "eslint src/ --cache --fix ",
+    "cspell": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
+    "cspell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
@@ -19,6 +22,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
     "eslint": "^8.0.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-plugin-vue": "^9.0.0",
     "typescript": "^5.0.0",
     "unplugin-fonts": "^1.0.3",
