@@ -31,14 +31,17 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  name: 'InputTargetValue',
   emits: ['set-target', 'add-row'],
-  //   components: {},
-  props: { target: { type: Number, default: 0.0 } },
+  props: { target: { type: Number || undefined, default: undefined } },
   data() {
     return {
-      inputTarget: this.target.toString() || '',
+      inputTarget: '',
       inputValue: '',
     }
+  },
+  watch: {
+    target: { handler: 'updateTargetInput' },
   },
   methods: {
     enterTarget() {
@@ -60,6 +63,13 @@ export default defineComponent({
       // Emit an event to update the data table
       this.$emit('add-row', newRow)
       this.inputValue = ''
+    },
+    updateTargetInput() {
+      if (this.target !== undefined) {
+        this.inputTarget = this.target.toString()
+      } else {
+        this.inputTarget = ''
+      }
     },
   },
 })
