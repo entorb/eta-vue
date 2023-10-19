@@ -1,4 +1,5 @@
 <template>
+  <!-- v-data-table would support sorting... -->
   <v-table ref="tableRef" fixed-header height="300px" density="compact" class="align-start">
     <thead>
       <tr>
@@ -11,6 +12,8 @@
       </tr>
     </thead>
     <tbody>
+      <!-- reverse data
+      in data.slice().reverse() -->
       <tr v-for="(row, index) in data" :key="index">
         <td>{{ dateToString(row.date, true) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
@@ -44,7 +47,7 @@ export default defineComponent({
     },
 
     calculateItemsPerSec(index: number): number {
-      if (index <= 1 || this.data.length <= 2) {
+      if (index == 0 || this.data.length == 0) {
         return 0
       }
       const currentItem = this.data[index]
