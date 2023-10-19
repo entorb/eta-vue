@@ -1,5 +1,12 @@
 # ETA in Vue.js using TypeScript and Vuetify
 
+## Build
+
+```sh
+npm run dev
+npm run build
+```
+
 ## Vue Documentation
 
 ### Vue.js
