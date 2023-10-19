@@ -23,7 +23,7 @@
       </tr>
       <tr>
         <th>Percent</th>
-        <td>{{ percent.toPrecision(2) }}%</td>
+        <td>{{ percent.toFixed(0) }}%</td>
       </tr>
     </tbody>
   </v-table>
@@ -82,7 +82,11 @@ export default defineComponent({
       this.lastValue = this.data[this.data.length - 1].value
       const { slope, intercept } = helper_lin_reg(this.data, true)
       this.slope = slope
-      this.eta = new Date(this.lastDate.getTime() + this.secToGo * 1000)
+      let seconds_till_target = 0
+      if (this.target > this.lastValue && this.slope != 0) {
+        seconds_till_target = (this.target - this.lastValue) / this.slope
+      }
+      this.eta = new Date(this.lastDate.getTime() + seconds_till_target * 1000)
       this.percent = (100 * this.data[this.data.length - 1].value) / this.target
       // TODO: these should be updated by setInterval
       this.runtime = Math.round((new Date().getTime() - this.firstDate.getTime()) / 1000)
