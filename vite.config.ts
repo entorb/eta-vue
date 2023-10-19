@@ -9,6 +9,10 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // TM: important when deploying not into the webserver root dir
+  // error message "was blocked due to MIME type (“text/html”) mismatch"
+  // (X-Content-Type-Options: nosniff)
+  base: '/eta-vue/',
   plugins: [
     vue({
       template: { transformAssetUrls },
