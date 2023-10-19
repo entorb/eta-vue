@@ -11,27 +11,28 @@
       </tr>
       <tr>
         <th>Start</th>
-        <td></td>
+        <td>{{ dateToString(firstDate) }}</td>
       </tr>
       <tr>
         <th>Remaining</th>
-        <td></td>
+        <td>{{ secToString(secToGo) }}</td>
       </tr>
       <tr>
         <th>Runtime</th>
-        <td></td>
+        <td>{{ secToString(runtime) }}</td>
       </tr>
       <tr>
         <th>Percent</th>
-        <td></td>
+        <td>{{ percent.toPrecision(2) }}%</td>
       </tr>
     </tbody>
   </v-table>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { helperDateToString } from './helper'
+import { defineComponent, onMounted } from 'vue'
+import { helperDateToString, helperSecondsToString } from './helper'
+import { helper_lin_reg } from './helper_lin_reg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
@@ -42,16 +43,23 @@ export default defineComponent({
   },
   data() {
     return {
+      firstDate: new Date(0),
+      firstValue: 0.0,
+      lastDate: new Date(0),
+      lastValue: 0.0,
+      percent: 0.0,
+      runtime: 0.0,
+      secToGo: 0,
       slope: 0.0,
-      // intercept: Number,
       eta: new Date(0),
     }
   },
   watch: {
     data: {
-      handler: 'calculateWeightedLinearRegression', // calculateLinearRegression
+      handler: 'updateStats',
       deep: true,
     },
+    target: { handler: 'updateStats' },
   },
   methods: {
     dateToString(datetime: Date): string {
@@ -60,86 +68,29 @@ export default defineComponent({
       const showDays = Number(firstDate) - Number(lastDate) > 1000 * 60 * 60 * 24
       return helperDateToString(datetime, showDays)
     },
-
-    calculateXAndY(data: Array<{ date: Date; value: number }>) {
-      const Y = data.map(point => point.value)
-      const Xms = data.map(point => point.date.getTime()) // timestamp in ms
-      const firstTimestamp = Xms[0]
-      const X = Xms.map(timestamp => (timestamp - firstTimestamp) / 1000)
-      return { X, Y }
+    secToString(sec: number): string {
+      return helperSecondsToString(sec)
     },
-    calculateLinearRegression() {
-      const n = this.data.length
-      if (n < 2) {
+    updateStats() {
+      if (this.data.length < 2) {
         this.eta = new Date(0)
-        return null
-      }
-      const { X, Y } = this.calculateXAndY(this.data)
-
-      let sumX = 0
-      let sumY = 0
-      for (let i = 0; i < n; i++) {
-        sumX += X[i]
-        sumY += Y[i]
-      }
-      const avgX = sumX / n
-      const avgY = sumY / n
-
-      const xDifferencesToAverage = X.map(value => avgX - value)
-      const yDifferencesToAverage = Y.map(value => avgY - value)
-      const xDifferencesToAverageSquared = xDifferencesToAverage.map(value => value ** 2)
-      const xAndYDifferencesMultiplied = xDifferencesToAverage.map(
-        (curr, index) => curr * yDifferencesToAverage[index]
-      )
-      const denominator = xDifferencesToAverageSquared.reduce((prev, curr) => prev + curr, 0)
-      const numerator = xAndYDifferencesMultiplied.reduce((prev, curr) => prev + curr, 0)
-
-      this.slope = numerator / denominator
-      // this.intercept = avgY - this.slope * avgX;
-      this.calc_ETA()
-    },
-    calculateWeightedLinearRegression() {
-      const n = this.data.length
-      if (n < 2) {
-        this.eta = new Date(0)
-        return null
-      }
-      const { X, Y } = this.calculateXAndY(this.data)
-
-      let sumXw = 0
-      let sumYw = 0
-      let sumWeight = 0
-      for (let i = 0; i < n; i++) {
-        const weight = i + 1
-        sumWeight += weight
-        sumXw += X[i] * weight
-        sumYw += Y[i] * weight
-      }
-
-      const avgXw = sumXw / sumWeight
-      const avgYw = sumYw / sumWeight
-
-      let numerator = 0
-      let denominator = 0
-      for (let i = 0; i < n; i++) {
-        const weight = i + 1
-        numerator += weight * (X[i] - avgXw) * (Y[i] - avgYw)
-        denominator += weight * (X[i] - avgXw) ** 2
-      }
-
-      this.slope = numerator / denominator
-      // this.intercept = avgYw - this.slope * avgXw;
-      this.calc_ETA()
-    },
-    calc_ETA() {
-      if (!this.target) {
         return
       }
-      const lastValue = this.data[this.data.length - 1].value
-      const lastDate = this.data[this.data.length - 1].date
-      const target = this.target
-      const secToGo = (target - lastValue) / this.slope
-      this.eta = new Date(lastDate.getTime() + secToGo * 1000)
+      this.firstDate = this.data[0].date
+      this.firstValue = this.data[0].value
+      this.lastDate = this.data[this.data.length - 1].date
+      this.lastValue = this.data[this.data.length - 1].value
+      const { slope, intercept } = helper_lin_reg(this.data, true)
+      this.slope = slope
+      this.eta = new Date(this.lastDate.getTime() + this.secToGo * 1000)
+      this.percent = (100 * this.data[this.data.length - 1].value) / this.target
+      // TODO: these should be updated by setInterval
+      this.runtime = Math.round((new Date().getTime() - this.firstDate.getTime()) / 1000)
+      if (this.eta.getTime() > new Date().getTime()) {
+        this.secToGo = Math.round((this.eta.getTime() - new Date().getTime()) / 1000)
+      } else {
+        this.secToGo = 0
+      }
     },
   },
 })
