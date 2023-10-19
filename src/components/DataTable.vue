@@ -5,21 +5,22 @@
         <th>Date</th>
         <th>Items</th>
         <th>Speed</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(row, index) in data" :key="index">
         <td>{{ dateToString(row.date, true) }}</td>
-        <td>{{ row.value }}</td>
+        <td :class="{ 'text-right': true }">{{ row.value }}</td>
+        <td :class="{ 'text-center': true }">
+          <TooltipSpeed :ips="calculateItemsPerSec(index)" v-if="index >= 1"></TooltipSpeed>
+        </td>
         <td>
-          <span v-if="index >= 1">
-            <TooltipSpeed :ips="calculateItemsPerSec(index)"></TooltipSpeed>
-          </span>
+          <v-btn icon="mdi-trash-can" @click="deleteRow(index)" size="small" flat />
         </td>
       </tr>
     </tbody>
   </v-table>
-  >
 </template>
 
 <script lang="ts">
@@ -48,6 +49,12 @@ export default defineComponent({
       const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
       const deltaItems = currentItem.value - prevItem.value
       return deltaItems / deltaT
+    },
+    deleteRow(index: number) {
+      if (index >= 0 && index < this.data.length) {
+        // Removes one element at the specified index
+        this.data.splice(index, 1)
+      }
     },
   },
 })

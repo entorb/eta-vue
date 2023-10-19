@@ -2,8 +2,24 @@
   <v-app>
     <v-main>
       <!-- <HelloWorld /> -->
-      <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
-      <DataTable :data="data" />
+      <v-container>
+        <v-row>
+          <v-col>
+            <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
+          </v-col>
+          <v-col v-if="data.length > 1" align-content="end">
+            <v-btn prepend-icon="mdi-trash-can" @click="deleteAllData">Reset</v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col v-if="data.length > 1">
+            <DataTable :data="data" />
+          </v-col>
+          <v-col v-if="data.length > 1">
+            <Stats :data="data" :target="target" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -11,10 +27,11 @@
 <script lang="ts">
 // import Vue from "vue";
 
+// import HelloWorld from "./components/HelloWorld.vue";
 import { defineComponent } from 'vue'
 import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
-// import HelloWorld from "./components/HelloWorld.vue";
+import Stats from './components/Stats.vue'
 
 // type DataRow = {
 //   date: Date
@@ -23,9 +40,10 @@ import DataTable from './components/DataTable.vue'
 
 export default defineComponent({
   components: {
+    // HelloWorld,
     InputTargetValue,
     DataTable,
-    // HelloWorld,
+    Stats,
   },
   props: {
     testProp: {
@@ -64,9 +82,8 @@ export default defineComponent({
       this.updateLocalStorageTarget()
     },
     addRow(row: { date: Date; value: number }) {
-      console.log('new row:', row)
+      // console.log('new row:', row)
       this.data.push(row)
-      console.log(this.data)
       this.updateLocalStorageData()
     },
     deleteAllData() {
