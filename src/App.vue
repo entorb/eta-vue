@@ -90,11 +90,21 @@ export default defineComponent({
     plus1() {
       const date = new Date()
       let value = 0
-      if (this.data.length > 0) {
-        const lastValue = this.data[this.data.length - 1].value
-        value = lastValue + 1
+      if (this.target != 0) {
+        if (this.data.length > 0) {
+          const lastValue = this.data[this.data.length - 1].value
+          value = lastValue + 1
+        } else {
+          value = 1
+        }
       } else {
-        value = 1
+        // target == 0 -> countdown
+        if (this.data.length > 0) {
+          const lastValue = this.data[this.data.length - 1].value
+          value = lastValue - 1
+        } else {
+          return
+        }
       }
       const newRow = { date: date, value: value }
       this.addRow(newRow)
