@@ -34,12 +34,13 @@ import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from './helper'
 
 export default defineComponent({
-  emits: ['delete-all-data'],
+  name: 'DataTable',
   components: {
     TooltipSpeed,
   },
+  emits: ['delete-all-data'],
   props: {
-    data: { type: Array<{ date: Date; value: number }>, default: [] },
+    data: { type: Array<{ date: Date; value: number }>, required: true },
   },
   methods: {
     dateToString(datetime: Date, showDays: boolean = false): string {
