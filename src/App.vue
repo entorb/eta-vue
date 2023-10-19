@@ -7,13 +7,11 @@
           <v-col>
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
-          <v-col v-if="data.length > 1" align-content="end">
-            <v-btn prepend-icon="mdi-trash-can" @click="deleteAllData">Reset</v-btn>
-          </v-col>
+          <v-col v-if="data.length > 1" align-content="end"> </v-col>
         </v-row>
         <v-row>
           <v-col v-if="data.length > 1">
-            <DataTable :data="data" />
+            <DataTable :data="data" @delete-all-data="deleteAllData" />
           </v-col>
           <v-col v-if="data.length > 1">
             <Stats :data="data" :target="target" />

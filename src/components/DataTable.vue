@@ -5,7 +5,9 @@
         <th>Date</th>
         <th>Items</th>
         <th>Speed</th>
-        <th></th>
+        <th :class="{ 'text-center': true }">
+          <v-btn icon="mdi-trash-can" icon-color="red" @click="deleteAllData" flat />
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -15,7 +17,7 @@
         <td :class="{ 'text-center': true }">
           <TooltipSpeed :ips="calculateItemsPerSec(index)" v-if="index >= 1"></TooltipSpeed>
         </td>
-        <td>
+        <td :class="{ 'text-center': true }">
           <v-btn icon="mdi-trash-can" @click="deleteRow(index)" size="small" flat />
         </td>
       </tr>
@@ -29,6 +31,7 @@ import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from './helper'
 
 export default defineComponent({
+  emits: ['delete-all-data'],
   components: {
     TooltipSpeed,
   },
@@ -55,6 +58,9 @@ export default defineComponent({
         // Removes one element at the specified index
         this.data.splice(index, 1)
       }
+    },
+    deleteAllData() {
+      this.$emit('delete-all-data')
     },
   },
 })
