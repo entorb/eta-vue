@@ -57,7 +57,7 @@ export default defineComponent({
 
   data() {
     return {
-      target: 0.0,
+      target: undefined as number | undefined,
       data: [] as Array<{ date: Date; value: number }>,
     }
   },
@@ -102,9 +102,13 @@ export default defineComponent({
     deleteAllData() {
       this.data = []
       localStorage.removeItem('data')
+      this.target = undefined
+      localStorage.removeItem('target')
     },
     updateLocalStorageTarget() {
-      localStorage.setItem('target', this.target.toString())
+      if (this.target != undefined) {
+        localStorage.setItem('target', this.target.toString())
+      }
     },
     updateLocalStorageData() {
       localStorage.setItem('data', JSON.stringify(this.data))

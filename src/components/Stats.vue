@@ -1,11 +1,11 @@
 <template>
-  <v-table v-if="data.length > 1" height="300px" density="compact" class="align-start">
+  <v-table v-if="data.length >= 2" height="300px" density="compact" class="align-start">
     <tbody>
       <tr>
         <th>Total speed</th>
         <td v-if="slope !== 0.0"><TooltipSpeed :ips="slope"></TooltipSpeed></td>
       </tr>
-      <tr v-if="eta.getTime() !== new Date(0).getTime()">
+      <tr v-if="target != undefined">
         <th>ETA</th>
         <td>{{ dateToString(eta) }}</td>
       </tr>
@@ -13,15 +13,15 @@
         <th>Start</th>
         <td>{{ dateToString(firstDate) }}</td>
       </tr>
-      <tr>
-        <th>Remaining</th>
+      <tr v-if="target != undefined">
+        <th>Time to go</th>
         <td>{{ secToString(secToGo) }}</td>
       </tr>
       <tr>
         <th>Runtime</th>
         <td>{{ secToString(runtime) }}</td>
       </tr>
-      <tr>
+      <tr v-if="target != undefined">
         <th>Percent</th>
         <td>{{ percent.toFixed(0) }}%</td>
       </tr>
@@ -36,10 +36,11 @@ import { helper_lin_reg } from './helper_lin_reg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
+  name: 'Stats',
   components: { TooltipSpeed },
   props: {
-    data: { type: Array<{ date: Date; value: number }>, default: [] },
-    target: { type: Number, default: 0.0 },
+    data: { type: Array<{ date: Date; value: number }>, required: true },
+    target: { type: Number || undefined, default: undefined },
   },
   data() {
     return {
@@ -48,6 +49,7 @@ export default defineComponent({
       lastDate: new Date(0),
       lastValue: 0.0,
       percent: 0.0,
+      percent_since_first: 0.0,
       runtime: 0.0,
       secToGo: 0,
       slope: 0.0,
@@ -86,11 +88,16 @@ export default defineComponent({
       const { slope, intercept } = helper_lin_reg(this.data, true)
       this.slope = slope
       let seconds_till_target = 0
+      if (this.target === undefined) {
+        return
+      }
       if (this.target > this.lastValue && this.slope != 0) {
         seconds_till_target = (this.target - this.lastValue) / this.slope
       }
       this.eta = new Date(this.lastDate.getTime() + seconds_till_target * 1000)
-      this.percent = (100 * this.data[this.data.length - 1].value) / this.target
+      this.percent = (100 * this.lastValue) / this.target
+      this.percent_since_first =
+        (100 * (this.lastValue - this.firstValue)) / (this.target - this.firstValue)
       // TODO: these should be updated by setInterval
       this.runtime = Math.round((new Date().getTime() - this.firstDate.getTime()) / 1000)
       if (this.eta.getTime() > new Date().getTime()) {
