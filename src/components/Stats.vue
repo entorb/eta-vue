@@ -95,9 +95,13 @@ export default defineComponent({
         seconds_till_target = (this.target - this.lastValue) / this.slope
       }
       this.eta = new Date(this.lastDate.getTime() + seconds_till_target * 1000)
-      this.percent = (100 * this.lastValue) / this.target
-      this.percent_since_first =
-        (100 * (this.lastValue - this.firstValue)) / (this.target - this.firstValue)
+      if (this.target != 0) {
+        this.percent = (100 * this.lastValue) / this.target
+        this.percent_since_first =
+          (100 * (this.lastValue - this.firstValue)) / (this.target - this.firstValue)
+      } else {
+        this.percent = (100 * (this.firstValue - this.lastValue)) / this.firstValue
+      }
       // TODO: these should be updated by setInterval
       this.runtime = Math.round((new Date().getTime() - this.firstDate.getTime()) / 1000)
       if (this.eta.getTime() > new Date().getTime()) {
