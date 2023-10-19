@@ -7,13 +7,14 @@
           <v-col>
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
-          <v-col v-if="data.length > 1" align-content="end"> </v-col>
+          <!-- align-content="end" -->
+          <v-col> <Actions @plus-1="plus1" /></v-col>
         </v-row>
         <v-row>
-          <v-col v-if="data.length > 1">
+          <v-col v-if="data.length >= 1">
             <DataTable :data="data" @delete-all-data="deleteAllData" />
           </v-col>
-          <v-col v-if="data.length > 1">
+          <v-col v-if="data.length >= 2">
             <Stats :data="data" :target="target" />
           </v-col>
         </v-row>
@@ -30,6 +31,7 @@ import { defineComponent } from 'vue'
 import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
 import Stats from './components/Stats.vue'
+import Actions from './components/Actions.vue'
 
 // type DataRow = {
 //   date: Date
@@ -42,6 +44,7 @@ export default defineComponent({
     InputTargetValue,
     DataTable,
     Stats,
+    Actions,
   },
   props: {
     testProp: {
@@ -83,6 +86,18 @@ export default defineComponent({
       // console.log('new row:', row)
       this.data.push(row)
       this.updateLocalStorageData()
+    },
+    plus1() {
+      const date = new Date()
+      let value = 0
+      if (this.data.length > 0) {
+        const lastValue = this.data[this.data.length - 1].value
+        value = lastValue + 1
+      } else {
+        value = 1
+      }
+      const newRow = { date: date, value: value }
+      this.addRow(newRow)
     },
     deleteAllData() {
       this.data = []
