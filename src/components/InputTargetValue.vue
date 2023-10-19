@@ -2,10 +2,10 @@
   <v-container class="align-start">
     <v-row>
       <v-col cols="6" md="3">
+        <!-- :append-inner-icon="'mdi-content-save'" -->
         <v-text-field
           v-model="inputTarget"
           label="Target"
-          :append-inner-icon="'mdi-content-save'"
           variant="outlined"
           type="text"
           @click:append-inner="enterTarget"
@@ -13,10 +13,10 @@
         />
       </v-col>
       <v-col cols="6" md="3">
+        <!-- :append-inner-icon="'mdi-content-save'" -->
         <v-text-field
           v-model="inputValue"
           label="Value"
-          :append-inner-icon="'mdi-content-save'"
           variant="outlined"
           type="text"
           @click:append-inner="enterValue"
