@@ -3,24 +3,29 @@
     <v-row>
       <v-col cols="6" md="3">
         <!-- :append-inner-icon="'mdi-content-save'" -->
+        <!-- @click:append-inner="enterTarget" -->
         <v-text-field
           v-model="inputTarget"
           label="Target"
-          variant="outlined"
-          type="text"
-          @click:append-inner="enterTarget"
+          type="number"
+          inputmode="decimal"
           @keyup.enter="enterTarget"
+          @blur="enterTarget"
+          variant="outlined"
         />
       </v-col>
       <v-col cols="6" md="3">
         <!-- :append-inner-icon="'mdi-content-save'" -->
+        <!-- v-model.number="inputValue" -->
+        <!-- @click:append-inner="enterValue" -->
         <v-text-field
-          v-model="inputValue"
+          v-model.number="inputValue"
           label="Value"
-          variant="outlined"
-          type="text"
-          @click:append-inner="enterValue"
+          type="number"
+          inputmode="decimal"
           @keyup.enter="enterValue"
+          @blur="enterValue"
+          variant="outlined"
         />
       </v-col>
     </v-row>
@@ -41,7 +46,7 @@ export default defineComponent({
     }
   },
   watch: {
-    target: { handler: 'updateTargetInput' },
+    target: { handler: 'updateInputFieldFromTarget' },
   },
   methods: {
     enterTarget() {
@@ -50,7 +55,9 @@ export default defineComponent({
         this.inputTarget = ''
         return
       }
-      this.$emit('set-target', target)
+      if (target != this.target) {
+        this.$emit('set-target', target)
+      }
     },
     enterValue() {
       const value = parseFloat(this.inputValue)
@@ -64,7 +71,7 @@ export default defineComponent({
       this.$emit('add-row', newRow)
       this.inputValue = ''
     },
-    updateTargetInput() {
+    updateInputFieldFromTarget() {
       if (this.target !== undefined) {
         this.inputTarget = this.target.toString()
       } else {
