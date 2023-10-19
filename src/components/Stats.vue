@@ -54,6 +54,9 @@ export default defineComponent({
       eta: new Date(0),
     }
   },
+  created() {
+    this.updateStats()
+  },
   watch: {
     data: {
       handler: 'updateStats',
