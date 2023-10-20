@@ -13,7 +13,8 @@
     "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
     "prepare": "husky install",
-    "test": "vitest --watch=true --coverage"
+    "test": "vitest --watch=true --coverage",
+    "test-once": "vitest --watch=false"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
