@@ -43,7 +43,7 @@ import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
-  name: 'Stats',
+  name: 'StatsBlock',
   components: { TooltipSpeed },
   props: {
     data: { type: Array<{ date: Date; value: number }>, required: true },
