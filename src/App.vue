@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <HelloWorld /> -->
       <v-container>
         <v-row>
           <v-col>
@@ -26,37 +25,25 @@
 <script lang="ts">
 // import Vue from "vue";
 
-// import HelloWorld from "./components/HelloWorld.vue";
 import { defineComponent } from 'vue'
 import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
 import Stats from './components/Stats.vue'
 import Actions from './components/Actions.vue'
 
-// type DataRow = {
-//   date: Date
-//   value: Number
-// }
-
 export default defineComponent({
   components: {
-    // HelloWorld,
     InputTargetValue,
     DataTable,
     Stats,
     Actions,
   },
-  props: {
-    testProp: {
-      required: false,
-      type: String,
-      default: 'Text',
-      readonly: true,
-    },
-  },
-
   data() {
     return {
+      // target:
+      // undefined -> simple mode, no ETA
+      // > 0 -> count-up mode
+      // = 0 -> count-down mode
       target: undefined as number | undefined,
       data: [] as Array<{ date: Date; value: number }>,
     }
@@ -71,13 +58,17 @@ export default defineComponent({
     if (stored !== null) {
       const obj = JSON.parse(stored)
       this.data = obj.map((item: { date: string; value: number }) => ({
-        date: new Date(item.date), // Assuming item.date is a valid date string
+        date: new Date(item.date),
         value: item.value,
       }))
     }
   },
   methods: {
     setTarget(target: number) {
+      if (target < 0) {
+        console.log('invalid negative target:', target)
+        return
+      }
       console.log('new target:', target)
       this.target = target
       this.updateLocalStorageTarget()
@@ -88,24 +79,25 @@ export default defineComponent({
       this.updateLocalStorageData()
     },
     plus1() {
-      const date = new Date()
       let value = 0
-      if (this.target != 0) {
-        if (this.data.length > 0) {
-          const lastValue = this.data[this.data.length - 1].value
-          value = lastValue + 1
-        } else {
-          value = 1
-        }
-      } else {
-        // target == 0 -> countdown
-        if (this.data.length > 0 && this.data[this.data.length - 1].value >= 1) {
-          const lastValue = this.data[this.data.length - 1].value
+      let lastValue = 0
+      const hasData = this.data.length > 0
+      if (this.data.length > 0) {
+        lastValue = this.data[this.data.length - 1].value
+      }
+
+      if (this.target == 0) {
+        // target == 0 -> count-down mode
+        if (hasData && lastValue >= 1) {
           value = lastValue - 1
         } else {
           return
         }
+      } else {
+        // count-up mode or simple mode
+        value = lastValue + 1
       }
+      const date = new Date()
       const newRow = { date: date, value: value }
       this.addRow(newRow)
     },

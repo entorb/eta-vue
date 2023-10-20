@@ -7,13 +7,11 @@
         <th>Items</th>
         <th>Speed</th>
         <th :class="{ 'text-center': true }">
-          <v-btn icon="mdi-trash-can" icon-color="red" flat @click="deleteAllData" />
+          <v-btn icon="mdi-trash-can" icon-color="red" flat @click="$emit('delete-all-data')" />
         </th>
       </tr>
     </thead>
     <tbody>
-      <!-- reverse data
-      in data.slice().reverse() -->
       <tr v-for="(row, index) in data" :key="index">
         <td>{{ dateToString(row.date, true) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
@@ -58,9 +56,6 @@ export default defineComponent({
       const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
       const deltaItems = currentItem.value - prevItem.value
       return deltaItems / deltaT
-    },
-    deleteAllData() {
-      this.$emit('delete-all-data')
     },
   },
 })

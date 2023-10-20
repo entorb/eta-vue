@@ -58,6 +58,7 @@ export default defineComponent({
       percentOfTarget: 0.0,
       percentOfTargetEstimated: 0.0,
       timeSinceFirstValue: 0.0,
+      timeSinceLastValue: 0.0,
       timeToETA: 0,
       itemsPerSecSlope: 0.0,
       eta: new Date(0),
@@ -91,7 +92,7 @@ export default defineComponent({
       return helperSecondsToString(sec)
     },
     updateStats() {
-      if (this.data.length < 2) {
+      if (this.data.length <= 1) {
         this.eta = new Date(0)
         return
       }
@@ -102,6 +103,8 @@ export default defineComponent({
 
       const { slope } = helperLinReg(this.data, true)
       this.itemsPerSecSlope = slope
+
+      // only for mode count-up and count-down the eta calc makes sense
       if (this.target !== undefined) {
         this.itemsDone = this.target != 0 ? this.lastValue : this.firstValue - this.lastValue
         this.itemsTotal = this.target != 0 ? this.target : this.firstValue
@@ -117,10 +120,13 @@ export default defineComponent({
           }
         }
         this.eta = new Date(this.lastDate.getTime() + this.timeToETA * 1000)
+      } else {
+        this.eta = new Date(0)
       }
 
       this.updateTimes()
-      if (new Date().getTime() < this.eta.getTime()) {
+      // start timer if we are not done yet
+      if (this.target !== undefined && new Date().getTime() < this.eta.getTime()) {
         this.startTimer()
       }
     },
@@ -128,18 +134,21 @@ export default defineComponent({
       // executed by interval timer
       const now = new Date().getTime()
       this.timeSinceFirstValue = Math.round((now - this.firstDate.getTime()) / 1000)
+      this.timeSinceLastValue = (now - this.lastDate.getTime()) / 1000
 
       // time < eta
       if (new Date().getTime() < this.eta.getTime()) {
         this.timeToETA = Math.round((this.eta.getTime() - now) / 1000)
+        // only for modes count-down and count-up the percent calc makes sense
         if (this.target !== undefined) {
-          const timeSinceLastValue = (now - this.lastDate.getTime()) / 1000
           if (this.target != 0) {
+            // count-up
             this.percentOfTargetEstimated =
-              (this.itemsDone + this.itemsPerSecSlope * timeSinceLastValue) / this.itemsTotal
+              (this.itemsDone + this.itemsPerSecSlope * this.timeSinceLastValue) / this.itemsTotal
           } else {
+            // count-down: itemsPerSecSlope is negative!
             this.percentOfTargetEstimated =
-              (this.itemsDone - this.itemsPerSecSlope * timeSinceLastValue) / this.itemsTotal
+              (this.itemsDone - this.itemsPerSecSlope * this.timeSinceLastValue) / this.itemsTotal
           }
         }
       } else {
@@ -153,13 +162,14 @@ export default defineComponent({
     startTimer() {
       this.stopTimer()
       let sleep: number = 1
+      // decide on the sleep time
       if ((this.timeToETA == 0 || this.timeToETA > 15 * 60) && this.timeSinceFirstValue > 15 * 60) {
         sleep = 30
       }
 
       this.timerInterval = setInterval(() => {
         this.updateTimes()
-      }, sleep * 1000) // sleep time in ms
+      }, sleep * 1000)
     },
     stopTimer() {
       // Stop the timer
@@ -171,4 +181,3 @@ export default defineComponent({
   },
 })
 </script>
-./helperLinReg
