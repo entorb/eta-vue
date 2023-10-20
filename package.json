@@ -7,9 +7,10 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "format": "npx prettier src/ --cache --write",
-    "lint": "eslint src/ --cache --fix ",
-    "cspell": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
-    "cspell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
+    "lint": "eslint src/ --cache",
+    "lint-fix": "eslint src/ --cache --fix",
+    "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
+    "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
     "prepare": "husky install",
     "test": "vitest --dom --watch=true --coverage"
   },
