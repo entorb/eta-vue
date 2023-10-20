@@ -3,7 +3,7 @@ export const helperDateToString = (datetime: Date, showDays: boolean = false): s
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
+    second: '2-digit'
   }
   if (showDays) {
     options.day = '2-digit'
