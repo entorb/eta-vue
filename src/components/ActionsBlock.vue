@@ -1,9 +1,10 @@
 <template>
-  <v-btn icon="mdi-numeric-positive-1" @click="$emit('plus-1')"></v-btn>
+  <v-btn icon="$plus1" @click="$emit('plus-1')"></v-btn>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   name: 'ActionsBlock',
   // props: {
