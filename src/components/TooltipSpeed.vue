@@ -14,6 +14,7 @@ export default defineComponent({
   name: 'TooltipSpeed',
   props: {
     ips: {
+      // items per second
       type: Number,
       required: true,
     },
