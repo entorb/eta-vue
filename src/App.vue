@@ -7,14 +7,14 @@
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
           <!-- align-content="end" -->
-          <v-col> <Actions @plus-1="plus1" /></v-col>
+          <v-col> <ActionsBlock @plus-1="plus1" /></v-col>
         </v-row>
         <v-row>
           <v-col v-if="data.length >= 1">
             <DataTable :data="data" @delete-all-data="deleteAllData" @delete-row="deleteRow" />
           </v-col>
           <v-col v-if="data.length >= 2">
-            <Stats :data="data" :target="target" />
+            <StatsBlock :data="data" :target="target" />
           </v-col>
         </v-row>
       </v-container>
@@ -28,15 +28,15 @@
 import { defineComponent } from 'vue'
 import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
-import Stats from './components/Stats.vue'
-import Actions from './components/Actions.vue'
+import StatsBlock from './components/StatsBlock.vue'
+import ActionsBlock from './components/ActionsBlock.vue'
 
 export default defineComponent({
   components: {
     InputTargetValue,
     DataTable,
-    Stats,
-    Actions,
+    StatsBlock,
+    ActionsBlock,
   },
   data() {
     return {
