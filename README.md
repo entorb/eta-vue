@@ -22,7 +22,24 @@ npm run build
 <https://pictogrammers.com/library/mdi/>
 use `mdi` as prefix in Vuetify (e.g. `trash-can` -> `mdi-trash-can`)
 
-## Code style checks
+## Tools used for this repo
+
+These toos are configured as git pre-commit hook, see `.lintstagedrc`
+
+- Prettier code formatter
+- ESLint code linter
+- Lint-Staged
+- Husky
+- CSpell code spell checker
+
+See nice how to at <https://www.coffeeclass.io/articles/commit-better-code-with-husky-prettier-eslint-lint-staged>
+
+# Unit tests
+
+see nice how to at
+<https://blog.logrocket.com/guide-vitest-automated-testing-vue-components/>
+
+## Manual code style checks
 
 ```sh
 npm run format
