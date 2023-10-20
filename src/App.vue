@@ -46,6 +46,11 @@ export default defineComponent({
       // = 0 -> count-down mode
       target: undefined as number | undefined,
       data: [] as Array<{ date: Date; value: number }>,
+      settings: {
+        // TODO
+        showDays: false,
+        unit: 'sec',
+      },
     }
   },
   created() {
