@@ -3,9 +3,9 @@ export const helperLinReg = (
   data: Array<{ date: Date; value: number }>,
   weighted: boolean = false
 ): { slope: number; intercept: number } => {
-  // handling of bad data -> return slope =
+  // handling of bad data -> return slope = 0
   const n = data.length
-  if (n < 2) {
+  if (n <= 1) {
     return { slope: 0, intercept: 0 }
   }
   const { seconds: X, value: Y } = calculateXAndY(data)
@@ -20,7 +20,7 @@ export const helperLinReg = (
   if (weighted == false) {
     return calculateLinearRegression(X, Y)
   } else {
-    return calculateLinearRegression(X, Y)
+    return calculateWeightedLinearRegression(X, Y)
   }
 }
 
