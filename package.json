@@ -10,10 +10,12 @@
     "lint": "eslint src/ --cache --fix ",
     "cspell": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
     "cspell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest --dom --watch=true --coverage"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "happy-dom": "^6.0.4",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
     "vuetify": "^3.0.0"
@@ -22,10 +24,14 @@
     "@babel/types": "^7.21.4",
     "@types/node": "^18.15.0",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-v8": "^0.34.6",
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/test-utils": "^2.4.1",
     "eslint": "^8.51.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-vitest": "^0.3.3",
     "eslint-plugin-vue": "^9.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^15.0.2",
@@ -34,6 +40,7 @@
     "unplugin-fonts": "^1.0.3",
     "vite": "^4.2.0",
     "vite-plugin-vuetify": "^1.0.2",
+    "vitest": "^0.34.6",
     "vue-tsc": "^1.2.0"
   }
 }
