@@ -37,10 +37,10 @@ import { helperDateToString } from './helper'
 export default defineComponent({
   name: 'DataTable',
   components: {
-    TooltipSpeed,
+    TooltipSpeed
   },
   props: {
-    data: { type: Array<{ date: Date; value: number }>, required: true },
+    data: { type: Array<{ date: Date; value: number }>, required: true }
   },
   emits: ['delete-all-data', 'delete-row'],
   methods: {
@@ -56,7 +56,7 @@ export default defineComponent({
       const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
       const deltaItems = currentItem.value - prevItem.value
       return deltaItems / deltaT
-    },
-  },
+    }
+  }
 })
 </script>
