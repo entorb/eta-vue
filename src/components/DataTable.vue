@@ -7,7 +7,7 @@
         <th>Items</th>
         <th>Speed</th>
         <th :class="{ 'text-center': true }">
-          <v-btn icon="mdi-trash-can" icon-color="red" flat @click="$emit('delete-all-data')" />
+          <v-btn icon="$trashCan" icon-color="red" flat @click="$emit('delete-all-data')" />
         </th>
       </tr>
     </thead>
@@ -22,7 +22,7 @@
           ></TooltipSpeed>
         </td>
         <td :class="{ 'text-center': true }">
-          <v-btn icon="mdi-trash-can" size="small" flat @click="$emit('delete-row', index)" />
+          <v-btn icon="$trashCan" size="small" flat @click="$emit('delete-row', index)" />
         </td>
       </tr>
     </tbody>
@@ -33,6 +33,7 @@
 import { defineComponent } from 'vue'
 import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from './helper'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export default defineComponent({
   name: 'DataTable',
