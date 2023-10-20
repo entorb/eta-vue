@@ -1,4 +1,5 @@
 {
+  "useGitignore": true,
   "dictionaries": ["cspell-words"],
   "dictionaryDefinitions": [
     {
@@ -8,5 +9,5 @@
     }
   ],
   "language": "en-US",
-  "ignorePaths": ["node_modules/**", "dist/**", ".*"]
+  "ignorePaths": ["node_modules/**", "dist/**", ".*", "./*.js", "./*.ts", "./package.json"]
 }
