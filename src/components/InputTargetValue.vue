@@ -42,11 +42,11 @@ export default defineComponent({
   data() {
     return {
       inputTarget: '',
-      inputValue: '',
+      inputValue: ''
     }
   },
   watch: {
-    target: { handler: 'updateInputFieldFromTarget' },
+    target: { handler: 'updateInputFieldFromTarget' }
   },
   methods: {
     enterTarget() {
@@ -77,7 +77,7 @@ export default defineComponent({
       } else {
         this.inputTarget = ''
       }
-    },
-  },
+    }
+  }
 })
 </script>

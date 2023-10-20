@@ -47,7 +47,7 @@ export default defineComponent({
   components: { TooltipSpeed },
   props: {
     data: { type: Array<{ date: Date; value: number }>, required: true },
-    target: { type: Number || undefined, default: undefined },
+    target: { type: Number || undefined, default: undefined }
   },
   data() {
     return {
@@ -64,15 +64,15 @@ export default defineComponent({
       eta: new Date(0),
       timerInterval: null as NodeJS.Timeout | null,
       itemsDone: 0,
-      itemsTotal: 0,
+      itemsTotal: 0
     }
   },
   watch: {
     data: {
       handler: 'updateStats',
-      deep: true,
+      deep: true
     },
-    target: { handler: 'updateStats' },
+    target: { handler: 'updateStats' }
   },
   created() {
     this.updateStats()
@@ -177,7 +177,7 @@ export default defineComponent({
         clearInterval(this.timerInterval)
         this.timerInterval = null
       }
-    },
-  },
+    }
+  }
 })
 </script>

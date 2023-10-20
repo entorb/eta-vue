@@ -16,8 +16,8 @@ export default defineComponent({
     ips: {
       // items per second
       type: Number,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 })
 </script>

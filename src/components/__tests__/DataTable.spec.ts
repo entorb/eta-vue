@@ -8,13 +8,13 @@ describe('testing DataTable', () => {
     const data = [
       { date: new Date('2023-10-17T12:00:00'), value: 100 },
       { date: new Date('2023-10-17T12:01:00'), value: 130 },
-      { date: new Date('2023-10-17T12:02:00'), value: 200 },
+      { date: new Date('2023-10-17T12:02:00'), value: 200 }
     ]
 
     const wrapper = shallowMount(DataTable, {
       props: {
-        data,
-      },
+        data
+      }
     })
     const itemsPerSec = wrapper.vm.calculateItemsPerSecFromPreviousLine(1)
     expect(itemsPerSec).toBe(0.5)
@@ -25,8 +25,8 @@ describe('testing DataTable', () => {
 
     const wrapper = shallowMount(DataTable, {
       props: {
-        data,
-      },
+        data
+      }
     })
     const itemsPerSec = wrapper.vm.calculateItemsPerSecFromPreviousLine(0)
     expect(itemsPerSec).toBe(0)

@@ -9,6 +9,6 @@ export default defineComponent({
   // props: {
   //   data: { type: Array<{ date: Date; value: number }>, default: [] },
   // },
-  emits: ['plus-1'],
+  emits: ['plus-1']
 })
 </script>

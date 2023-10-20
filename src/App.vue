@@ -36,7 +36,7 @@ export default defineComponent({
     InputTargetValue,
     DataTable,
     StatsBlock,
-    ActionsBlock,
+    ActionsBlock
   },
   data() {
     return {
@@ -49,8 +49,8 @@ export default defineComponent({
       settings: {
         // TODO
         showDays: false,
-        unit: 'sec',
-      },
+        unit: 'sec'
+      }
     }
   },
   created() {
@@ -64,7 +64,7 @@ export default defineComponent({
       const obj = JSON.parse(stored)
       this.data = obj.map((item: { date: string; value: number }) => ({
         date: new Date(item.date),
-        value: item.value,
+        value: item.value
       }))
     }
   },
@@ -125,8 +125,8 @@ export default defineComponent({
     },
     updateLocalStorageData() {
       localStorage.setItem('data', JSON.stringify(this.data))
-    },
-  },
+    }
+  }
   // watch: {
   //   // name: function(value) {
   //   //   //do something
