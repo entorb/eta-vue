@@ -24,17 +24,29 @@ use `mdi` as prefix in Vuetify (e.g. `trash-can` -> `mdi-trash-can`)
 
 ## Tools used for this repo
 
-These toos are configured as git pre-commit hook, see `.lintstagedrc`
-
 - Prettier code formatter
 - ESLint code linter
 - Lint-Staged
 - Husky
 - CSpell code spell checker
 
+These tools are configured as git pre-commit hook in `.lintstagedrc`
+
 See nice how to at <https://www.coffeeclass.io/articles/commit-better-code-with-husky-prettier-eslint-lint-staged>
 
-# Unit tests
+Preparation: setup Husky pre-commit hook via
+
+```sh
+npm run prepare
+```
+
+run manually:
+
+```sh
+npx lint-staged
+```
+
+## Unit tests
 
 see nice how to at
 <https://blog.logrocket.com/guide-vitest-automated-testing-vue-components/>
@@ -44,5 +56,5 @@ see nice how to at
 ```sh
 npm run format
 npm run lint
-npm run cspell
+npm run spell
 ```
