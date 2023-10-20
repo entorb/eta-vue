@@ -12,7 +12,7 @@
         </v-row>
         <v-row>
           <v-col v-if="data.length >= 1">
-            <DataTable :data="data" @delete-all-data="deleteAllData" />
+            <DataTable :data="data" @delete-all-data="deleteAllData" @delete-row="deleteRow" />
           </v-col>
           <v-col v-if="data.length >= 2">
             <Stats :data="data" :target="target" />
@@ -99,7 +99,7 @@ export default defineComponent({
         }
       } else {
         // target == 0 -> countdown
-        if (this.data.length > 0) {
+        if (this.data.length > 0 && this.data[this.data.length - 1].value >= 1) {
           const lastValue = this.data[this.data.length - 1].value
           value = lastValue - 1
         } else {
@@ -108,6 +108,12 @@ export default defineComponent({
       }
       const newRow = { date: date, value: value }
       this.addRow(newRow)
+    },
+    deleteRow(index: number) {
+      if (index >= 0 && index < this.data.length) {
+        // Removes one element at the specified index
+        this.data.splice(index, 1)
+      }
     },
     deleteAllData() {
       this.data = []

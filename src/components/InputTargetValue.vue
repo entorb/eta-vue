@@ -9,9 +9,9 @@
           label="Target"
           type="number"
           inputmode="decimal"
+          variant="outlined"
           @keyup.enter="enterTarget"
           @blur="enterTarget"
-          variant="outlined"
         />
       </v-col>
       <v-col cols="6" md="3">
@@ -23,9 +23,9 @@
           label="Value"
           type="number"
           inputmode="decimal"
+          variant="outlined"
           @keyup.enter="enterValue"
           @blur="enterValue"
-          variant="outlined"
         />
       </v-col>
     </v-row>
@@ -37,8 +37,8 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'InputTargetValue',
-  emits: ['set-target', 'add-row'],
   props: { target: { type: Number || undefined, default: undefined } },
+  emits: ['set-target', 'add-row'],
   data() {
     return {
       inputTarget: '',
