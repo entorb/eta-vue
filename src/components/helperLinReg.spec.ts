@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { calculateXAndY, helperLinReg } from './helperLinReg'
 
 describe('calculateXAndY', () => {
