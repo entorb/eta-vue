@@ -1,5 +1,7 @@
+import { describe, it, expect } from 'vitest'
+
 import { shallowMount } from '@vue/test-utils'
-import DataTable from '../components/DataTable.vue'
+import DataTable from './DataTable.vue'
 
 describe('testing DataTable', () => {
   it('calculates items per second when index is positive', () => {
