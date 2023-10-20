@@ -39,7 +39,7 @@
 import { defineComponent } from 'vue'
 // onMounted, onBeforeUnmount
 import { helperDateToString, helperSecondsToString } from './helper'
-import { helperLinReg } from './helper_lin_reg'
+import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
@@ -171,3 +171,4 @@ export default defineComponent({
   },
 })
 </script>
+./helperLinReg

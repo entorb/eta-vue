@@ -18,7 +18,10 @@
         <td>{{ dateToString(row.date, true) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
         <td :class="{ 'text-center': true }">
-          <TooltipSpeed v-if="index >= 1" :ips="calculateItemsPerSec(index)"></TooltipSpeed>
+          <TooltipSpeed
+            v-if="index >= 1"
+            :ips="calculateItemsPerSecFromPreviousLine(index)"
+          ></TooltipSpeed>
         </td>
         <td :class="{ 'text-center': true }">
           <v-btn icon="mdi-trash-can" size="small" flat @click="$emit('delete-row', index)" />
@@ -46,8 +49,7 @@ export default defineComponent({
     dateToString(datetime: Date, showDays: boolean = false): string {
       return helperDateToString(datetime, showDays)
     },
-
-    calculateItemsPerSec(index: number): number {
+    calculateItemsPerSecFromPreviousLine(index: number): number {
       if (index == 0 || this.data.length == 0) {
         return 0
       }
