@@ -67,7 +67,7 @@ export default defineComponent({
 
       const date = new Date()
       const newRow = { date: date, value: value }
-      // Emit an event to update the data table
+      // Emit an event to add the row to the data
       this.$emit('add-row', newRow)
       this.inputValue = ''
     },
