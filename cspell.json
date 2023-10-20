@@ -9,5 +9,15 @@
     }
   ],
   "language": "en-US",
-  "ignorePaths": ["node_modules/**", "dist/**", ".*", "./*.js", "./*.ts", "./package.json"]
+  "ignorePaths": [
+    ".gitignore",
+    "node_modules/**",
+    "dist/**",
+    "./*.js",
+    "./*.ts",
+    "package*.json",
+    "scripts/**",
+    "src/assets/",
+    ".*"
+  ]
 }

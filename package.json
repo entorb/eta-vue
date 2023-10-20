@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "npx prettier --cache --write src/ doc/",
     "lint": "eslint . --cache --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\"",
+    "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" \"doc/*\"",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
     "prepare": "husky install",
     "test": "vitest --watch=true --coverage",
