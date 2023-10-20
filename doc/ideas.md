@@ -2,9 +2,9 @@
 
 ## UI
 
-* echarts
+- echarts
 
 ## Data handling
 
-* settings object
-* `types.ts`
+- settings object
+- `types.ts`

@@ -7,7 +7,7 @@ describe('calculateXAndY', () => {
       { date: new Date('2023-01-01 01:01:01'), value: 10 },
       { date: new Date('2023-01-01 01:01:02'), value: 20 },
       { date: new Date('2023-01-01 01:01:03'), value: 30 },
-      { date: new Date('2023-01-01 01:01:04'), value: 44 },
+      { date: new Date('2023-01-01 01:01:04'), value: 44 }
     ]
 
     const result = calculateXAndY(data)
@@ -30,7 +30,7 @@ describe('helperLinReg', () => {
   it('calculates the slope and intercept poor data of only 2 rows', () => {
     const data = [
       { date: new Date('2023-01-01 01:01:01'), value: 10 },
-      { date: new Date('2023-01-01 01:01:02'), value: 40 },
+      { date: new Date('2023-01-01 01:01:02'), value: 40 }
     ]
 
     const result = helperLinReg(data, false)
@@ -44,7 +44,7 @@ describe('helperLinReg', () => {
       { date: new Date('2023-01-01 01:01:01'), value: 10 },
       { date: new Date('2023-01-01 01:01:02'), value: 20 },
       { date: new Date('2023-01-01 01:01:03'), value: 30 },
-      { date: new Date('2023-01-01 01:01:04'), value: 44 },
+      { date: new Date('2023-01-01 01:01:04'), value: 44 }
     ]
 
     const result = helperLinReg(data, false)
@@ -58,7 +58,7 @@ describe('helperLinReg', () => {
       { date: new Date('2023-01-01 01:01:01'), value: 10 },
       { date: new Date('2023-01-01 01:01:02'), value: 20 },
       { date: new Date('2023-01-01 01:01:03'), value: 30 },
-      { date: new Date('2023-01-01 01:01:04'), value: 44 },
+      { date: new Date('2023-01-01 01:01:04'), value: 44 }
     ]
 
     const result = helperLinReg(data, true)
@@ -70,7 +70,7 @@ describe('helperLinReg', () => {
   it('handles data with only 2 points', () => {
     const data = [
       { date: new Date('2023-10-17T00:00:00Z'), value: 1 },
-      { date: new Date('2023-10-17T00:00:00Z'), value: 2 },
+      { date: new Date('2023-10-17T00:00:00Z'), value: 2 }
     ]
 
     const result = helperLinReg(data)
