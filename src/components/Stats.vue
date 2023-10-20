@@ -39,7 +39,7 @@
 import { defineComponent } from 'vue'
 // onMounted, onBeforeUnmount
 import { helperDateToString, helperSecondsToString } from './helper'
-import { helper_lin_reg } from './helper_lin_reg'
+import { helperLinReg } from './helper_lin_reg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
@@ -100,7 +100,7 @@ export default defineComponent({
       this.lastDate = this.data[this.data.length - 1].date
       this.lastValue = this.data[this.data.length - 1].value
 
-      const { slope } = helper_lin_reg(this.data, true)
+      const { slope } = helperLinReg(this.data, true)
       this.itemsPerSecSlope = slope
       if (this.target !== undefined) {
         this.itemsDone = this.target != 0 ? this.lastValue : this.firstValue - this.lastValue
