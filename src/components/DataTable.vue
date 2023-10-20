@@ -7,7 +7,7 @@
         <th>Items</th>
         <th>Speed</th>
         <th :class="{ 'text-center': true }">
-          <v-btn icon="mdi-trash-can" icon-color="red" @click="deleteAllData" flat />
+          <v-btn icon="mdi-trash-can" icon-color="red" flat @click="deleteAllData" />
         </th>
       </tr>
     </thead>
@@ -18,10 +18,10 @@
         <td>{{ dateToString(row.date, true) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
         <td :class="{ 'text-center': true }">
-          <TooltipSpeed :ips="calculateItemsPerSec(index)" v-if="index >= 1"></TooltipSpeed>
+          <TooltipSpeed v-if="index >= 1" :ips="calculateItemsPerSec(index)"></TooltipSpeed>
         </td>
         <td :class="{ 'text-center': true }">
-          <v-btn icon="mdi-trash-can" @click="deleteRow(index)" size="small" flat />
+          <v-btn icon="mdi-trash-can" size="small" flat @click="$emit('delete-row', index)" />
         </td>
       </tr>
     </tbody>
@@ -38,10 +38,10 @@ export default defineComponent({
   components: {
     TooltipSpeed,
   },
-  emits: ['delete-all-data'],
   props: {
     data: { type: Array<{ date: Date; value: number }>, required: true },
   },
+  emits: ['delete-all-data', 'delete-row'],
   methods: {
     dateToString(datetime: Date, showDays: boolean = false): string {
       return helperDateToString(datetime, showDays)
@@ -56,12 +56,6 @@ export default defineComponent({
       const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
       const deltaItems = currentItem.value - prevItem.value
       return deltaItems / deltaT
-    },
-    deleteRow(index: number) {
-      if (index >= 0 && index < this.data.length) {
-        // Removes one element at the specified index
-        this.data.splice(index, 1)
-      }
     },
     deleteAllData() {
       this.$emit('delete-all-data')
