@@ -6,9 +6,9 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'Actions',
-  props: {
-    data: { type: Array<{ date: Date; value: number }>, default: [] },
-  },
+  // props: {
+  //   data: { type: Array<{ date: Date; value: number }>, default: [] },
+  // },
   emits: ['plus-1'],
 })
 </script>
