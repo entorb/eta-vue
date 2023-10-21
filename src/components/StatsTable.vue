@@ -1,5 +1,5 @@
 <template>
-  <v-table v-if="data.length >= 2" height="300px" density="compact" class="align-start">
+  <v-table v-if="data.length >= 2" density="compact" class="align-start">
     <tbody>
       <tr>
         <th>Total speed</th>
@@ -14,6 +14,10 @@
       <tr>
         <th>Runtime</th>
         <td>{{ secToString(timeSinceFirstValue) }}</td>
+      </tr>
+      <tr>
+        <th>Last input</th>
+        <td>{{ secToString(timeSinceLastValue) }}</td>
       </tr>
       <tr v-if="target != undefined">
         <th>ETA</th>
@@ -43,7 +47,7 @@ import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 export default defineComponent({
-  name: 'StatsBlock',
+  name: 'StatsTable',
   components: { TooltipSpeed },
   props: {
     data: { type: Array<{ date: Date; value: number }>, required: true },
@@ -125,10 +129,7 @@ export default defineComponent({
       }
 
       this.updateTimes()
-      // start timer if we are not done yet
-      if (this.target !== undefined && new Date().getTime() < this.eta.getTime()) {
-        this.startTimer()
-      }
+      this.startTimer()
     },
     updateTimes() {
       // executed by interval timer
@@ -153,7 +154,7 @@ export default defineComponent({
         }
       } else {
         // if time > eta we stop the timer
-        this.stopTimer()
+        // this.stopTimer()
         this.timeToETA = 0
         this.percentOfTargetEstimated = 1 // 100%
       }
