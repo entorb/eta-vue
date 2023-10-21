@@ -7,13 +7,13 @@
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
           <!-- align-content="end" -->
-          <v-col> <ActionsBlock @plus-1="plus1" /></v-col>
+          <v-col cols="4"> <ActionsBlock @plus-1="plus1" /></v-col>
         </v-row>
         <v-row>
           <v-col v-if="data.length >= 1">
             <DataTable :data="data" @delete-all-data="deleteAllData" @delete-row="deleteRow" />
           </v-col>
-          <v-col v-if="data.length >= 2">
+          <v-col cols="4" v-if="data.length >= 2">
             <StatsBlock :data="data" :target="target" />
           </v-col>
         </v-row>
