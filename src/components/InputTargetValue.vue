@@ -7,7 +7,7 @@
         <!-- @click:append-inner="enterTarget" -->
         <v-text-field
           v-model="inputValue"
-          label="Current"
+          label="Current items"
           type="text"
           inputmode="decimal"
           variant="outlined"
