@@ -50,10 +50,15 @@ export default defineComponent({
   },
   methods: {
     enterTarget() {
-      const target = parseFloat(this.inputTarget.replace(',', '.'))
-      if (isNaN(target)) {
-        this.inputTarget = ''
-        return
+      let target = undefined
+      if (this.inputTarget == '') {
+        target = undefined
+      } else {
+        target = parseFloat(this.inputTarget.replace(',', '.'))
+        if (isNaN(target)) {
+          this.inputTarget = ''
+          return
+        }
       }
       if (target != this.target) {
         this.$emit('set-target', target)
