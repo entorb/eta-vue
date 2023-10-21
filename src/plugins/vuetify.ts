@@ -9,11 +9,12 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 
-// TM: do not import all icons!
+// TM: do not import all icons, this makes build size too large
 // import '@mdi/font/css/materialdesignicons.css'
 // my icons
 import { mdiTrashCan } from '@mdi/js'
 import { mdiNumericPositive1 } from '@mdi/js'
+// import { mdiContentSave } from '@mdi/js'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -28,14 +29,15 @@ export default createVuetify({
     }
   },
   icons: {
+    sets: {
+      mdi
+    },
     defaultSet: 'mdi',
     aliases: {
       ...aliases,
       trashCan: mdiTrashCan,
       plus1: mdiNumericPositive1
-    },
-    sets: {
-      mdi
+      // save: mdiContentSave,
     }
   }
 })
