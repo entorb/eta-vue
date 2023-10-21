@@ -45,6 +45,7 @@ import { defineComponent } from 'vue'
 import { helperDateToString, helperSecondsToString } from './helper'
 import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
+import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
 export default defineComponent({
   name: 'StatsTable',
@@ -155,6 +156,9 @@ export default defineComponent({
       } else {
         // if time > eta we stop the timer
         // this.stopTimer()
+        if (this.timeToETA > 0) {
+          this.playSoundTimerDone()
+        }
         this.timeToETA = 0
         this.percentOfTargetEstimated = 1 // 100%
       }
@@ -178,6 +182,13 @@ export default defineComponent({
         clearInterval(this.timerInterval)
         this.timerInterval = null
       }
+    },
+    playSoundTimerDone() {
+      this.playSound(notificationSound)
+    },
+    playSound(url: string) {
+      const audio = new Audio(url)
+      audio.play()
     }
   }
 })
