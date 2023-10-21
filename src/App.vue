@@ -7,14 +7,19 @@
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
           <!-- align-content="end" -->
-          <v-col cols="4"> <ActionsBlock @plus-1="plus1" /></v-col>
+          <v-col cols="4"> <ActionsBlock @plus-1="plus1" @unit="setUnitOfSpeed" /></v-col>
         </v-row>
         <v-row>
-          <v-col v-if="data.length >= 1">
-            <DataTable :data="data" @delete-all-data="deleteAllData" @delete-row="deleteRow" />
-          </v-col>
           <v-col cols="4" v-if="data.length >= 2">
-            <StatsTable :data="data" :target="target" />
+            <StatsTable :data="data" :settings="settings" :target="target" />
+          </v-col>
+          <v-col v-if="data.length >= 1">
+            <DataTable
+              :data="data"
+              :settings="settings"
+              @delete-all-data="deleteAllData"
+              @delete-row="deleteRow"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -48,8 +53,8 @@ export default defineComponent({
       data: [] as Array<{ date: Date; value: number }>,
       settings: {
         // TODO
-        showDays: false,
-        unit: 'sec'
+        showDays: true,
+        unitSpeed: 'min'
       }
     }
   },
@@ -66,6 +71,7 @@ export default defineComponent({
         date: new Date(item.date),
         value: item.value
       }))
+      this.decideIfToShowDays()
     }
   },
   methods: {
@@ -78,11 +84,33 @@ export default defineComponent({
       this.target = target
       this.updateLocalStorageTarget()
     },
+    setUnitOfSpeed(unit: string) {
+      this.settings.unitSpeed = unit
+      console.log(unit)
+    },
     addRow(row: { date: Date; value: number }) {
       // console.log('new row:', row)
       this.data.push(row)
+      this.decideIfToShowDays()
       this.updateLocalStorageData()
     },
+    decideIfToShowDays() {
+      const firstDate = this.data[0].date
+      const lastDate = this.data[this.data.length - 1].date
+      this.settings.showDays = firstDate.getTime() < lastDate.getTime() - 86400 * 1000
+    },
+    // Decided not to calc the unit os speed automatically, manual input instead
+    // decideOnUnit() {
+    //   const firstDate = this.data[0].date
+    //   const firstValue = this.data[0].value
+    //   const lastDate = this.data[this.data.length - 1].date
+    //   const lastValue = this.data[this.data.length - 1].value
+
+    //   const deltaT = (Number(lastDate) - Number(firstDate)) / 1000
+    //   const deltaItems = lastValue - firstValue
+    //   const ips = deltaItems / deltaT
+    //   // TODO: set this.settings.unitSpeed
+    // },
     plus1() {
       let value = 0
       let lastValue = 0
