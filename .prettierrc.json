@@ -3,10 +3,10 @@
   "arrowParens": "avoid",
   "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "css",
-  "printWidth": 100,
+  "vueIndentScriptAndStyle": false,
   "semi": false,
-  "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "none",
-  "vueIndentScriptAndStyle": false
+  "singleQuote": true,
+  "printWidth": 100,
+  "trailingComma": "none"
 }
