@@ -1,31 +1,31 @@
 <template>
   <v-container class="align-start">
     <v-row>
-      <v-col cols="6" md="3">
-        <!-- :append-inner-icon="'mdi-content-save'" -->
+      <v-col>
+        <!-- not: v-model.number, as it removes "," from input-->
+        <!-- append-inner-icon="$save" -->
         <!-- @click:append-inner="enterTarget" -->
         <v-text-field
-          v-model="inputTarget"
-          label="Target"
-          type="number"
-          inputmode="decimal"
-          variant="outlined"
-          @keyup.enter="enterTarget"
-          @blur="enterTarget"
-        />
-      </v-col>
-      <v-col cols="6" md="3">
-        <!-- :append-inner-icon="'mdi-content-save'" -->
-        <!-- v-model.number="inputValue" -->
-        <!-- @click:append-inner="enterValue" -->
-        <v-text-field
-          v-model.number="inputValue"
-          label="Value"
-          type="number"
+          v-model="inputValue"
+          label="Current"
+          type="text"
           inputmode="decimal"
           variant="outlined"
           @keyup.enter="enterValue"
           @blur="enterValue"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-model="inputTarget"
+          label="Target"
+          type="text"
+          inputmode="decimal"
+          variant="outlined"
+          @keyup.enter="enterTarget"
+          @blur="enterTarget"
         />
       </v-col>
     </v-row>
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   methods: {
     enterTarget() {
-      const target = parseFloat(this.inputTarget)
+      const target = parseFloat(this.inputTarget.replace(',', '.'))
       if (isNaN(target)) {
         this.inputTarget = ''
         return
@@ -60,11 +60,10 @@ export default defineComponent({
       }
     },
     enterValue() {
-      const value = parseFloat(this.inputValue)
+      const value = parseFloat(this.inputValue.replace(',', '.'))
       if (isNaN(value)) {
         return
       }
-
       const date = new Date()
       const newRow = { date: date, value: value }
       // Emit an event to add the row to the data
