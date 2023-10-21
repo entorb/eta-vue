@@ -1,5 +1,7 @@
 <template>
-  <v-btn icon="$plus1" @click="$emit('plus-1')"></v-btn>
+  <v-container class="align-start">
+    <v-btn icon="$plus1" @click="$emit('plus-1')"></v-btn>
+  </v-container>
 </template>
 
 <script lang="ts">
