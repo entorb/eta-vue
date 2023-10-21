@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { helperDateToString, helperSecondsToString } from '../helper'
+import { helperDateToString, helperSecondsToString, helperValueToString } from '../helper'
 
 describe('helperDateToString', () => {
   it('time without showing days', () => {
@@ -11,7 +11,7 @@ describe('helperDateToString', () => {
   it('date with showing days', () => {
     const datetime = new Date('2023-10-17T12:34:56Z')
     const formattedDate = helperDateToString(datetime, true)
-    expect(formattedDate).toBe('17.10., 14:34:56')
+    expect(formattedDate).toBe('17.10., 14:34')
   })
 })
 
@@ -40,5 +40,15 @@ describe('helperSecondsToString', () => {
     const totalSeconds = 59
     const formattedDate = helperSecondsToString(totalSeconds)
     expect(formattedDate).toBe('59s')
+  })
+})
+
+describe('helperValueToString', () => {
+  it('various values', () => {
+    expect(helperValueToString(1)).toBe('1.00')
+    expect(helperValueToString(100)).toBe('100')
+    expect(helperValueToString(10000)).toBe('10000')
+    expect(helperValueToString(0.1)).toBe('0.100')
+    expect(helperValueToString(0.123)).toBe('0.123')
   })
 })

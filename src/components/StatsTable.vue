@@ -3,9 +3,21 @@
     <tbody>
       <tr>
         <th>Total speed</th>
-        <td v-if="itemsPerSecSlope !== 0.0">
-          <TooltipSpeed :ips="itemsPerSecSlope"></TooltipSpeed>
+        <td v-if="itemsPerSec !== 0.0">
+          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>
         </td>
+      </tr>
+      <tr>
+        <th>Items (est.)</th>
+        <td>{{ valueToString(itemsEstimated) }}</td>
+      </tr>
+      <tr v-if="target != undefined && timeToETA > 0">
+        <th>ETA</th>
+        <td>{{ dateToString(eta) }}</td>
+      </tr>
+      <tr v-if="target != undefined && timeToETA > 0">
+        <th>Time to go</th>
+        <td>{{ secToString(timeToETA) }}</td>
       </tr>
       <tr>
         <th>Start</th>
@@ -20,19 +32,11 @@
         <td>{{ secToString(timeSinceLastValue) }}</td>
       </tr>
       <tr v-if="target != undefined">
-        <th>ETA</th>
-        <td>{{ dateToString(eta) }}</td>
-      </tr>
-      <tr v-if="target != undefined">
-        <th>Time to go</th>
-        <td>{{ secToString(timeToETA) }}</td>
-      </tr>
-      <tr v-if="target != undefined">
         <th>Percent</th>
         <td>{{ (100 * percentOfTarget).toFixed(1) }}%</td>
       </tr>
-      <tr v-if="target != undefined">
-        <th>Percent (est)</th>
+      <tr v-if="target != undefined && percentOfTarget < 1">
+        <th>Percent (est.)</th>
         <td>{{ (100 * percentOfTargetEstimated).toFixed(1) }}%</td>
       </tr>
     </tbody>
@@ -42,7 +46,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 // onMounted, onBeforeUnmount
-import { helperDateToString, helperSecondsToString } from './helper'
+import { helperDateToString, helperSecondsToString, helperValueToString } from './helper'
 import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
 import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
@@ -52,6 +56,11 @@ export default defineComponent({
   components: { TooltipSpeed },
   props: {
     data: { type: Array<{ date: Date; value: number }>, required: true },
+    settings: {
+      type: Object,
+      default: () => ({ showDays: false, unitSpeed: 'sec' }),
+      required: true
+    },
     target: { type: Number || undefined, default: undefined }
   },
   data() {
@@ -65,11 +74,13 @@ export default defineComponent({
       timeSinceFirstValue: 0.0,
       timeSinceLastValue: 0.0,
       timeToETA: 0,
-      itemsPerSecSlope: 0.0,
+      itemsPerSec: 0.0,
+      itemsEstimated: 0.0,
       eta: new Date(0),
       timerInterval: null as NodeJS.Timeout | null,
       itemsDone: 0,
-      itemsTotal: 0
+      itemsTotal: 0,
+      targetReached: false
     }
   },
   watch: {
@@ -90,8 +101,7 @@ export default defineComponent({
     dateToString(datetime: Date): string {
       // decide if we need to show days
       // TODO: move to App settings
-      const showDays = this.firstDate.getTime() - this.lastDate.getTime() > 1000 * 86400 // 60 * 60 * 24
-      return helperDateToString(datetime, showDays)
+      return helperDateToString(datetime, this.settings.showDays)
     },
     secToString(sec: number): string {
       return helperSecondsToString(sec)
@@ -101,13 +111,14 @@ export default defineComponent({
         this.eta = new Date(0)
         return
       }
+      this.targetReached = false // periodically checked and updated in updateTimes
       this.firstDate = this.data[0].date
       this.firstValue = this.data[0].value
       this.lastDate = this.data[this.data.length - 1].date
       this.lastValue = this.data[this.data.length - 1].value
 
       const { slope } = helperLinReg(this.data, true)
-      this.itemsPerSecSlope = slope
+      this.itemsPerSec = slope
 
       // only for mode count-up and count-down the eta calc makes sense
       if (this.target !== undefined) {
@@ -115,12 +126,12 @@ export default defineComponent({
         this.itemsTotal = this.target != 0 ? this.target : this.firstValue
         this.percentOfTarget = this.itemsDone / this.itemsTotal
 
-        if (this.itemsPerSecSlope != 0) {
+        if (this.itemsPerSec != 0) {
           if (this.itemsTotal > this.itemsDone) {
             if (this.target != 0) {
-              this.timeToETA = (this.itemsTotal - this.itemsDone) / this.itemsPerSecSlope
+              this.timeToETA = (this.itemsTotal - this.itemsDone) / this.itemsPerSec
             } else {
-              this.timeToETA = (this.itemsTotal - this.itemsDone) / -this.itemsPerSecSlope
+              this.timeToETA = (this.itemsTotal - this.itemsDone) / -this.itemsPerSec
             }
           }
         }
@@ -138,6 +149,9 @@ export default defineComponent({
       this.timeSinceFirstValue = Math.round((now - this.firstDate.getTime()) / 1000)
       this.timeSinceLastValue = (now - this.lastDate.getTime()) / 1000
 
+      this.itemsEstimated =
+        this.lastValue == 0 ? 0 : this.lastValue + this.itemsPerSec * this.timeSinceLastValue
+
       // time < eta
       if (new Date().getTime() < this.eta.getTime()) {
         this.timeToETA = Math.round((this.eta.getTime() - now) / 1000)
@@ -146,20 +160,21 @@ export default defineComponent({
           if (this.target != 0) {
             // count-up
             this.percentOfTargetEstimated =
-              (this.itemsDone + this.itemsPerSecSlope * this.timeSinceLastValue) / this.itemsTotal
+              (this.itemsDone + this.itemsPerSec * this.timeSinceLastValue) / this.itemsTotal
           } else {
-            // count-down: itemsPerSecSlope is negative!
+            // count-down: itemsPerSec is negative!
             this.percentOfTargetEstimated =
-              (this.itemsDone - this.itemsPerSecSlope * this.timeSinceLastValue) / this.itemsTotal
+              (this.itemsDone - this.itemsPerSec * this.timeSinceLastValue) / this.itemsTotal
           }
         }
       } else {
         // if time > eta we stop the timer
         // this.stopTimer()
-        if (this.timeToETA > 0) {
+        if (this.targetReached == false) {
+          this.targetReached = true
           this.playSoundTimerDone()
         }
-        this.timeToETA = 0
+        this.timeToETA = -1 // prevent s
         this.percentOfTargetEstimated = 1 // 100%
       }
     },
@@ -189,6 +204,9 @@ export default defineComponent({
     playSound(url: string) {
       const audio = new Audio(url)
       audio.play()
+    },
+    valueToString(value: number): String {
+      return helperValueToString(value)
     }
   }
 })

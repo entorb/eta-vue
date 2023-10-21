@@ -1,6 +1,7 @@
 <template>
   <!-- v-data-table would support sorting... -->
-  <v-table ref="tableRef" fixed-header height="300px" density="compact" class="align-start">
+  <!-- height="300px"  -->
+  <v-table ref="tableRef" fixed-header density="compact" class="align-start">
     <thead>
       <tr>
         <th>Date</th>
@@ -13,12 +14,13 @@
     </thead>
     <tbody>
       <tr v-for="(row, index) in data" :key="index">
-        <td>{{ dateToString(row.date, true) }}</td>
+        <td>{{ dateToString(row.date) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
         <td :class="{ 'text-center': true }">
           <TooltipSpeed
             v-if="index >= 1"
             :ips="calculateItemsPerSecFromPreviousLine(index)"
+            :unit="settings.unitSpeed"
           ></TooltipSpeed>
         </td>
         <td :class="{ 'text-center': true }">
@@ -41,12 +43,17 @@ export default defineComponent({
     TooltipSpeed
   },
   props: {
-    data: { type: Array<{ date: Date; value: number }>, required: true }
+    data: { type: Array<{ date: Date; value: number }>, required: true },
+    settings: {
+      type: Object,
+      default: () => ({ showDays: false, unitSpeed: 'sec' }),
+      required: true
+    }
   },
   emits: ['delete-all-data', 'delete-row'],
   methods: {
-    dateToString(datetime: Date, showDays: boolean = false): string {
-      return helperDateToString(datetime, showDays)
+    dateToString(datetime: Date): string {
+      return helperDateToString(datetime, this.settings.showDays)
     },
     calculateItemsPerSecFromPreviousLine(index: number): number {
       if (index == 0 || this.data.length == 0) {
