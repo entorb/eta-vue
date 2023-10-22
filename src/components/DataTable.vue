@@ -31,40 +31,35 @@
   </v-table>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from './helper'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-export default defineComponent({
-  name: 'DataTable',
-  components: {
-    TooltipSpeed
-  },
-  props: {
-    data: { type: Array<{ date: Date; value: number }>, required: true },
-    settings: {
-      type: Object,
-      default: () => ({ showDays: false, unitSpeed: 'sec' }),
-      required: true
-    }
-  },
-  emits: ['delete-all-data', 'delete-row'],
-  methods: {
-    dateToString(datetime: Date): string {
-      return helperDateToString(datetime, this.settings.showDays)
-    },
-    calculateItemsPerSecFromPreviousLine(index: number): number {
-      if (index == 0 || this.data.length == 0) {
-        return 0
-      }
-      const currentItem = this.data[index]
-      const prevItem = this.data[index - 1]
-      const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
-      const deltaItems = currentItem.value - prevItem.value
-      return deltaItems / deltaT
-    }
+const props = defineProps({
+  data: { type: Array<{ date: Date; value: number }>, required: true },
+  settings: {
+    type: Object,
+    default: () => ({ showDays: false, unitSpeed: 'sec' }),
+    required: true
   }
 })
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emits = defineEmits(['delete-all-data', 'delete-row'])
+
+function dateToString(datetime: Date): string {
+  return helperDateToString(datetime, props.settings.showDays)
+}
+
+function calculateItemsPerSecFromPreviousLine(index: number): number {
+  if (index == 0 || props.data.length == 0) {
+    return 0
+  }
+  const currentItem = props.data[index]
+  const prevItem = props.data[index - 1]
+  const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
+  const deltaItems = currentItem.value - prevItem.value
+  return deltaItems / deltaT
+}
 </script>
