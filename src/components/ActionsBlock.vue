@@ -14,21 +14,17 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-export default defineComponent({
-  name: 'ActionsBlock',
-  emits: ['plus-1', 'unit'],
-  data: () => ({
-    unitSelected: 'min', // initializes manually, was too lazy to sync the init from App.vue
-    units: ['sec', 'min', 'hour', 'day']
-  }),
-  watch: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    unitSelected(newItem, oldItem) {
-      this.$emit('unit', newItem)
-    }
-  }
+const emits = defineEmits(['plus-1', 'unit'])
+
+// initialized manually, was too lazy to sync the init from App.vue
+const units = ['sec', 'min', 'hour', 'day']
+
+const unitSelected = ref('min')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+watch(unitSelected, (newItem, oldItem) => {
+  emits('unit', newItem)
 })
 </script>
