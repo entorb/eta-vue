@@ -11,36 +11,36 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { helperValueToString } from './helper'
+import type { UnitType } from '../types'
 
 const props = defineProps({
+  // items per second
   ips: {
-    // items per second
     type: Number,
     required: true
   },
   unit: {
-    // sec, min, hour, day
     type: String,
-    required: true
+    default: 'min'
   }
 })
 
 const speedInUnit = ref('')
 
-const ipsInUnit = (unit: string): string => {
+const ipsInUnit = (unit: UnitType): string => {
   const factor = {
     sec: 1,
     min: 60,
     hour: 3600,
     day: 86400
-  }[unit] as Record<string, number>
+  }[unit]
   return helperValueToString(props.ips * factor) + '/' + unit.charAt(0)
 }
 
 watch(
   () => props.unit,
   () => {
-    speedInUnit.value = ipsInUnit(props.unit)
+    speedInUnit.value = ipsInUnit(props.unit as UnitType)
   },
   { immediate: true }
 )
