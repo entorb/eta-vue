@@ -34,13 +34,13 @@
 <script setup lang="ts">
 import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from './helper'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { type UnitType } from '../types'
 
 const props = defineProps({
   data: { type: Array<{ date: Date; value: number }>, required: true },
   settings: {
     type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'sec' }),
+    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType }),
     required: true
   }
 })
