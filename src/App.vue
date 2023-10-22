@@ -22,6 +22,15 @@
             />
           </v-col>
         </v-row>
+        <v-row justify="center">
+          <v-col class="text-center mt-4" cols="12">
+            This app is OpenSource. Its source code and project documentation can be found at
+            <a href="https://github.com/entorb/eta-vue/" target="_blank"
+              >GitHub.com/entorb/etc-vue/</a
+            >. Feel free to
+            <a href="https://entorb.net/contact.php?origin=eta-vue" target="_blank">contact</a> me.
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
