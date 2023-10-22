@@ -48,6 +48,7 @@ import { ref, computed, watch, onBeforeUnmount, onMounted } from 'vue'
 // onMounted, onBeforeUnmount
 import { helperDateToString, helperSecondsToString, helperValueToString } from './helper'
 import { helperLinReg } from './helperLinReg'
+import type { UnitType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
 import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
@@ -55,7 +56,7 @@ const props = defineProps({
   data: { type: Array<{ date: Date; value: number }>, required: true },
   settings: {
     type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'sec' }),
+    default: () => ({ showDays: false, unitSpeed: 'min' as UnitType }),
     required: true
   },
   target: { type: Number || undefined, default: undefined }

@@ -1,47 +1,43 @@
 import { describe, it, expect } from 'vitest'
-
 import { shallowMount } from '@vue/test-utils'
 import TooltipSpeed from '../TooltipSpeed.vue'
 
-describe('testing speedInUnit', () => {
-  it('unit=sec', () => {
+describe('speedInUnit', () => {
+  it('ips=0.0123 unit=sec', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: {
-        unit: 'sec',
-        ips: 1
-      }
+      props: { unit: 'sec', ips: 0.0123 }
     })
-    expect(wrapper.vm.speedInUnit(0.0123)).toBe('0.0123/sec')
-    expect(wrapper.vm.speedInUnit(1000)).toBe('1000/sec')
+    expect(wrapper.vm.speedInUnit).toBe('0.0123/s')
   })
+  it('ips=123 unit=sec', () => {
+    const wrapper = shallowMount(TooltipSpeed, {
+      props: { unit: 'sec', ips: 123 }
+    })
+    expect(wrapper.vm.speedInUnit).toBe('123/s')
+  })
+
   it('unit=min', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: {
-        unit: 'min',
-        ips: 1
-      }
+      props: { unit: 'min', ips: 0.0123 / 60 }
     })
-    expect(wrapper.vm.speedInUnit(0.0123 / 60)).toBe('0.0123/min')
-    expect(wrapper.vm.speedInUnit(1000 / 60)).toBe('1000/min')
+    const expectedOutput = '0.0123/m'
+    const speedInUnit = wrapper.vm.speedInUnit
+    expect(speedInUnit).toBe(expectedOutput)
   })
   it('unit=hour', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: {
-        unit: 'hour',
-        ips: 1
-      }
+      props: { unit: 'hour', ips: 123 / 3600 }
     })
-    expect(wrapper.vm.speedInUnit(0.0123 / 3600)).toBe('0.0123/h')
-    expect(wrapper.vm.speedInUnit(1000 / 3600)).toBe('1000/h')
+    const expectedOutput = '123/h'
+    const speedInUnit = wrapper.vm.speedInUnit
+    expect(speedInUnit).toBe(expectedOutput)
   })
   it('unit=day', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: {
-        unit: 'day',
-        ips: 1
-      }
+      props: { unit: 'day', ips: 123 / 3600 / 24 }
     })
-    expect(wrapper.vm.speedInUnit(0.0123 / 86400)).toBe('0.0123/day')
-    expect(wrapper.vm.speedInUnit(1000 / 86400)).toBe('1000/day')
+    const expectedOutput = '123/d'
+    const speedInUnit = wrapper.vm.speedInUnit
+    expect(speedInUnit).toBe(expectedOutput)
   })
 })
