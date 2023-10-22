@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,8 +30,21 @@ export default defineConfig({
           }
         ]
       }
+    }),
+    VitePWA({
+      manifest: {
+        icons: [
+          {
+            src: '144.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
+      }
     })
   ],
+
   // define: { 'process.env': {} },
   resolve: {
     alias: {
