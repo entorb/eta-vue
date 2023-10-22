@@ -9,7 +9,7 @@
       </tr>
       <tr>
         <th>Items (est.)</th>
-        <td>{{ valueToString(itemsEstimated) }}</td>
+        <td>{{ valueToString(itemsEstimatedRef) }}</td>
       </tr>
       <tr v-if="target != undefined && timeToETA > 0">
         <th>ETA</th>
@@ -43,171 +43,168 @@
   </v-table>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref, watch, onBeforeUnmount, onMounted } from 'vue'
 // onMounted, onBeforeUnmount
 import { helperDateToString, helperSecondsToString, helperValueToString } from './helper'
 import { helperLinReg } from './helperLinReg'
 import TooltipSpeed from './TooltipSpeed.vue'
 import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
-export default defineComponent({
-  name: 'StatsTable',
-  components: { TooltipSpeed },
-  props: {
-    data: { type: Array<{ date: Date; value: number }>, required: true },
-    settings: {
-      type: Object,
-      default: () => ({ showDays: false, unitSpeed: 'sec' }),
-      required: true
-    },
-    target: { type: Number || undefined, default: undefined }
+const props = defineProps({
+  data: { type: Array<{ date: Date; value: number }>, required: true },
+  settings: {
+    type: Object,
+    default: () => ({ showDays: false, unitSpeed: 'sec' }),
+    required: true
   },
-  data() {
-    return {
-      firstDate: new Date(0),
-      lastDate: new Date(0),
-      firstValue: 0.0,
-      lastValue: 0.0,
-      percentOfTarget: 0.0,
-      percentOfTargetEstimated: 0.0,
-      timeSinceFirstValue: 0.0,
-      timeSinceLastValue: 0.0,
-      timeToETA: 0,
-      itemsPerSec: 0.0,
-      itemsEstimated: 0.0,
-      eta: new Date(0),
-      timerInterval: null as NodeJS.Timeout | null,
-      itemsDone: 0,
-      itemsTotal: 0,
-      targetReached: false
+  target: { type: Number || undefined, default: undefined }
+})
+
+const dataRef = ref(props.data)
+const targetRef = ref(props.target)
+watch(
+  [dataRef, targetRef],
+  () => {
+    updateStats()
+  },
+  { deep: true }
+)
+
+let firstDate = new Date(0)
+let lastDate = new Date(0)
+let firstValue = 0.0
+let lastValue = 0.0
+let percentOfTarget = 0.0
+let percentOfTargetEstimated = 0.0
+let timeSinceFirstValue = 0.0
+let timeSinceLastValue = 0.0
+let timeToETA = 0
+let itemsPerSec = 0.0
+const itemsEstimatedRef = ref(0.0) // not sure why this is needed only for this variable...
+let itemsEstimated = 0.0
+let eta = new Date(0)
+let timerInterval = null as NodeJS.Timeout | null
+let itemsDone = 0
+let itemsTotal = 0
+let targetReached = false
+
+onMounted(() => {
+  updateStats()
+  // Start timer logic here
+})
+
+onBeforeUnmount(() => {
+  stopTimer()
+})
+
+function dateToString(datetime: Date): string {
+  // decide if we need to show days
+  // TODO: move to App settings
+  return helperDateToString(datetime, props.settings.showDays)
+}
+function secToString(sec: number): string {
+  return helperSecondsToString(sec)
+}
+function updateStats() {
+  if (props.data.length <= 1) {
+    eta = new Date(0)
+    return
+  }
+  targetReached = false // periodically checked and updated in updateTimes
+  firstDate = props.data[0].date
+  firstValue = props.data[0].value
+  lastDate = props.data[props.data.length - 1].date
+  lastValue = props.data[props.data.length - 1].value
+
+  const { slope } = helperLinReg(props.data, true)
+  itemsPerSec = slope
+
+  // only for mode count-up and count-down the eta calc makes sense
+  if (props.target !== undefined) {
+    itemsDone = props.target != 0 ? lastValue : firstValue - lastValue
+    itemsTotal = props.target != 0 ? props.target : firstValue
+    percentOfTarget = itemsDone / itemsTotal
+
+    if (itemsPerSec != 0) {
+      if (itemsTotal > itemsDone) {
+        if (props.target != 0) {
+          timeToETA = (itemsTotal - itemsDone) / itemsPerSec
+        } else {
+          timeToETA = (itemsTotal - itemsDone) / -itemsPerSec
+        }
+      }
     }
-  },
-  watch: {
-    data: {
-      handler: 'updateStats',
-      deep: true
-    },
-    target: { handler: 'updateStats' }
-  },
-  created() {
-    this.updateStats()
-    // also starts timer
-  },
-  beforeUnmount() {
-    this.stopTimer()
-  },
-  methods: {
-    dateToString(datetime: Date): string {
-      // decide if we need to show days
-      // TODO: move to App settings
-      return helperDateToString(datetime, this.settings.showDays)
-    },
-    secToString(sec: number): string {
-      return helperSecondsToString(sec)
-    },
-    updateStats() {
-      if (this.data.length <= 1) {
-        this.eta = new Date(0)
-        return
-      }
-      this.targetReached = false // periodically checked and updated in updateTimes
-      this.firstDate = this.data[0].date
-      this.firstValue = this.data[0].value
-      this.lastDate = this.data[this.data.length - 1].date
-      this.lastValue = this.data[this.data.length - 1].value
+    eta = new Date(lastDate.getTime() + timeToETA * 1000)
+  } else {
+    eta = new Date(0)
+  }
 
-      const { slope } = helperLinReg(this.data, true)
-      this.itemsPerSec = slope
+  updateTimes()
+  startTimer()
+}
+function updateTimes() {
+  // executed by interval timer
+  const now = new Date().getTime()
+  timeSinceFirstValue = Math.round((now - firstDate.getTime()) / 1000)
+  timeSinceLastValue = (now - lastDate.getTime()) / 1000
 
-      // only for mode count-up and count-down the eta calc makes sense
-      if (this.target !== undefined) {
-        this.itemsDone = this.target != 0 ? this.lastValue : this.firstValue - this.lastValue
-        this.itemsTotal = this.target != 0 ? this.target : this.firstValue
-        this.percentOfTarget = this.itemsDone / this.itemsTotal
+  itemsEstimated = lastValue == 0 ? 0 : lastValue + itemsPerSec * timeSinceLastValue
+  itemsEstimatedRef.value = itemsEstimated
+  console.log(itemsEstimated)
 
-        if (this.itemsPerSec != 0) {
-          if (this.itemsTotal > this.itemsDone) {
-            if (this.target != 0) {
-              this.timeToETA = (this.itemsTotal - this.itemsDone) / this.itemsPerSec
-            } else {
-              this.timeToETA = (this.itemsTotal - this.itemsDone) / -this.itemsPerSec
-            }
-          }
-        }
-        this.eta = new Date(this.lastDate.getTime() + this.timeToETA * 1000)
+  if (props.target !== undefined) {
+    // time < eta: target not reached yet
+    if (new Date().getTime() < eta.getTime()) {
+      timeToETA = Math.round((eta.getTime() - now) / 1000)
+      // only for modes count-down and count-up the percent calc makes sense
+      if (props.target != 0) {
+        // count-up
+        percentOfTargetEstimated = (itemsDone + itemsPerSec * timeSinceLastValue) / itemsTotal
       } else {
-        this.eta = new Date(0)
+        // count-down: itemsPerSec is negative!
+        percentOfTargetEstimated = (itemsDone - itemsPerSec * timeSinceLastValue) / itemsTotal
       }
-
-      this.updateTimes()
-      this.startTimer()
-    },
-    updateTimes() {
-      // executed by interval timer
-      const now = new Date().getTime()
-      this.timeSinceFirstValue = Math.round((now - this.firstDate.getTime()) / 1000)
-      this.timeSinceLastValue = (now - this.lastDate.getTime()) / 1000
-
-      this.itemsEstimated =
-        this.lastValue == 0 ? 0 : this.lastValue + this.itemsPerSec * this.timeSinceLastValue
-
-      // time < eta
-      if (new Date().getTime() < this.eta.getTime()) {
-        this.timeToETA = Math.round((this.eta.getTime() - now) / 1000)
-        // only for modes count-down and count-up the percent calc makes sense
-        if (this.target !== undefined) {
-          if (this.target != 0) {
-            // count-up
-            this.percentOfTargetEstimated =
-              (this.itemsDone + this.itemsPerSec * this.timeSinceLastValue) / this.itemsTotal
-          } else {
-            // count-down: itemsPerSec is negative!
-            this.percentOfTargetEstimated =
-              (this.itemsDone - this.itemsPerSec * this.timeSinceLastValue) / this.itemsTotal
-          }
-        }
-      } else {
-        // if time > eta we stop the timer
-        // this.stopTimer()
-        if (this.targetReached == false) {
-          this.targetReached = true
-          this.playSoundTimerDone()
-        }
-        this.timeToETA = -1 // prevent s
-        this.percentOfTargetEstimated = 1 // 100%
+    } else {
+      // if time > eta we play a notification
+      if (props.target !== undefined && targetReached == false) {
+        targetReached = true
+        playSoundTimerDone()
       }
-    },
-    // create a timer, that updates the elapsed and remaining time periodically
-    startTimer() {
-      this.stopTimer()
-      let sleep: number = 1
-      // decide on the sleep time
-      if ((this.timeToETA == 0 || this.timeToETA > 15 * 60) && this.timeSinceFirstValue > 15 * 60) {
-        sleep = 30
-      }
-
-      this.timerInterval = setInterval(() => {
-        this.updateTimes()
-      }, sleep * 1000)
-    },
-    stopTimer() {
-      // Stop the timer
-      if (this.timerInterval) {
-        clearInterval(this.timerInterval)
-        this.timerInterval = null
-      }
-    },
-    playSoundTimerDone() {
-      this.playSound(notificationSound)
-    },
-    playSound(url: string) {
-      const audio = new Audio(url)
-      audio.play()
-    },
-    valueToString(value: number): String {
-      return helperValueToString(value)
+      timeToETA = -1 // prevent s
+      percentOfTargetEstimated = 1 // 100%
     }
   }
-})
+}
+function // create a timer, that updates the elapsed and remaining time periodically
+startTimer() {
+  stopTimer()
+  let sleep: number = 1
+  // decide on the sleep time
+  if ((timeToETA == 0 || timeToETA > 15 * 60) && timeSinceFirstValue > 15 * 60) {
+    sleep = 30
+  }
+
+  timerInterval = setInterval(() => {
+    updateTimes()
+  }, sleep * 1000)
+}
+
+function stopTimer() {
+  // Stop the timer
+  if (timerInterval) {
+    clearInterval(timerInterval)
+    timerInterval = null
+  }
+}
+function playSoundTimerDone() {
+  playSound(notificationSound)
+}
+function playSound(url: string) {
+  const audio = new Audio(url)
+  audio.play()
+}
+function valueToString(value: number): String {
+  return helperValueToString(value)
+}
 </script>
