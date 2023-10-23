@@ -18,6 +18,7 @@
     "package*.json",
     "scripts/**",
     "src/assets/",
+    "*.mp3",
     ".*"
   ]
 }
