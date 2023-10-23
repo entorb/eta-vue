@@ -97,7 +97,8 @@ let nowTS = new Date(0).getTime()
 const timeToETA = ref(0)
 const itemsPerSec = ref(0)
 const itemsEstimated = ref(0.0)
-let timerInterval = null as NodeJS.Timeout | null
+// let timerInterval = null as NodeJS.Timeout | null
+let timerInterval: number | null = null
 
 onMounted(() => {
   updateStats()
@@ -226,15 +227,14 @@ startTimer() {
     sleep = 30
   }
 
-  timerInterval = setInterval(() => {
+  timerInterval = window.setInterval(() => {
     updateTimes()
   }, sleep * 1000)
 }
 
 function stopTimer() {
-  // Stop the timer
-  if (timerInterval) {
-    clearInterval(timerInterval)
+  if (timerInterval !== null) {
+    window.clearInterval(timerInterval)
     timerInterval = null
   }
 }
