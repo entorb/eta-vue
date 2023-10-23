@@ -59,7 +59,7 @@ const props = defineProps({
     default: () => ({ showDays: false, unitSpeed: 'min' as UnitType }),
     required: true
   },
-  target: { type: Number || undefined, default: undefined }
+  target: { type: Number, default: undefined as number | undefined }
 })
 
 const dataRef = ref(props.data)
