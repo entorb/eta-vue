@@ -7,7 +7,7 @@
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
           <!-- align-content="end" -->
-          <v-col cols="4"> <ActionsBlock @plus-1="plus1" @unit="setUnitOfSpeed" /></v-col>
+          <v-col cols="5"> <ActionsBlock @plus-1="plus1" @unit="setUnitOfSpeed" /></v-col>
         </v-row>
         <v-row>
           <v-col cols="4" v-if="data.length >= 2">
