@@ -50,7 +50,9 @@ import { helperDateToString, helperSecondsToString, helperValueToString } from '
 import { helperLinReg } from './helperLinReg'
 import type { UnitType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
-import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
+
+// Not used any more, since I want to prevent hashed filenames and allow for caching on client side
+// import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
 const props = defineProps({
   data: { type: Array<{ date: Date; value: number }>, required: true },
@@ -239,7 +241,9 @@ function stopTimer() {
   }
 }
 function playSoundTimerDone() {
-  playSound(notificationSound)
+  // playSound(notificationSound)
+  // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
+  playSound('audio/481151__matrixxx__cow-bells-01.mp3')
 }
 function playSound(url: string) {
   const audio = new Audio(url)
