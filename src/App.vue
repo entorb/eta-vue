@@ -3,6 +3,9 @@
     <v-main>
       <v-container>
         <v-row>
+          <v-col><h1>ETA - Estimated Time of Arrival</h1></v-col>
+        </v-row>
+        <v-row>
           <v-col>
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
