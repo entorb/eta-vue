@@ -58,7 +58,7 @@ function calculateItemsPerSecFromPreviousLine(index: number): number {
   }
   const currentItem = props.data[index]
   const prevItem = props.data[index - 1]
-  const deltaT = (Number(currentItem.date) - Number(prevItem.date)) / 1000
+  const deltaT = (currentItem.date.getTime() - prevItem.date.getTime()) / 1000
   const deltaItems = currentItem.value - prevItem.value
   return deltaItems / deltaT
 }

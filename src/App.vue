@@ -71,8 +71,8 @@ onMounted(() => {
   }
 })
 
-function setTarget(target_new: number) {
-  if (target_new < 0) {
+function setTarget(target_new: number | undefined) {
+  if (target_new != undefined && target_new < 0) {
     console.log('invalid negative target:', target_new)
     return
   }

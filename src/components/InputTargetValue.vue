@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 const props = defineProps({
-  target: { type: Number || undefined, default: undefined }
+  target: { type: Number, default: undefined as number | undefined }
 })
 
 const emits = defineEmits(['set-target', 'add-row'])
