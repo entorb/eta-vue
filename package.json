@@ -10,7 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --cache --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --cache --write src/ doc/",
+    "format": "prettier --cache --write src/ doc/ index.html *.ts *.json *.md",
     "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" \"doc/*\"",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
     "check": "run-p format lint spell test-once",
