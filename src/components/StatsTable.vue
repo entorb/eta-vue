@@ -116,9 +116,11 @@ function dateToString(datetime: Date): string {
   // TODO: move to App settings
   return helperDateToString(datetime, props.settings.showDays)
 }
+
 function secToString(sec: number): string {
   return helperSecondsToString(sec)
 }
+
 function resetStats() {
   eta.value = new Date(0)
   firstDate = new Date(0)
@@ -127,6 +129,7 @@ function resetStats() {
   lastValue = 0.0
   itemsDone = 0
 }
+
 function updateStats() {
   if (props.data.length == 0) {
     // this case is handled by resetStats()
@@ -171,6 +174,7 @@ function updateStats() {
   updateTimes()
   startTimer()
 }
+
 function updateTimes() {
   // periodically executed by interval timer
   if (props.data.length == 0) {
@@ -220,6 +224,7 @@ function updateTimes() {
     }
   }
 }
+
 function // create a timer, that updates the elapsed and remaining time periodically
 startTimer() {
   stopTimer()
@@ -240,15 +245,18 @@ function stopTimer() {
     timerInterval = null
   }
 }
+
 function playSoundTimerDone() {
   // playSound(notificationSound)
   // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
   playSound('audio/481151__matrixxx__cow-bells-01.mp3')
 }
+
 function playSound(url: string) {
   const audio = new Audio(url)
   audio.play()
 }
+
 function valueToString(value: number): String {
   return helperValueToString(value)
 }
