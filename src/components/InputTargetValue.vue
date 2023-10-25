@@ -64,6 +64,7 @@ function enterTarget() {
     emits('set-target', target)
   }
 }
+
 function enterValue() {
   const value = parseFloat(inputValue.value.replace(',', '.'))
   if (isNaN(value)) {
@@ -75,6 +76,7 @@ function enterValue() {
   emits('add-row', newRow)
   inputValue.value = ''
 }
+
 function updateInputFieldFromTarget() {
   if (props.target !== undefined) {
     inputTarget.value = props.target.toString()

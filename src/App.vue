@@ -89,6 +89,7 @@ function setTarget(target_new: number | undefined) {
 function setUnitOfSpeed(unit: string) {
   settings.value.unitSpeed = unit as UnitType
 }
+
 function addRow(row: { date: Date; value: number }) {
   // console.log('new row:', row)
   data.value.push(row)
@@ -125,23 +126,27 @@ function plus1() {
   const newRow = { date: date, value: value }
   addRow(newRow)
 }
+
 function deleteRow(index: number) {
   if (index >= 0 && index < data.value.length) {
     // Removes one element at the specified index
     data.value.splice(index, 1)
   }
 }
+
 function deleteAllData() {
   data.value = []
   localStorage.removeItem('data')
   target.value = undefined
   localStorage.removeItem('target')
 }
+
 function updateLocalStorageTarget() {
   if (target.value != undefined) {
     localStorage.setItem('target', target.value.toString())
   }
 }
+
 function updateLocalStorageData() {
   localStorage.setItem('data', JSON.stringify(data))
 }
