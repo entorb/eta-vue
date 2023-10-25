@@ -2,8 +2,7 @@
   <v-container class="align-start">
     <v-row>
       <v-col cols="3">
-        <v-select label="Unit" variant="outlined" v-model="unitSelected" :items="unitList" />
-        <!-- @change="$emit('unit')" -->
+        <v-select v-model="unitSelected" label="Unit" variant="outlined" :items="unitList" />
       </v-col>
     </v-row>
     <v-row>
@@ -18,14 +17,14 @@
 import { ref, watch } from 'vue'
 
 const emits = defineEmits(['plus-1', 'unit'])
-const { initialValue } = defineProps(['initialValue'])
 
-// initialized manually, was too lazy to sync the init from App.vue
+const props = defineProps({
+  unitInitial: { type: String, required: true }
+})
+
 const unitList = ref(['sec', 'min', 'hour', 'day'])
-const unitSelected = ref(initialValue || 'min')
+const unitSelected = ref(props.unitInitial)
 
-// const unitSelected = ref('min')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 watch(unitSelected, () => {
   emits('unit', unitSelected)
 })
