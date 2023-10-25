@@ -40,7 +40,7 @@ export default defineConfig({
           'Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied.',
         icons: [
           {
-            src: '144.png',
+            src: 'icons/144.png',
             sizes: '144x144',
             type: 'image/png',
             purpose: 'any maskable'
