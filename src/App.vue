@@ -61,19 +61,9 @@ const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
 
 onMounted(() => {
   // read data from Local Storage
-  let stored = localStorage.getItem('target')
-  if (stored !== null) {
-    target.value = parseFloat(stored)
-  }
-  stored = localStorage.getItem('data')
-  if (stored !== null) {
-    const obj = JSON.parse(stored)
-    data.value = obj.map((item: { date: string; value: number }) => ({
-      date: new Date(item.date),
-      value: item.value
-    }))
-    decideIfToShowDays()
-  }
+  readLocalStorageTarget()
+  readLocalStorageData()
+  decideIfToShowDays()
 })
 
 function setTarget(targetNew: number | undefined) {
@@ -98,9 +88,13 @@ function addRow(row: { date: Date; value: number }) {
 }
 
 function decideIfToShowDays() {
-  const firstDate = data.value[0].date
-  const lastDate = data.value[data.value.length - 1].date
-  settings.value.showDays = firstDate.getTime() < lastDate.getTime() - 86400 * 1000
+  if (data.value.length > 0) {
+    const firstDate = data.value[0].date
+    const lastDate = data.value[data.value.length - 1].date
+    settings.value.showDays = firstDate.getTime() < lastDate.getTime() - 86400 * 1000
+  } else {
+    settings.value.showDays = false
+  }
 }
 
 function plus1() {
@@ -129,25 +123,42 @@ function plus1() {
 
 function deleteRow(index: number) {
   if (index >= 0 && index < data.value.length) {
-    // Removes one element at the specified index
     data.value.splice(index, 1)
   }
 }
 
 function deleteAllData() {
   data.value = []
-  localStorage.removeItem('data')
+  localStorage.removeItem('eta_vue_data')
   target.value = undefined
-  localStorage.removeItem('target')
+  localStorage.removeItem('eta_vue_target')
+}
+
+function readLocalStorageTarget() {
+  const stored = localStorage.getItem('eta_vue_target')
+  if (stored !== null) {
+    target.value = parseFloat(stored)
+  }
+}
+
+function readLocalStorageData() {
+  const stored = localStorage.getItem('eta_vue_data')
+  if (stored !== null) {
+    const obj = JSON.parse(stored)
+    data.value = obj.map((item: { date: string; value: number }) => ({
+      date: new Date(item.date),
+      value: item.value
+    }))
+  }
 }
 
 function updateLocalStorageTarget() {
   if (target.value != undefined) {
-    localStorage.setItem('target', target.value.toString())
+    localStorage.setItem('eta_vue_target', target.value.toString())
   }
 }
 
 function updateLocalStorageData() {
-  localStorage.setItem('data', JSON.stringify(data))
+  localStorage.setItem('eta_vue_data', JSON.stringify(data.value))
 }
 </script>
