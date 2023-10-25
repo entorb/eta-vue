@@ -10,10 +10,12 @@
             <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
           </v-col>
           <!-- align-content="end" -->
-          <v-col cols="5"> <ActionsBlock @plus-1="plus1" @unit="setUnitOfSpeed" /></v-col>
+          <v-col cols="5">
+            <ActionsBlock :unit-initial="settings.unitSpeed" @plus-1="plus1" @unit="setUnitOfSpeed"
+          /></v-col>
         </v-row>
         <v-row>
-          <v-col cols="4" v-if="data.length >= 2">
+          <v-col v-if="data.length >= 2" cols="4">
             <StatsTable :data="data" :settings="settings" :target="target" />
           </v-col>
           <v-col v-if="data.length >= 1">
