@@ -11,7 +11,7 @@ export default defineConfig({
   // TM: important when deploying not into the webserver root dir
   // error message "was blocked due to MIME type (“text/html”) mismatch"
   // (X-Content-Type-Options: nosniff)
-  base: '/eta-vue/',
+  base: '/eta/',
   plugins: [
     vue({
       template: { transformAssetUrls }
