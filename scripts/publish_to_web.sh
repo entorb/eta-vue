@@ -7,4 +7,4 @@ cd $script_dir/..
 # npm run format && npm run lint && npm run test-once &&
 #     npm run build && rsync -rvhu --delete --no-perms dist/* entorb@entorb.net:html/eta-vue/
 
-npm run build && rsync -rvhu --delete --no-perms dist/* entorb@entorb.net:html/eta-vue/
+npm run build && rsync -rhv --delete --exclude=v1 --no-perms --ignore-times dist/ entorb@entorb.net:html/eta-vue/
