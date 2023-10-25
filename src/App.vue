@@ -76,13 +76,13 @@ onMounted(() => {
   }
 })
 
-function setTarget(target_new: number | undefined) {
-  if (target_new != undefined && target_new < 0) {
-    console.log('invalid negative target:', target_new)
+function setTarget(targetNew: number | undefined) {
+  if (targetNew != undefined && targetNew < 0) {
+    console.log('invalid negative target:', targetNew)
     return
   }
-  console.log('new target:', target_new)
-  target.value = target_new
+  console.log('new target:', targetNew)
+  target.value = targetNew
   updateLocalStorageTarget()
 }
 
