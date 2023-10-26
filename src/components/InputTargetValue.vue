@@ -6,6 +6,7 @@
         <!-- append-inner-icon="$save" -->
         <!-- @click:append-inner="enterTarget" -->
         <v-text-field
+          id="input-value"
           v-model="inputValue"
           label="Current items"
           type="text"
@@ -19,6 +20,7 @@
     <v-row>
       <v-col>
         <v-text-field
+          id="input-target"
           v-model="inputTarget"
           label="Target"
           type="text"
