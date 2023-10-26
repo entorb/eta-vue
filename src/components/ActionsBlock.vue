@@ -2,12 +2,18 @@
   <v-container class="align-start">
     <v-row>
       <v-col cols="3">
-        <v-select v-model="unitSelected" label="Unit" variant="outlined" :items="unitList" />
+        <v-select
+          id="select-unit"
+          v-model="unitSelected"
+          label="Unit"
+          variant="outlined"
+          :items="unitList"
+        />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-btn icon="$plus1" @click="$emit('plus-1')" />
+        <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-1')" />
       </v-col>
     </v-row>
   </v-container>
