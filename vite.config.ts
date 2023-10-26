@@ -12,6 +12,7 @@ export default defineConfig({
   // error message "was blocked due to MIME type (“text/html”) mismatch"
   // (X-Content-Type-Options: nosniff)
   base: '/eta/',
+  preview: { port: 4173 },
   plugins: [
     vue({
       template: { transformAssetUrls }
