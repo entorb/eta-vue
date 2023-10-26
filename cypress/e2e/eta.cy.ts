@@ -1,4 +1,4 @@
-import { getLocalStorageDataFistLastValue } from './helper-cy'
+// import { getLocalStorageDataFistLastValue } from './helper-cy'
 
 describe('start app', () => {
   beforeEach(() => {
@@ -19,6 +19,7 @@ describe('set target', () => {
   })
 
   it('sets target to local storage', () => {
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target')
       .type('10{enter}')
       .should(() => {
@@ -27,6 +28,7 @@ describe('set target', () => {
   })
 
   it('sets target=10 to local storage', () => {
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target')
       .type('10{enter}')
       .should(() => {
