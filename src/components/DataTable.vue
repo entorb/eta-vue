@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, index) in data" :key="index">
+      <tr v-for="(row, index) in data" :key="generateRowKey(row)">
         <td>{{ dateToString(row.date) }}</td>
         <td :class="{ 'text-right': true }">{{ row.value }}</td>
         <td :class="{ 'text-center': true }">
@@ -50,5 +50,11 @@ const emits = defineEmits(['delete-all-data', 'delete-row'])
 
 function dateToString(datetime: Date): string {
   return helperDateToString(datetime, props.settings.showDays)
+}
+
+// Generates a unique key for a given data row.
+// Required to assure that changes in data.speed re-render the table
+function generateRowKey(row: DataRowType): string {
+  return `${row.date.getTime()}-${row.value}-${row.speed}`
 }
 </script>
