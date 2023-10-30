@@ -85,14 +85,30 @@ function addRow(row: { date: Date; value: number }) {
   let speed = 0
   if (data.value.length > 0) {
     const prevRow = data.value[data.value.length - 1]
-    const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
-    const deltaItems = row.value - prevRow.value
-    speed = deltaItems / deltaT
+    speed = calcSpeed({ date: row.date, value: row.value, speed: 0 }, prevRow)
   }
-  data.value.push({ date: row.date, value: row.value, speed })
+  data.value.push({ date: row.date, value: row.value, speed: speed })
   decideIfToShowDays()
   updateLocalStorageData()
 }
+
+function calcSpeed(row: DataRowType, prevRow: DataRowType): number {
+  const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
+  const deltaItems = row.value - prevRow.value
+  return deltaItems / deltaT
+}
+
+// function recalcAllSpeeds() {
+//   if (data.value.length == 0) return
+//   else if (data.value.length == 1) data.value[0].speed = 0
+//   else {
+//     for (let i = 1; i <= data.value.length - 1; i++) {
+//       const prevRow = data.value[i - 1]
+//       const row = data.value[i]
+//       row.speed = calcSpeed(row, prevRow)
+//     }
+//   }
+// }
 
 function decideIfToShowDays() {
   if (data.value.length > 0) {
@@ -132,6 +148,20 @@ function deleteRow(index: number) {
   if (index >= 0 && index < data.value.length) {
     data.value.splice(index, 1)
   }
+  // recalc speed
+  // index starts at 0, so must be smaller than the length
+  if (index < data.value.length) {
+    // recalc speed for the row that is not on index
+    if (index == 0) {
+      data.value[index].speed = 0
+    } else {
+      const prevRow = data.value[index - 1]
+      const row = data.value[index]
+      row.speed = calcSpeed(row, prevRow)
+    }
+  }
+  decideIfToShowDays()
+  updateLocalStorageData()
 }
 
 function deleteAllData() {
