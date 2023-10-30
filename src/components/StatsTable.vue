@@ -46,8 +46,8 @@
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount, onMounted } from 'vue'
 // onMounted, onBeforeUnmount
-import { helperDateToString, helperSecondsToString, helperValueToString } from './helper'
-import { helperLinReg } from './helperLinReg'
+import { helperDateToString, helperSecondsToString, helperValueToString } from '../helper'
+import { helperLinReg } from '../helperLinReg'
 import type { UnitType, DataRowType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
 
@@ -261,3 +261,4 @@ function valueToString(value: number): String {
   return helperValueToString(value)
 }
 </script>
+../helper ../helperLinReg

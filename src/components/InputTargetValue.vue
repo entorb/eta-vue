@@ -36,6 +36,8 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { DataRowRedType } from '../types'
+
 const props = defineProps({
   target: { type: Number, default: undefined as number | undefined }
 })
@@ -73,7 +75,7 @@ function enterValue() {
     return
   }
   const date = new Date()
-  const newRow = { date: date, value: value }
+  const newRow: DataRowRedType = { date: date, value: value }
   // Emit an event to add the row to the data
   emits('add-row', newRow)
   inputValue.value = ''

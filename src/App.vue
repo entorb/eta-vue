@@ -48,7 +48,9 @@ import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
 import StatsTable from './components/StatsTable.vue'
 import ActionsBlock from './components/ActionsBlock.vue'
-import type { UnitType, DataRowType } from './types'
+import type { UnitType, DataRowType, DataRowRedType } from './types'
+
+import { helperCalcSpeedFromPreviousRow } from './helper'
 
 // target:
 // undefined -> simple mode, no ETA
@@ -72,7 +74,6 @@ function setTarget(targetNew: number | undefined) {
     console.log('invalid negative target:', targetNew)
     return
   }
-  console.log('new target:', targetNew)
   target.value = targetNew
   updateLocalStorageTarget()
 }
@@ -81,28 +82,23 @@ function setUnitOfSpeed(unit: string) {
   settings.value.unitSpeed = unit as UnitType
 }
 
-function addRow(row: { date: Date; value: number }) {
+function addRow(row: DataRowRedType) {
+  const { date, value } = row
   let speed = 0
   if (data.value.length > 0) {
     const prevRow = data.value[data.value.length - 1]
-    speed = calcSpeed({ date: row.date, value: row.value, speed: 0 }, prevRow)
+    speed = helperCalcSpeedFromPreviousRow({ date, value }, prevRow)
   }
-  data.value.push({ date: row.date, value: row.value, speed: speed })
+  data.value.push({ date, value, speed })
   decideIfToShowDays()
   updateLocalStorageData()
 }
 
-function calcSpeed(row: DataRowType, prevRow: DataRowType): number {
-  const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
-  const deltaItems = row.value - prevRow.value
-  return deltaItems / deltaT
-}
-
 // function recalcAllSpeeds() {
 //   if (data.value.length == 0) return
-//   else if (data.value.length == 1) data.value[0].speed = 0
 //   else {
-//     for (let i = 1; i <= data.value.length - 1; i++) {
+//     data.value[0].speed = 0
+//     for (let i = 1; i < data.value.length; i++) {
 //       const prevRow = data.value[i - 1]
 //       const row = data.value[i]
 //       row.speed = calcSpeed(row, prevRow)
@@ -114,33 +110,23 @@ function decideIfToShowDays() {
   if (data.value.length > 0) {
     const firstDate = data.value[0].date
     const lastDate = data.value[data.value.length - 1].date
-    settings.value.showDays = firstDate.getTime() < lastDate.getTime() - 86400 * 1000
+    settings.value.showDays = firstDate.getTime() <= lastDate.getTime() - 86400 * 1000
   } else {
     settings.value.showDays = false
   }
 }
 
 function plus1() {
-  let value = 0
-  let lastValue = 0
   const hasData = data.value.length > 0
-  if (data.value.length > 0) {
-    lastValue = data.value[data.value.length - 1].value
-  }
+  const lastValue = hasData ? data.value[data.value.length - 1].value : 0
 
-  if (target.value == 0) {
-    // target == 0 -> count-down mode
-    if (hasData && lastValue >= 1) {
-      value = lastValue - 1
-    } else {
-      return
-    }
-  } else {
-    // count-up mode or simple mode
-    value = lastValue + 1
-  }
-  const date = new Date()
-  const newRow = { date: date, value: value }
+  // count-down mode: exit if lastValue <= 0
+  if (target.value == 0 && lastValue <= 0) return
+
+  // count-down: -1, count-up & simple: +1
+  const value = target.value == 0 ? lastValue - 1 : lastValue + 1
+
+  const newRow: DataRowRedType = { date: new Date(), value: value }
   addRow(newRow)
 }
 
@@ -151,13 +137,13 @@ function deleteRow(index: number) {
   // recalc speed
   // index starts at 0, so must be smaller than the length
   if (index < data.value.length) {
-    // recalc speed for the row that is not on index
+    // recalc speed for the row that now is shifted to index
     if (index == 0) {
       data.value[index].speed = 0
     } else {
       const prevRow = data.value[index - 1]
       const row = data.value[index]
-      row.speed = calcSpeed(row, prevRow)
+      row.speed = helperCalcSpeedFromPreviousRow(row, prevRow)
     }
   }
   decideIfToShowDays()
@@ -180,23 +166,39 @@ function readLocalStorageTarget() {
 
 function readLocalStorageData() {
   const stored = localStorage.getItem('eta_vue_data')
-  if (stored !== null) {
-    const obj = JSON.parse(stored)
-    data.value = obj.map((row: DataRowType) => ({
-      date: new Date(row.date),
-      value: row.value,
-      speed: row.speed
-    }))
+  data.value = []
+
+  if (stored === null) {
+    return
   }
+
+  const obj = JSON.parse(stored)
+  const dataReduced: DataRowRedType[] = obj.map(({ date, value }: DataRowRedType) => ({
+    date: new Date(date),
+    value
+  }))
+
+  const newDataValues: DataRowType[] = []
+  const dataReducedLength = dataReduced.length // Cache the length
+  for (let i = 0; i < dataReducedLength; i++) {
+    const { date, value } = dataReduced[i]
+    const speed = i >= 1 ? helperCalcSpeedFromPreviousRow({ date, value }, newDataValues[i - 1]) : 0
+    newDataValues.push({ date, value, speed })
+  }
+  data.value = newDataValues
 }
 
 function updateLocalStorageTarget() {
   if (target.value != undefined) {
     localStorage.setItem('eta_vue_target', target.value.toString())
+  } else {
+    localStorage.removeItem('eta_vue_data')
   }
 }
 
 function updateLocalStorageData() {
-  localStorage.setItem('eta_vue_data', JSON.stringify(data.value))
+  // only store the core data, not the derived data like speed
+  const dataReduced = data.value.map(({ date, value }: DataRowType) => ({ date, value }))
+  localStorage.setItem('eta_vue_data', JSON.stringify(dataReduced))
 }
 </script>
