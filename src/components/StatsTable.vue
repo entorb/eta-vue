@@ -46,7 +46,12 @@
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount, onMounted } from 'vue'
 // onMounted, onBeforeUnmount
-import { helperDateToString, helperSecondsToString, helperValueToString } from '../helper'
+import {
+  helperDateToString,
+  helperSecondsToString,
+  helperValueToString,
+  playSoundTimerDone
+} from '../helper'
 import { helperLinReg } from '../helperLinReg'
 import type { UnitType, DataRowType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
@@ -246,19 +251,7 @@ function stopTimer() {
   }
 }
 
-function playSoundTimerDone() {
-  // playSound(notificationSound)
-  // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
-  playSound('audio/481151__matrixxx__cow-bells-01.mp3')
-}
-
-function playSound(url: string) {
-  const audio = new Audio(url)
-  audio.play()
-}
-
 function valueToString(value: number): String {
   return helperValueToString(value)
 }
 </script>
-../helper ../helperLinReg
