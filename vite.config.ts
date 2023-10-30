@@ -16,7 +16,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        eta: resolve(__dirname, 'index.html'),
+        index: resolve(__dirname, 'index.html'),
+        eta: resolve(__dirname, 'index1.html'),
         multitimer: resolve(__dirname, 'index2.html')
       }
     }
