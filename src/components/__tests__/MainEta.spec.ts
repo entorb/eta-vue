@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
-import App from '../App.vue'
+import MainEta from '../MainEta.vue'
 
 function initializeWrapper(wrapper) {
   localStorage.clear()
@@ -11,7 +11,7 @@ function initializeWrapper(wrapper) {
 describe('App', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
   })
 
@@ -23,7 +23,7 @@ describe('App', () => {
 describe('setTarget', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
   })
 
@@ -71,7 +71,7 @@ describe('setTarget', () => {
 describe('setUnitOfSpeed', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
   })
   it('sec, min, hour, day', () => {
@@ -89,7 +89,7 @@ describe('setUnitOfSpeed', () => {
 describe('addRow', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
     wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
   })
@@ -111,7 +111,7 @@ describe('addRow', () => {
 describe('decideIfToShowDays', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
     wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
   })
@@ -132,7 +132,7 @@ describe('decideIfToShowDays', () => {
 describe('plus1', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
     wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
   })
@@ -165,7 +165,7 @@ describe('plus1', () => {
 describe('deleteRow', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
     wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), value: 1 })
     wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), value: 2 })
@@ -203,7 +203,7 @@ describe('deleteRow', () => {
 describe('readLocalStorageData', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(App)
+    wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
   })
 
