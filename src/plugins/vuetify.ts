@@ -15,6 +15,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 import { mdiTrashCan } from '@mdi/js'
 import { mdiNumericPositive1 } from '@mdi/js'
 // import { mdiContentSave } from '@mdi/js'
+import { mdiPlus } from '@mdi/js'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -36,6 +37,7 @@ export default createVuetify({
     aliases: {
       ...aliases,
       trashCan: mdiTrashCan,
+      plus: mdiPlus,
       plus1: mdiNumericPositive1
       // save: mdiContentSave,
     }
