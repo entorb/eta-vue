@@ -5,3 +5,8 @@ export interface DataRowType {
   value: number
   speed: number // in items per sec
 }
+
+export interface DataRowRedType {
+  date: Date
+  value: number
+}

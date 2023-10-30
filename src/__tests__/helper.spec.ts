@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { helperDateToString, helperSecondsToString, helperValueToString } from '../helper'
+import {
+  helperDateToString,
+  helperSecondsToString,
+  helperValueToString,
+  helperCalcSpeedFromPreviousRow
+} from '../helper'
 
 describe('helperDateToString', () => {
   it('time without showing days', () => {
@@ -50,5 +55,13 @@ describe('helperValueToString', () => {
     expect(helperValueToString(10000)).toBe('10000')
     expect(helperValueToString(0.1)).toBe('0.100')
     expect(helperValueToString(0.123)).toBe('0.123')
+  })
+})
+
+describe('helperCalcSpeedFromPreviousRow', () => {
+  it('various values', () => {
+    const prevRow = { date: new Date('2023-01-01 01:01:01'), value: 10 }
+    const row = { date: new Date('2023-01-01 01:02:01'), value: 130 }
+    expect(helperCalcSpeedFromPreviousRow(row, prevRow)).toBe(2.0)
   })
 })
