@@ -53,3 +53,14 @@ export const helperCalcSpeedFromPreviousRow = (
   const deltaItems = row.value - prevRow.value
   return deltaItems / deltaT
 }
+
+export const playSoundTimerDone = () => {
+  // playSound(notificationSound)
+  // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
+  playSound('audio/481151__matrixxx__cow-bells-01.mp3')
+}
+
+function playSound(url: string) {
+  const audio = new Audio(url)
+  audio.play()
+}
