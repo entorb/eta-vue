@@ -4,7 +4,7 @@
       <v-container fluid fill-height>
         <v-row>
           <v-col cols="12">
-            <MainMultiTimer />
+            <MainEta />
           </v-col>
         </v-row>
         <v-row>
@@ -18,6 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import MainMultiTimer from './components/MainMultiTimer.vue'
+import MainEta from './components/MainEta.vue'
 import FooterText from './components/FooterText.vue'
 </script>

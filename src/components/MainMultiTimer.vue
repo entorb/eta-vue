@@ -1,62 +1,76 @@
 <template>
-  <v-row>
-    <v-col cols="2">
-      <v-text-field
-        id="input-name"
-        v-model="inputName"
-        label="Name of Timer"
-        type="text"
-        inputmode="decimal"
-        variant="outlined"
-      />
-    </v-col>
-    <v-col cols="2">
-      <v-text-field
-        id="input-value"
-        v-model="inputTime"
-        label="Time"
-        type="text"
-        inputmode="decimal"
-        variant="outlined"
-        @keyup.enter="enterTime"
-      />
-    </v-col>
-    <v-col cols="1">
-      <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
-    </v-col>
-    <v-col cols="1">
-      <v-btn icon="$plus" @click="enterTime"></v-btn>
-    </v-col>
-  </v-row>
-
-  <v-table ref="tableRef" fixed-header density="compact" class="align-start">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>End</th>
-        <th>Remaining</th>
-        <th>Percent</th>
-        <th :class="{ 'text-center': true }">
-          <v-btn icon="$trashCan" icon-color="red" flat @click="deleteAll" />
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(row, index) in data" :key="row.name">
-        <td>{{ row.name }}</td>
-        <td>{{ helperDateToString(row.dateEnd, showDays) }}</td>
-        <td>{{ helperSecondsToString(row.remainingTime) }}</td>
-        <td>
-          <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
-            <strong>{{ (100 * row.percent).toFixed(1) }}%</strong>
-          </v-progress-linear>
-        </td>
-        <td :class="{ 'text-center': true }">
-          <v-btn icon="$trashCan" size="small" flat @click="deleteRow(index)" />
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+  <v-container>
+    <v-row>
+      <v-col><h1>MultiTimer</h1></v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6" md="6">
+        <v-text-field
+          id="input-name"
+          v-model="inputName"
+          label="Name of Timer"
+          type="text"
+          inputmode="decimal"
+          variant="outlined"
+        />
+      </v-col>
+      <v-col cols="6" md="6">
+        <v-text-field
+          id="input-value"
+          v-model="inputTime"
+          label="Time"
+          type="text"
+          inputmode="decimal"
+          variant="outlined"
+          @keyup.enter="enterTime"
+        />
+      </v-col>
+      <v-col cols="6" md="6">
+        <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
+      </v-col>
+      <v-col cols="6" md="6">
+        <v-btn icon="$plus" @click="enterTime"></v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="12">
+        <v-table
+          v-if="data.length >= 1"
+          ref="tableRef"
+          fixed-header
+          density="compact"
+          class="align-start"
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>End</th>
+              <th>Remaining</th>
+              <th>Percent</th>
+              <th :class="{ 'text-center': true }">
+                <v-btn icon="$trashCan" icon-color="red" flat @click="deleteAll" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, index) in data" :key="row.name">
+              <td>{{ row.name }}</td>
+              <td>{{ helperDateToString(row.dateEnd, showDays) }}</td>
+              <td>{{ helperSecondsToString(row.remainingTime) }}</td>
+              <td>
+                <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
+                  <strong>{{ (100 * row.percent).toFixed(1) }}%</strong>
+                </v-progress-linear>
+              </td>
+              <td :class="{ 'text-center': true }">
+                <v-btn icon="$trashCan" size="small" flat @click="deleteRow(index)" />
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
