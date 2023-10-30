@@ -1,7 +1,7 @@
 <template>
   <v-container class="align-start">
     <v-row>
-      <v-col cols="3">
+      <v-col>
         <v-select
           id="select-unit"
           v-model="unitSelected"
