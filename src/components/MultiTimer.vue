@@ -1,0 +1,211 @@
+<template>
+  <v-row>
+    <v-col cols="2">
+      <v-text-field
+        id="input-name"
+        v-model="inputName"
+        label="Name of Timer"
+        type="text"
+        inputmode="decimal"
+        variant="outlined"
+      />
+    </v-col>
+    <v-col cols="2">
+      <v-text-field
+        id="input-value"
+        v-model="inputTime"
+        label="Time"
+        type="text"
+        inputmode="decimal"
+        variant="outlined"
+        @keyup.enter="enterTime"
+      />
+    </v-col>
+    <v-col cols="1">
+      <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
+    </v-col>
+    <v-col cols="1">
+      <v-btn icon="$plus" @click="enterTime"></v-btn>
+    </v-col>
+  </v-row>
+
+  <v-table ref="tableRef" fixed-header density="compact" class="align-start">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>End</th>
+        <th>Remaining</th>
+        <th>Percent</th>
+        <th :class="{ 'text-center': true }">
+          <v-btn icon="$trashCan" icon-color="red" flat @click="deleteAll" />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(row, index) in data" :key="row.name">
+        <td>{{ row.name }}</td>
+        <td>{{ helperDateToString(row.dateEnd, showDays) }}</td>
+        <td>{{ helperSecondsToString(row.remainingTime) }}</td>
+        <td>
+          <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
+            <strong>{{ (100 * row.percent).toFixed(1) }}%</strong>
+          </v-progress-linear>
+        </td>
+        <td :class="{ 'text-center': true }">
+          <v-btn icon="$trashCan" size="small" flat @click="deleteRow(index)" />
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { helperSecondsToString, helperDateToString, playSoundTimerDone } from '../helper'
+
+const inputName = ref('')
+const inputTime = ref('')
+const unitList = ref(['sec', 'min', 'hour', 'day'])
+const unitSelected = ref('min')
+const showDays = ref(false)
+
+export interface TimerType {
+  name: string
+  dateStart: Date
+  dateEnd: Date
+  remainingTime: number
+  percent: number
+}
+
+const data = ref<Array<TimerType>>([])
+
+let timerInterval: number | null = null
+
+onMounted(() => {
+  readLocalStorageData()
+  startTimer()
+})
+
+function enterTime() {
+  const time = parseFloat(inputTime.value.replace(',', '.'))
+  if (isNaN(time)) {
+    inputTime.value = ''
+    return
+  }
+  const cleanName = inputName.value.trim()
+  const name = cleanName === '' ? 'Timer' : cleanName
+  const factor =
+    unitSelected.value === 'sec'
+      ? 1
+      : unitSelected.value === 'min'
+      ? 60
+      : unitSelected.value === 'hour'
+      ? 3600
+      : 86400
+  const dateStart = new Date()
+  const dateEnd = new Date(new Date().getTime() + time * 1000 * factor)
+  inputTime.value = ''
+  data.value.push({
+    name,
+    dateStart,
+    dateEnd,
+    remainingTime: (dateEnd.getTime() - dateStart.getTime()) / 1000,
+    percent: 0
+  })
+  updateLocalStorageData()
+  startTimer()
+}
+
+function updateRemainingTime() {
+  let countTimersRunning = 0
+  for (const timer of data.value) {
+    const remaining = timer.remainingTime
+    // is the current timer still running?
+    // upon reading from local storage, value is set to -1
+    if (remaining != 0) {
+      const now = new Date().getTime()
+      const target = timer.dateEnd.getTime()
+      const start = timer.dateStart.getTime()
+      if (now < target) {
+        countTimersRunning++
+        timer.remainingTime = (target - now) / 1000
+        timer.percent = (now - start) / (target - start)
+      } else {
+        timer.remainingTime = 0
+        timer.percent = 1
+        if (remaining != -1) playSoundTimerDone()
+      }
+    }
+  }
+  if (countTimersRunning == 0) {
+    stopTimer()
+  }
+  // sort data by remaining time
+  data.value.sort((a, b) => a.remainingTime - b.remainingTime)
+}
+
+function stopTimer() {
+  if (timerInterval !== null) {
+    window.clearInterval(timerInterval)
+    timerInterval = null
+  }
+}
+
+// create a timer, that updates the elapsed and remaining time periodically
+function startTimer() {
+  stopTimer()
+  const sleep: number = 1
+  updateRemainingTime()
+
+  timerInterval = window.setInterval(() => {
+    updateRemainingTime()
+  }, sleep * 1000)
+}
+
+function deleteAll() {
+  data.value = []
+  stopTimer()
+  updateLocalStorageData()
+}
+
+function deleteRow(index: number) {
+  data.value.splice(index, 1)
+  startTimer()
+  updateLocalStorageData()
+}
+
+function updateLocalStorageData() {
+  // only store the core data, not the derived data like speed
+  const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
+    name,
+    dateStart,
+    dateEnd
+  }))
+  localStorage.setItem('eta_vue_multitimer', JSON.stringify(dataReduced))
+}
+
+function readLocalStorageData() {
+  const stored = localStorage.getItem('eta_vue_multitimer')
+  data.value = []
+
+  if (stored === null) {
+    return
+  }
+
+  const obj = JSON.parse(stored)
+  const dataReduced: TimerType[] = obj.map(({ name, dateStart, dateEnd }: TimerType) => ({
+    name,
+    dateStart: new Date(dateStart),
+    dateEnd: new Date(dateEnd)
+  }))
+
+  const newDataValues: TimerType[] = []
+  const dataReducedLength = dataReduced.length // Cache the length
+  for (let i = 0; i < dataReducedLength; i++) {
+    const { name, dateStart, dateEnd } = dataReduced[i]
+
+    newDataValues.push({ name, dateStart, dateEnd, remainingTime: -1, percent: -1 })
+  }
+  data.value = newDataValues
+}
+</script>
