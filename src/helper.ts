@@ -1,3 +1,5 @@
+import type { DataRowRedType } from './types'
+
 export const helperDateToString = (datetime: Date, showDays: boolean = false): string => {
   const options: Intl.DateTimeFormatOptions = {
     hour12: undefined,
@@ -41,4 +43,13 @@ export const helperValueToString = (value: number): String => {
   } else {
     return value.toFixed(0)
   }
+}
+
+export const helperCalcSpeedFromPreviousRow = (
+  row: DataRowRedType,
+  prevRow: DataRowRedType
+): number => {
+  const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
+  const deltaItems = row.value - prevRow.value
+  return deltaItems / deltaT
 }
