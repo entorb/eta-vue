@@ -48,14 +48,14 @@ import { ref, computed, watch, onBeforeUnmount, onMounted } from 'vue'
 // onMounted, onBeforeUnmount
 import { helperDateToString, helperSecondsToString, helperValueToString } from './helper'
 import { helperLinReg } from './helperLinReg'
-import type { UnitType } from '../types'
+import type { UnitType, DataRowType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 // Not used any more, since I want to prevent hashed filenames and allow for caching on client side
 // import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
 const props = defineProps({
-  data: { type: Array<{ date: Date; value: number }>, required: true },
+  data: { type: Array<DataRowType>, required: true },
   settings: {
     type: Object,
     default: () => ({ showDays: false, unitSpeed: 'min' as UnitType }),

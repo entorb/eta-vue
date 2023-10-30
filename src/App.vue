@@ -48,7 +48,7 @@ import InputTargetValue from './components/InputTargetValue.vue'
 import DataTable from './components/DataTable.vue'
 import StatsTable from './components/StatsTable.vue'
 import ActionsBlock from './components/ActionsBlock.vue'
-import type { UnitType } from './types'
+import type { UnitType, DataRowType } from './types'
 
 // target:
 // undefined -> simple mode, no ETA
@@ -56,7 +56,8 @@ import type { UnitType } from './types'
 // = 0 -> count-down mode
 
 const target = ref<number | undefined>(undefined)
-const data = ref<Array<{ date: Date; value: number }>>([])
+// speed in items per sec
+const data = ref<Array<DataRowType>>([])
 const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
 
 onMounted(() => {
@@ -81,8 +82,14 @@ function setUnitOfSpeed(unit: string) {
 }
 
 function addRow(row: { date: Date; value: number }) {
-  // console.log('new row:', row)
-  data.value.push(row)
+  let speed = 0
+  if (data.value.length > 0) {
+    const prevRow = data.value[data.value.length - 1]
+    const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
+    const deltaItems = row.value - prevRow.value
+    speed = deltaItems / deltaT
+  }
+  data.value.push({ date: row.date, value: row.value, speed })
   decideIfToShowDays()
   updateLocalStorageData()
 }
@@ -145,9 +152,10 @@ function readLocalStorageData() {
   const stored = localStorage.getItem('eta_vue_data')
   if (stored !== null) {
     const obj = JSON.parse(stored)
-    data.value = obj.map((item: { date: string; value: number }) => ({
-      date: new Date(item.date),
-      value: item.value
+    data.value = obj.map((row: DataRowType) => ({
+      date: new Date(row.date),
+      value: row.value,
+      speed: row.speed
     }))
   }
 }
