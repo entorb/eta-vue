@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { helperValueToString } from './helper'
+import { helperValueToString } from '../helper'
 import type { UnitType } from '../types'
 
 const props = defineProps({

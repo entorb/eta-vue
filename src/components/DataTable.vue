@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import TooltipSpeed from './TooltipSpeed.vue'
-import { helperDateToString } from './helper'
+import { helperDateToString } from '../helper'
 import type { UnitType, DataRowType } from '../types'
 
 const props = defineProps({
