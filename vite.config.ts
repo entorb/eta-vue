@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
@@ -12,6 +13,14 @@ export default defineConfig({
   // error message "was blocked due to MIME type (“text/html”) mismatch"
   // (X-Content-Type-Options: nosniff)
   base: '/eta/',
+  build: {
+    rollupOptions: {
+      input: {
+        eta: resolve(__dirname, 'index.html'),
+        multitimer: resolve(__dirname, 'index2.html')
+      }
+    }
+  },
   preview: { port: 4173 },
   plugins: [
     vue({
