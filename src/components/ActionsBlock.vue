@@ -8,15 +8,15 @@
       :items="unitList"
     />
   </v-col>
-  <v-col cols="4" offset="2" md="2">
-    <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-1')" />
+  <v-col cols="4" offset="1" md="2">
+    <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-one')" />
   </v-col>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-const emits = defineEmits(['plus-1', 'unit'])
+const emits = defineEmits(['plus-one', 'unit'])
 
 const props = defineProps({
   unitInitial: { type: String, required: true }
