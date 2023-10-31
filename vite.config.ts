@@ -56,10 +56,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'ETA (Estimated Time of Arrival) and MultiTimer',
+        name: 'ETA (Estimated Time of Arrival) and Multi-Timer',
         short_name: 'ETA',
         description:
-          'ETA: Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied. MultiTimer: Set multiple countdown timers.',
+          'ETA: Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied. Multi-Timer: Set multiple countdown timers.',
         icons: [
           {
             src: 'icons/144.png',
