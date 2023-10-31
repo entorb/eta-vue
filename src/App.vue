@@ -1,11 +1,13 @@
 <template>
   <v-app>
+    <v-container>
+      <v-tabs v-model="tab" align-tabs="start">
+        <v-tab to="/eta/eta">ETA</v-tab>
+        <v-tab to="/eta/multitimer">Multi-Timer</v-tab>
+      </v-tabs>
+    </v-container>
     <v-main>
       <v-container fluid fill-height>
-        <v-tabs v-model="tab" align-tabs="start">
-          <v-tab to="/eta/eta">ETA</v-tab>
-          <v-tab to="/eta/multitimer">Multi-Timer</v-tab>
-        </v-tabs>
         <v-row>
           <v-col cols="12">
             <router-view />
@@ -13,9 +15,11 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer>
-      <FooterText />
-    </v-footer>
+    <v-container>
+      <v-footer>
+        <FooterText />
+      </v-footer>
+    </v-container>
   </v-app>
 </template>
 
