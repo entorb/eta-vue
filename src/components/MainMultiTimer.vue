@@ -4,7 +4,7 @@
       <v-col><h1>Multi-Timer</h1></v-col>
     </v-row>
     <v-row>
-      <v-col cols="8" md="3">
+      <v-col cols="7" md="3">
         <v-text-field
           id="input-name"
           v-model="inputName"
@@ -13,10 +13,10 @@
           variant="outlined"
         />
       </v-col>
-      <v-col cols="4" md="2">
+      <v-col cols="5" md="2">
         <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="6" md="3">
         <v-text-field
           id="input-value"
           v-model="inputTime"
@@ -57,7 +57,7 @@
               <td>{{ helperSecondsToString(row.remainingTime) }}</td>
               <td>
                 <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
-                  <strong>{{ (100 * row.percent).toFixed(1) }}%</strong>
+                  {{ (100 * row.percent).toFixed(1) }}%
                 </v-progress-linear>
               </td>
               <td :class="{ 'text-center': true }">

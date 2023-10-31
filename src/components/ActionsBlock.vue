@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="8" md="2">
+  <v-col cols="6" md="2">
     <v-select
       id="select-unit"
       v-model="unitSelected"
@@ -8,7 +8,7 @@
       :items="unitList"
     />
   </v-col>
-  <v-col cols="4" md="2">
+  <v-col cols="4" offset="2" md="2">
     <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-1')" />
   </v-col>
 </template>

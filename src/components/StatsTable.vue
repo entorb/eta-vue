@@ -38,13 +38,13 @@
       <tr v-if="target != undefined">
         <td>Percent (last)</td>
         <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
-          <strong>{{ (100 * percentOfTarget).toFixed(1) }}%</strong>
+          {{ (100 * percentOfTarget).toFixed(1) }}%
         </v-progress-linear>
       </tr>
       <tr v-if="target != undefined && percentOfTarget < 1">
         <td>Percent (est.)</td>
         <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
-          <strong>{{ (100 * percentOfTargetEstimated).toFixed(1) }}%</strong>
+          {{ (100 * percentOfTargetEstimated).toFixed(1) }}%
         </v-progress-linear>
       </tr>
     </tbody>
