@@ -1,6 +1,6 @@
 // LinReg on time series data
 export const helperLinReg = (
-  data: Array<{ date: Date; value: number }>,
+  data: Array<{ date: Date; items: number }>,
   weighted: boolean = false
 ): { slope: number; intercept: number } => {
   // handling of bad data -> return slope = 0
@@ -8,7 +8,7 @@ export const helperLinReg = (
   if (n <= 1) {
     return { slope: 0, intercept: 0 }
   }
-  const { seconds: X, value: Y } = calculateXAndY(data)
+  const { seconds: X, items: Y } = calculateXAndY(data)
   if (n == 2) {
     const dX = X[1] - X[0]
     const dY = Y[1] - Y[0]
@@ -26,13 +26,13 @@ export const helperLinReg = (
 
 // this converts Date to Timestamp in sec and subtracts the first timestamp from all others
 export const calculateXAndY = (
-  data: Array<{ date: Date; value: number }>
-): { seconds: number[]; value: number[] } => {
-  const Y = data.map(point => point.value)
+  data: Array<{ date: Date; items: number }>
+): { seconds: number[]; items: number[] } => {
+  const Y = data.map(point => point.items)
   const Xms = data.map(point => point.date.getTime()) // timestamp in ms
   const firstTimestamp = Xms[0]
   const X = Xms.map(timestamp => (timestamp - firstTimestamp) / 1000)
-  return { seconds: X, value: Y }
+  return { seconds: X, items: Y }
 }
 
 export const calculateLinearRegression = (

@@ -91,17 +91,17 @@ describe('addRow', () => {
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('1x addRow', () => {
     expect(wrapper.vm.data[0].date).toStrictEqual(new Date('2023-10-17T12:00:00'))
-    expect(wrapper.vm.data[0].value).toBe(100)
+    expect(wrapper.vm.data[0].items).toBe(100)
     expect(wrapper.vm.data[0].speed).toBe(0)
   })
 
   it('2x addRow -> speed', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:13'), value: 113 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:13'), items: 113 })
 
     expect(wrapper.vm.data[0].speed).toBe(0)
     expect(wrapper.vm.data[1].speed).toBe(1)
@@ -113,17 +113,17 @@ describe('decideIfToShowDays', () => {
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('<24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-17T16:00:00'), value: 113 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T16:00:00'), items: 113 })
 
     expect(wrapper.vm.settings.showDays).toBe(false)
   })
 
   it('>=24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-18T12:00:00'), value: 113 })
+    wrapper.vm.addRow({ date: new Date('2023-10-18T12:00:00'), items: 113 })
 
     expect(wrapper.vm.settings.showDays).toBe(true)
   })
@@ -134,7 +134,7 @@ describe('plus1', () => {
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), value: 100 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('target > 0', () => {
@@ -142,7 +142,7 @@ describe('plus1', () => {
     wrapper.vm.plus1()
 
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[1].value).toBe(101)
+    expect(wrapper.vm.data[1].items).toBe(101)
   })
 
   it('target undefined', () => {
@@ -150,7 +150,7 @@ describe('plus1', () => {
     wrapper.vm.plus1()
 
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[1].value).toBe(101)
+    expect(wrapper.vm.data[1].items).toBe(101)
   })
 
   it('target == 0', () => {
@@ -158,7 +158,7 @@ describe('plus1', () => {
     wrapper.vm.plus1()
 
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[1].value).toBe(99)
+    expect(wrapper.vm.data[1].items).toBe(99)
   })
 })
 
@@ -167,17 +167,17 @@ describe('deleteRow', () => {
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), value: 1 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), value: 2 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), value: 4 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
   })
 
   it('del row 0', () => {
     expect(wrapper.vm.data.length).toBe(3)
     wrapper.vm.deleteRow(0)
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[0].value).toBe(2)
-    expect(wrapper.vm.data[1].value).toBe(4)
+    expect(wrapper.vm.data[0].items).toBe(2)
+    expect(wrapper.vm.data[1].items).toBe(4)
     expect(wrapper.vm.data[1].speed).toBe(2)
   })
 
@@ -185,8 +185,8 @@ describe('deleteRow', () => {
     expect(wrapper.vm.data.length).toBe(3)
     wrapper.vm.deleteRow(1)
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[0].value).toBe(1)
-    expect(wrapper.vm.data[1].value).toBe(4)
+    expect(wrapper.vm.data[0].items).toBe(1)
+    expect(wrapper.vm.data[1].items).toBe(4)
     expect(wrapper.vm.data[1].speed).toBe(1.5)
   })
 
@@ -194,8 +194,8 @@ describe('deleteRow', () => {
     expect(wrapper.vm.data.length).toBe(3)
     wrapper.vm.deleteRow(2)
     expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[0].value).toBe(1)
-    expect(wrapper.vm.data[1].value).toBe(2)
+    expect(wrapper.vm.data[0].items).toBe(1)
+    expect(wrapper.vm.data[1].items).toBe(2)
     expect(wrapper.vm.data[1].speed).toBe(1)
   })
 })
@@ -211,18 +211,38 @@ describe('readLocalStorageData', () => {
     localStorage.setItem(
       'eta_vue_data',
       JSON.stringify([
-        { date: new Date('2023-10-17T12:00:01'), value: 1 },
-        { date: new Date('2023-10-17T12:00:02'), value: 2 },
-        { date: new Date('2023-10-17T12:00:03'), value: 4 }
+        { date: new Date('2023-10-17T12:00:01'), items: 1 },
+        { date: new Date('2023-10-17T12:00:02'), items: 2 },
+        { date: new Date('2023-10-17T12:00:03'), items: 4 }
       ])
     )
 
     wrapper.vm.readLocalStorageData()
     expect(wrapper.vm.data.length).toBe(3)
-    expect(wrapper.vm.data[0].value).toBe(1)
-    expect(wrapper.vm.data[1].value).toBe(2)
+    expect(wrapper.vm.data[0].items).toBe(1)
+    expect(wrapper.vm.data[1].items).toBe(2)
     expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].value).toBe(4)
+    expect(wrapper.vm.data[2].items).toBe(4)
     expect(wrapper.vm.data[2].speed).toBe(2)
+  })
+})
+
+describe('deleteAllData', () => {
+  let wrapper
+  beforeEach(() => {
+    wrapper = shallowMount(MainEta)
+    initializeWrapper(wrapper)
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+  })
+
+  it('del all', () => {
+    expect(wrapper.vm.data.length).toBe(3)
+    wrapper.vm.deleteAllData()
+    expect(wrapper.vm.data.length).toBe(0)
+    expect(wrapper.vm.target).toBe(undefined)
+    expect(localStorage.getItem('eta_vue_data')).toBe(null)
+    expect(localStorage.getItem('eta_vue_target')).toBe(null)
   })
 })
