@@ -50,16 +50,18 @@ export const helperCalcSpeedFromPreviousRow = (
   prevRow: DataRowRedType
 ): number => {
   const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
-  const deltaItems = row.value - prevRow.value
+  const deltaItems = row.items - prevRow.items
   return deltaItems / deltaT
 }
 
+/* c8 ignore next 6 */
 export const playSoundTimerDone = () => {
   // playSound(notificationSound)
   // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
   playSound('audio/481151__matrixxx__cow-bells-01.mp3')
 }
 
+/* c8 ignore next 4 */
 function playSound(url: string) {
   const audio = new Audio(url)
   audio.play()

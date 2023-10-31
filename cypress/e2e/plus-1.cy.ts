@@ -1,4 +1,4 @@
-import { getLocalStorageDataFistLastValue } from './helper-cy'
+import { getLocalStorageDataFistLastRowItems } from './helper-cy'
 
 describe('plus-1', () => {
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('plus-1', () => {
       .click()
       .should(() => {
         expect(localStorage.getItem('eta_vue_data')).not.to.be.null
-        const { last, first } = getLocalStorageDataFistLastValue()
+        const { last, first } = getLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(1)
       })
@@ -25,21 +25,21 @@ describe('plus-1', () => {
       .should(() => {
         expect(localStorage.getItem('eta_vue_target')).to.eq('10')
         expect(localStorage.getItem('eta_vue_data')).not.to.be.null
-        const { last, first } = getLocalStorageDataFistLastValue()
+        const { last, first } = getLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(1)
       })
   })
 
-  it('1 click on plus-1, target = 0, value = 123', () => {
+  it('1 click on plus-1, target = 0, items = 123', () => {
     cy.get('#input-target').type('0{enter}')
-    cy.get('#input-value').type('123{enter}')
+    cy.get('#input-items').type('123{enter}')
 
     cy.get('#btn-plus-1').click()
     cy.should(() => {
       expect(localStorage.getItem('eta_vue_target')).to.eq('0')
       expect(localStorage.getItem('eta_vue_data')).not.to.be.null
-      const { last, first } = getLocalStorageDataFistLastValue()
+      const { last, first } = getLocalStorageDataFistLastRowItems()
       expect(first).to.eq(123)
       expect(last).to.eq(122)
     })
@@ -51,7 +51,7 @@ describe('plus-1', () => {
     }
     cy.should(() => {
       expect(localStorage.getItem('eta_vue_data')).not.to.be.null
-      const { last, first } = getLocalStorageDataFistLastValue()
+      const { last, first } = getLocalStorageDataFistLastRowItems()
       expect(first).to.eq(1)
       expect(last).to.eq(10)
     })

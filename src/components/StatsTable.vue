@@ -29,11 +29,11 @@
       </tr>
       <tr>
         <td>Runtime</td>
-        <td>{{ secToString(timeSinceFirstValue) }}</td>
+        <td>{{ secToString(timeSinceFirstRow) }}</td>
       </tr>
       <tr>
         <td>Last input</td>
-        <td>{{ secToString(timeSinceLastValue) }}</td>
+        <td>{{ secToString(timeSinceLastRow) }}</td>
       </tr>
       <tr v-if="target != undefined">
         <td>Percent (last)</td>
@@ -101,16 +101,16 @@ const showETA = computed(() => props.target !== undefined && timeToETA.value > 0
 
 let firstDate = new Date(0)
 let lastDate = new Date(0)
-let firstValue = 0.0
-let lastValue = 0.0
+let firstItems = 0.0
+let lastItems = 0.0
 let itemsDone = 0
 
 // these are not computed, because only available if target is set
 const eta = ref(new Date(0))
 const percentOfTarget = ref(0.0)
 const percentOfTargetEstimated = ref(0.0)
-const timeSinceFirstValue = ref(0.0)
-const timeSinceLastValue = ref(0.0)
+const timeSinceFirstRow = ref(0.0)
+const timeSinceLastRow = ref(0.0)
 let targetReached = false
 const itemsTotal = ref(0)
 // these are updated by the updateTimer() function
@@ -144,8 +144,8 @@ function resetStats() {
   eta.value = new Date(0)
   firstDate = new Date(0)
   lastDate = new Date(0)
-  firstValue = 0.0
-  lastValue = 0.0
+  firstItems = 0.0
+  lastItems = 0.0
   itemsDone = 0
 }
 
@@ -155,10 +155,10 @@ function updateStats() {
     return
   }
   firstDate = props.data[0].date
-  firstValue = props.data[0].value
+  firstItems = props.data[0].items
   lastDate = props.data[props.data.length - 1].date
-  lastValue = props.data[props.data.length - 1].value
-  itemsDone = props.target != 0 ? lastValue : firstValue - lastValue
+  lastItems = props.data[props.data.length - 1].items
+  itemsDone = props.target != 0 ? lastItems : firstItems - lastItems
 
   if (props.data.length == 1) {
     eta.value = new Date(0)
@@ -172,21 +172,21 @@ function updateStats() {
   // calc eta
   // only for mode count-up and count-down the eta calc is possible
   if (props.target !== undefined) {
-    itemsTotal.value = props.target != 0 ? props.target : firstValue
+    itemsTotal.value = props.target != 0 ? props.target : firstItems
     percentOfTarget.value = itemsDone / itemsTotal.value
 
     if (itemsPerSec.value == 0 || itemsTotal.value <= itemsDone) {
       eta.value = new Date(0)
     } else {
-      let timeLastValueToETA = 0
+      let timeLastRowToETA = 0
       if (props.target != 0) {
         // mode count-up
-        timeLastValueToETA = (itemsTotal.value - itemsDone) / itemsPerSec.value
+        timeLastRowToETA = (itemsTotal.value - itemsDone) / itemsPerSec.value
       } else {
         // mode count-down has neg slope
-        timeLastValueToETA = (itemsTotal.value - itemsDone) / -itemsPerSec.value
+        timeLastRowToETA = (itemsTotal.value - itemsDone) / -itemsPerSec.value
       }
-      eta.value = new Date(lastDate.getTime() + timeLastValueToETA * 1000)
+      eta.value = new Date(lastDate.getTime() + timeLastRowToETA * 1000)
     }
   }
 
@@ -198,20 +198,20 @@ function updateTimes() {
   // periodically executed by interval timer
   if (props.data.length == 0) {
     nowTS = 0
-    timeSinceFirstValue.value = 0
-    timeSinceLastValue.value = 0
+    timeSinceFirstRow.value = 0
+    timeSinceLastRow.value = 0
     itemsEstimated.value = 0
     return
   }
   nowTS = new Date().getTime()
-  timeSinceFirstValue.value = Math.round((nowTS - firstDate.getTime()) / 1000)
-  timeSinceLastValue.value = (nowTS - lastDate.getTime()) / 1000
+  timeSinceFirstRow.value = Math.round((nowTS - firstDate.getTime()) / 1000)
+  timeSinceLastRow.value = (nowTS - lastDate.getTime()) / 1000
 
   // calc itemsEstimated
-  if (props.data.length == 1 || lastValue == 0) {
-    itemsEstimated.value = lastValue
+  if (props.data.length == 1 || lastItems == 0) {
+    itemsEstimated.value = lastItems
   } else {
-    itemsEstimated.value = lastValue + itemsPerSec.value * timeSinceLastValue.value
+    itemsEstimated.value = lastItems + itemsPerSec.value * timeSinceLastRow.value
   }
 
   // eta based calcs
@@ -226,11 +226,11 @@ function updateTimes() {
       // count-up
       if (props.target != 0) {
         percentOfTargetEstimated.value =
-          (itemsDone + itemsPerSec.value * timeSinceLastValue.value) / itemsTotal.value
+          (itemsDone + itemsPerSec.value * timeSinceLastRow.value) / itemsTotal.value
       } else {
         // count-down: itemsPerSec is negative!
         percentOfTargetEstimated.value =
-          (itemsDone - itemsPerSec.value * timeSinceLastValue.value) / itemsTotal.value
+          (itemsDone - itemsPerSec.value * timeSinceLastRow.value) / itemsTotal.value
       }
     } else {
       percentOfTargetEstimated.value = 1 // 100%
@@ -249,7 +249,7 @@ startTimer() {
   stopTimer()
   let sleep: number = 1
   // decide on the sleep time
-  if ((timeToETA.value == 0 || timeToETA.value > 15 * 60) && timeSinceFirstValue.value > 15 * 60) {
+  if ((timeToETA.value == 0 || timeToETA.value > 15 * 60) && timeSinceFirstRow.value > 15 * 60) {
     sleep = 30
   }
 

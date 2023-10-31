@@ -4,7 +4,7 @@
       <v-col><h1>ETA - Estimated Time of Arrival</h1></v-col>
     </v-row>
     <v-row>
-      <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
+      <InputItemsAndTarget :target="target" @set-target="setTarget" @add-row="addRow" />
       <ActionsBlock :unit-initial="settings.unitSpeed" @plus-1="plus1" @unit="setUnitOfSpeed" />
     </v-row>
     <v-row>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import InputTargetValue from './InputTargetValue.vue'
+import InputItemsAndTarget from './InputItemsAndTarget.vue'
 import DataTable from './DataTable.vue'
 import StatsTable from './StatsTable.vue'
 import ActionsBlock from './ActionsBlock.vue'
@@ -53,7 +53,7 @@ onMounted(() => {
 
 function setTarget(targetNew: number | undefined) {
   if (targetNew != undefined && targetNew < 0) {
-    console.log('invalid negative target:', targetNew)
+    // console.log('invalid negative target:', targetNew)
     return
   }
   target.value = targetNew
@@ -65,13 +65,13 @@ function setUnitOfSpeed(unit: string) {
 }
 
 function addRow(row: DataRowRedType) {
-  const { date, value } = row
+  const { date, items } = row
   let speed = 0
   if (data.value.length > 0) {
     const prevRow = data.value[data.value.length - 1]
-    speed = helperCalcSpeedFromPreviousRow({ date, value }, prevRow)
+    speed = helperCalcSpeedFromPreviousRow({ date, items }, prevRow)
   }
-  data.value.push({ date, value, speed })
+  data.value.push({ date, items, speed })
   decideIfToShowDays()
   updateLocalStorageData()
 }
@@ -88,15 +88,15 @@ function decideIfToShowDays() {
 
 function plus1() {
   const hasData = data.value.length > 0
-  const lastValue = hasData ? data.value[data.value.length - 1].value : 0
+  const lastItems = hasData ? data.value[data.value.length - 1].items : 0
 
   // count-down mode: exit if lastValue <= 0
-  if (target.value == 0 && lastValue <= 0) return
+  if (target.value == 0 && lastItems <= 0) return
 
   // count-down: -1, count-up & simple: +1
-  const value = target.value == 0 ? lastValue - 1 : lastValue + 1
+  const items = target.value == 0 ? lastItems - 1 : lastItems + 1
 
-  const newRow: DataRowRedType = { date: new Date(), value: value }
+  const newRow: DataRowRedType = { date: new Date(), items }
   addRow(newRow)
 }
 
@@ -143,19 +143,19 @@ function readLocalStorageData() {
   }
 
   const obj = JSON.parse(stored)
-  const dataReduced: DataRowRedType[] = obj.map(({ date, value }: DataRowRedType) => ({
+  const dataReduced: DataRowRedType[] = obj.map(({ date, items }: DataRowRedType) => ({
     date: new Date(date),
-    value
+    items
   }))
 
-  const newDataValues: DataRowType[] = []
+  const newData: DataRowType[] = []
   const dataReducedLength = dataReduced.length // Cache the length
   for (let i = 0; i < dataReducedLength; i++) {
-    const { date, value } = dataReduced[i]
-    const speed = i >= 1 ? helperCalcSpeedFromPreviousRow({ date, value }, newDataValues[i - 1]) : 0
-    newDataValues.push({ date, value, speed })
+    const { date, items } = dataReduced[i]
+    const speed = i >= 1 ? helperCalcSpeedFromPreviousRow({ date, items }, newData[i - 1]) : 0
+    newData.push({ date, items, speed })
   }
-  data.value = newDataValues
+  data.value = newData
 }
 
 function updateLocalStorageTarget() {
@@ -168,7 +168,7 @@ function updateLocalStorageTarget() {
 
 function updateLocalStorageData() {
   // only store the core data, not the derived data like speed
-  const dataReduced = data.value.map(({ date, value }: DataRowType) => ({ date, value }))
+  const dataReduced = data.value.map(({ date, items }: DataRowType) => ({ date, items }))
   localStorage.setItem('eta_vue_data', JSON.stringify(dataReduced))
 }
 </script>

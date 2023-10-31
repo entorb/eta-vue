@@ -15,7 +15,7 @@
     <tbody>
       <tr v-for="(row, index) in data" :key="generateRowKey(row)">
         <td>{{ dateToString(row.date) }}</td>
-        <td :class="{ 'text-right': true }">{{ row.value }}</td>
+        <td :class="{ 'text-right': true }">{{ row.items }}</td>
         <td :class="{ 'text-center': true }">
           <TooltipSpeed
             v-if="index >= 1"
@@ -55,6 +55,6 @@ function dateToString(datetime: Date): string {
 // Generates a unique key for a given data row.
 // Required to assure that changes in data.speed re-render the table
 function generateRowKey(row: DataRowType): string {
-  return `${row.date.getTime()}-${row.value}-${row.speed}`
+  return `${row.date.getTime()}-${row.items}-${row.speed}`
 }
 </script>

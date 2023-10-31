@@ -211,13 +211,13 @@ function readLocalStorageData() {
     dateEnd: new Date(dateEnd)
   }))
 
-  const newDataValues: TimerType[] = []
+  const newData: TimerType[] = []
   const dataReducedLength = dataReduced.length // Cache the length
   for (let i = 0; i < dataReducedLength; i++) {
     const { name, dateStart, dateEnd } = dataReduced[i]
 
-    newDataValues.push({ name, dateStart, dateEnd, remainingTime: -1, percent: -1 })
+    newData.push({ name, dateStart, dateEnd, remainingTime: -1, percent: -1 })
   }
-  data.value = newDataValues
+  data.value = newData
 }
 </script>
