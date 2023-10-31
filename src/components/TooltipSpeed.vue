@@ -38,7 +38,7 @@ const ipsInUnit = (unit: UnitType): string => {
 }
 
 watch(
-  () => props.unit,
+  () => [props.unit, props.ips],
   () => {
     speedInUnit.value = ipsInUnit(props.unit as UnitType)
   },
