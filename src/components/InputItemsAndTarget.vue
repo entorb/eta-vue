@@ -2,16 +2,16 @@
   <!-- not: v-model.number, as it removes "," from input-->
   <v-col cols="12" md="3">
     <v-text-field
-      id="input-value"
-      v-model="inputValue"
+      id="input-items"
+      v-model="inputItems"
       label="Current items"
       type="text"
       inputmode="decimal"
       variant="outlined"
       append-icon="$save"
-      @keyup.enter="enterValue"
-      @blur="enterValue"
-      @click:append="enterValue"
+      @keyup.enter="enterItems"
+      @blur="enterItems"
+      @click:append="enterItems"
     />
   </v-col>
   <v-col cols="12" md="3">
@@ -41,7 +41,7 @@ const props = defineProps({
 const emits = defineEmits(['set-target', 'add-row'])
 
 const inputTarget = ref('')
-const inputValue = ref('')
+const inputItems = ref('')
 
 const { target } = toRefs(props)
 watch(target, () => {
@@ -64,16 +64,16 @@ function enterTarget() {
   }
 }
 
-function enterValue() {
-  const value = parseFloat(inputValue.value.replace(',', '.'))
-  if (isNaN(value)) {
+function enterItems() {
+  const items = parseFloat(inputItems.value.replace(',', '.'))
+  if (isNaN(items)) {
     return
   }
   const date = new Date()
-  const newRow: DataRowRedType = { date: date, value: value }
+  const newRow: DataRowRedType = { date: date, items: items }
   // Emit an event to add the row to the data
   emits('add-row', newRow)
-  inputValue.value = ''
+  inputItems.value = ''
 }
 
 function updateInputFieldFromTarget() {
