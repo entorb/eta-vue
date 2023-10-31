@@ -59,9 +59,9 @@ describe('helperValueToString', () => {
 })
 
 describe('helperCalcSpeedFromPreviousRow', () => {
-  it('various values', () => {
-    const prevRow = { date: new Date('2023-01-01 01:01:01'), value: 10 }
-    const row = { date: new Date('2023-01-01 01:02:01'), value: 130 }
+  it('120 in 1min', () => {
+    const prevRow = { date: new Date('2023-01-01 01:01:01'), items: 10 }
+    const row = { date: new Date('2023-01-01 01:02:01'), items: 130 }
     expect(helperCalcSpeedFromPreviousRow(row, prevRow)).toBe(2.0)
   })
 })

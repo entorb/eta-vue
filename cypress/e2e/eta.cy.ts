@@ -1,4 +1,4 @@
-import { getLocalStorageDataFistLastValue } from './helper-cy'
+import { getLocalStorageDataFistLastRowItems } from './helper-cy'
 
 describe('start app', () => {
   beforeEach(() => {
@@ -6,9 +6,9 @@ describe('start app', () => {
   })
 
   it('passes', () => {
-    cy.get('#input-value').type('1')
+    cy.get('#input-items').type('1')
     cy.get('#input-target').type('10{enter}')
-    cy.get('#input-value').type('2{enter}')
+    cy.get('#input-items').type('2{enter}')
     cy.get('#btn-plus-1').click()
   })
 })
@@ -39,10 +39,10 @@ describe('set items', () => {
 
   it('add 1 item', () => {
     // eslint-disable-next-line cypress/unsafe-to-chain-command
-    cy.get('#input-value')
+    cy.get('#input-items')
       .type('1{enter}')
       .should(() => {
-        const { first, last } = getLocalStorageDataFistLastValue()
+        const { first, last } = getLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(1)
       })
@@ -50,12 +50,12 @@ describe('set items', () => {
 
   it('add 3 items', () => {
     // eslint-disable-next-line cypress/unsafe-to-chain-command
-    cy.get('#input-value')
+    cy.get('#input-items')
       .type('1{enter}')
       .type('2{enter}')
       .type('3{enter}')
       .should(() => {
-        const { first, last } = getLocalStorageDataFistLastValue()
+        const { first, last } = getLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(3)
       })
