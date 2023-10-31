@@ -1,37 +1,33 @@
 <template>
-  <v-container class="align-start">
-    <v-row>
-      <v-col>
-        <!-- not: v-model.number, as it removes "," from input-->
-        <!-- append-inner-icon="$save" -->
-        <!-- @click:append-inner="enterTarget" -->
-        <v-text-field
-          id="input-value"
-          v-model="inputValue"
-          label="Current items"
-          type="text"
-          inputmode="decimal"
-          variant="outlined"
-          @keyup.enter="enterValue"
-          @blur="enterValue"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-text-field
-          id="input-target"
-          v-model="inputTarget"
-          label="Target"
-          type="text"
-          inputmode="decimal"
-          variant="outlined"
-          @keyup.enter="enterTarget"
-          @blur="enterTarget"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+  <!-- not: v-model.number, as it removes "," from input-->
+  <v-col cols="12" md="3">
+    <v-text-field
+      id="input-value"
+      v-model="inputValue"
+      label="Current items"
+      type="text"
+      inputmode="decimal"
+      variant="outlined"
+      append-icon="$save"
+      @keyup.enter="enterValue"
+      @blur="enterValue"
+      @click:append="enterValue"
+    />
+  </v-col>
+  <v-col cols="12" md="3">
+    <v-text-field
+      id="input-target"
+      v-model="inputTarget"
+      label="Target"
+      type="text"
+      inputmode="decimal"
+      variant="outlined"
+      append-icon="$save"
+      @keyup.enter="enterTarget"
+      @blur="enterTarget"
+      @click:append="enterTarget"
+    />
+  </v-col>
 </template>
 
 <script setup lang="ts">
