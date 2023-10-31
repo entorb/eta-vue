@@ -7,13 +7,13 @@
             <MainEta />
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <FooterText />
-          </v-col>
-        </v-row>
       </v-container>
     </v-main>
+    <v-container>
+      <v-footer>
+        <FooterText />
+      </v-footer>
+    </v-container>
   </v-app>
 </template>
 
