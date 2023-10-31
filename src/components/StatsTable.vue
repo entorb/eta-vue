@@ -2,42 +2,46 @@
   <v-table v-if="data.length >= 2" density="compact" class="align-start">
     <tbody>
       <tr>
-        <th>Total speed</th>
+        <td>Total speed</td>
         <td v-if="itemsPerSec !== 0.0">
           <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>
         </td>
       </tr>
       <tr>
-        <th>Items (est.)</th>
+        <td>Items (est.)</td>
         <td>{{ valueToString(itemsEstimated) }}</td>
       </tr>
       <tr v-if="showETA">
-        <th>ETA</th>
+        <td>ETA</td>
         <td>{{ dateToString(eta) }}</td>
       </tr>
       <tr v-if="showETA">
-        <th>Time to go</th>
+        <td>Time to go</td>
         <td>{{ secToString(timeToETA) }}</td>
       </tr>
       <tr>
-        <th>Start</th>
+        <td>Start</td>
         <td>{{ dateToString(firstDate) }}</td>
       </tr>
       <tr>
-        <th>Runtime</th>
+        <td>Runtime</td>
         <td>{{ secToString(timeSinceFirstValue) }}</td>
       </tr>
       <tr>
-        <th>Last input</th>
+        <td>Last input</td>
         <td>{{ secToString(timeSinceLastValue) }}</td>
       </tr>
       <tr v-if="target != undefined">
-        <th>Percent</th>
-        <td>{{ (100 * percentOfTarget).toFixed(1) }}%</td>
+        <td>Percent (last)</td>
+        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
+          <strong>{{ (100 * percentOfTarget).toFixed(1) }}%</strong>
+        </v-progress-linear>
       </tr>
       <tr v-if="target != undefined && percentOfTarget < 1">
-        <th>Percent (est.)</th>
-        <td>{{ (100 * percentOfTargetEstimated).toFixed(1) }}%</td>
+        <td>Percent (est.)</td>
+        <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
+          <strong>{{ (100 * percentOfTargetEstimated).toFixed(1) }}%</strong>
+        </v-progress-linear>
       </tr>
     </tbody>
   </v-table>
