@@ -13,11 +13,15 @@
       </tr>
       <tr v-if="showETA">
         <td>ETA</td>
-        <td>{{ dateToString(eta) }}</td>
+        <td>
+          <strong>{{ dateToString(eta) }}</strong>
+        </td>
       </tr>
       <tr v-if="showETA">
         <td>Time to go</td>
-        <td>{{ secToString(timeToETA) }}</td>
+        <td>
+          <strong>{{ secToString(timeToETA) }}</strong>
+        </td>
       </tr>
       <tr>
         <td>Start</td>
@@ -48,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount, onMounted } from 'vue'
+import { ref, computed, watch, onBeforeUnmount, onMounted, toRefs } from 'vue'
 // onMounted, onBeforeUnmount
 import {
   helperDateToString,
@@ -73,10 +77,16 @@ const props = defineProps({
   target: { type: Number, default: undefined as number | undefined }
 })
 
-const dataRef = ref(props.data)
-const targetRef = ref(props.target)
+const { target } = toRefs(props)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+watch(target, (_newTarget, _oldTarget) => {
+  targetReached = false
+  updateStats()
+})
+
 watch(
-  [dataRef, targetRef],
+  props.data,
   () => {
     if (props.data.length == 0) {
       resetStats()

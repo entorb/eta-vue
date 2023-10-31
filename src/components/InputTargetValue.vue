@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import type { DataRowRedType } from '../types'
 
 const props = defineProps({
@@ -43,9 +43,8 @@ const emits = defineEmits(['set-target', 'add-row'])
 const inputTarget = ref('')
 const inputValue = ref('')
 
-const targetRef = ref(props.target)
-
-watch(targetRef, () => {
+const { target } = toRefs(props)
+watch(target, () => {
   updateInputFieldFromTarget()
 })
 
