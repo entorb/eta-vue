@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col><h1>MultiTimer</h1></v-col>
+      <v-col><h1>Multi-Timer</h1></v-col>
     </v-row>
     <v-row>
       <v-col cols="6" md="6">
