@@ -1,22 +1,16 @@
 <template>
-  <v-container class="align-start">
-    <v-row>
-      <v-col>
-        <v-select
-          id="select-unit"
-          v-model="unitSelected"
-          label="Unit"
-          variant="outlined"
-          :items="unitList"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-1')" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-col cols="8" md="2">
+    <v-select
+      id="select-unit"
+      v-model="unitSelected"
+      label="Unit"
+      variant="outlined"
+      :items="unitList"
+    />
+  </v-col>
+  <v-col cols="4" md="2">
+    <v-btn id="btn-plus-1" icon="$plus1" @click="$emit('plus-1')" />
+  </v-col>
 </template>
 
 <script setup lang="ts">
