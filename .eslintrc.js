@@ -18,7 +18,7 @@ module.exports = {
     'require-jsdoc': 'off',
     'padding-line-between-statements': [
       'error',
-      { blankLine: 'always', prev: '*', next: 'function' }
+      { blankLine: 'always', prev: '*', next: ['function'] }
     ]
   }
 }
