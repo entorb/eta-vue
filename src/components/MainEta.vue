@@ -5,7 +5,7 @@
     </v-row>
     <v-row>
       <InputItemsAndTarget :target="target" @set-target="setTarget" @add-row="addRow" />
-      <ActionsBlock :unit-initial="settings.unitSpeed" @plus-1="plus1" @unit="setUnitOfSpeed" />
+      <ActionsBlock :unit-initial="settings.unitSpeed" @plus-one="plus1" @unit="setUnitOfSpeed" />
     </v-row>
     <v-row>
       <v-col v-if="data.length >= 2" cols="12" md="6">
