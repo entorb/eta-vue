@@ -4,17 +4,19 @@
       <v-col><h1>Multi-Timer</h1></v-col>
     </v-row>
     <v-row>
-      <v-col cols="6" md="6">
+      <v-col cols="8" md="3">
         <v-text-field
           id="input-name"
           v-model="inputName"
           label="Name of Timer"
           type="text"
-          inputmode="decimal"
           variant="outlined"
         />
       </v-col>
-      <v-col cols="6" md="6">
+      <v-col cols="4" md="2">
+        <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
+      </v-col>
+      <v-col cols="12" md="3">
         <v-text-field
           id="input-value"
           v-model="inputTime"
@@ -22,18 +24,14 @@
           type="text"
           inputmode="decimal"
           variant="outlined"
+          append-icon="$save"
+          @click:append="enterTime"
           @keyup.enter="enterTime"
         />
       </v-col>
-      <v-col cols="6" md="6">
-        <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
-      </v-col>
-      <v-col cols="6" md="6">
-        <v-btn icon="$plus" @click="enterTime"></v-btn>
-      </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="12">
+      <v-col cols="12">
         <v-table
           v-if="data.length >= 1"
           ref="tableRef"
@@ -155,7 +153,7 @@ function updateRemainingTime() {
     stopTimer()
   }
   // sort data by remaining time
-  data.value.sort((a, b) => a.remainingTime - b.remainingTime)
+  data.value.sort((a, b) => a.dateEnd.getTime() - b.dateEnd.getTime())
 }
 
 function stopTimer() {

@@ -4,18 +4,14 @@
       <v-col><h1>ETA - Estimated Time of Arrival</h1></v-col>
     </v-row>
     <v-row>
-      <v-col cols="6" md="6">
-        <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
-      </v-col>
-      <v-col cols="3" md="6">
-        <ActionsBlock :unit-initial="settings.unitSpeed" @plus-1="plus1" @unit="setUnitOfSpeed"
-      /></v-col>
+      <InputTargetValue :target="target" @set-target="setTarget" @add-row="addRow" />
+      <ActionsBlock :unit-initial="settings.unitSpeed" @plus-1="plus1" @unit="setUnitOfSpeed" />
     </v-row>
     <v-row>
-      <v-col v-if="data.length >= 2" cols="6" md="12">
+      <v-col v-if="data.length >= 2" cols="12" md="6">
         <StatsTable :data="data" :settings="settings" :target="target" />
       </v-col>
-      <v-col v-if="data.length >= 1" cols="6" md="12">
+      <v-col v-if="data.length >= 1" cols="12" md="6">
         <DataTable
           :data="data"
           :settings="settings"
