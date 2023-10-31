@@ -62,11 +62,13 @@ export default defineConfig({
           'ETA: Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied. Multi-Timer: Set multiple countdown timers.',
         icons: [
           {
-            src: 'icons/144.png',
-            sizes: '144x144',
+            src: 'icons/apple-touch-icon.png',
+            sizes: '180x180',
             type: 'image/png',
             purpose: 'any maskable'
-          }
+          },
+          { src: 'icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
         ]
       }
     })
