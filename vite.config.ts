@@ -4,7 +4,10 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import ViteFonts from 'unplugin-fonts/vite'
+// locally hosting roboto font, instead of pointing to google
+import Unfonts from 'unplugin-fonts/vite'
+// import ViteFonts from 'unplugin-fonts/vite'
+
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
@@ -31,24 +34,32 @@ export default defineConfig({
     vuetify({
       autoImport: true
     }),
-    // eslint-disable-next-line new-cap
-    ViteFonts({
-      google: {
-        families: [
-          {
-            name: 'Roboto',
-            styles: 'wght@100;300;400;500;700;900'
-          }
-        ]
+    Unfonts({
+      fontsource: {
+        families: ['Roboto'],
+        name: 'Roboto',
+        weights: [400, 700],
+        styles: ['italic', 'normal']
       }
     }),
+    // eslint-disable-next-line new-cap
+    // ViteFonts({
+    //   google: {
+    //     families: [
+    //       {
+    //         name: 'Roboto',
+    //         styles: 'wght@100;300;400;500;700;900'
+    //       }
+    //     ]
+    //   }
+    // }),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'ETA - Estimated Time of Arrival',
+        name: 'ETA (Estimated Time of Arrival) and MultiTimer',
         short_name: 'ETA',
         description:
-          'Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied.',
+          'ETA: Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied. MultiTimer: Set multiple countdown timers.',
         icons: [
           {
             src: 'icons/144.png',
