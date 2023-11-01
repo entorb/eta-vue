@@ -92,7 +92,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { helperSecondsToString, helperDateToString, playSoundTimerDone } from '../helper'
+import {
+  helperSecondsToString,
+  helperDateToString,
+  playSoundTimerDone,
+  helperClearName
+} from '../helper'
 
 const inputName = ref('')
 const inputTime = ref('')
@@ -119,17 +124,13 @@ onMounted(() => {
   startTimer()
 })
 
-function clearName(name: string) {
-  return name.replace(/[:"'{}[]()]/g, '').trim()
-}
-
 function addViaInput() {
   const time = parseFloat(inputTime.value.replace(',', '.'))
   if (isNaN(time)) {
     inputTime.value = ''
     return
   }
-  const cleanName = clearName(inputName.value)
+  const cleanName = helperClearName(inputName.value)
   const name = cleanName === '' ? 'Timer' : cleanName
   const unit = unitSelected.value
   inputTime.value = ''
@@ -233,8 +234,8 @@ function updateLocalStorageData() {
 }
 
 function readLocalStorageData() {
-  const stored = localStorage.getItem('eta_vue_mt_data')
   data.value = []
+  const stored = localStorage.getItem('eta_vue_mt_data')
 
   if (stored === null) {
     return
@@ -258,13 +259,11 @@ function readLocalStorageData() {
 }
 
 function readLocalStorageRecentTimers() {
-  const stored = localStorage.getItem('eta_vue_mt_recent')
   recentTimerNames.value = []
-
+  const stored = localStorage.getItem('eta_vue_mt_recent')
   if (stored === null) {
     return
   }
-
   const obj = JSON.parse(stored)
   for (const title of obj) {
     recentTimerNames.value.push(title)
@@ -272,9 +271,7 @@ function readLocalStorageRecentTimers() {
 }
 
 function genRecentTimerName(name: string, time: number, unit: string): string {
-  // ensures no : etc. in title
-  const nameClean = clearName(name)
-  return nameClean + ':' + time.toString() + unit.charAt(0)
+  return helperClearName(name) + ':' + time.toString() + unit.charAt(0)
 }
 
 function parseRecentTimerName(title: string): { name: string; time: number; unit: string } {

@@ -3,7 +3,8 @@ import {
   helperDateToString,
   helperSecondsToString,
   helperValueToString,
-  helperCalcSpeedFromPreviousRow
+  helperCalcSpeedFromPreviousRow,
+  helperClearName
 } from '../helper'
 
 describe('helperDateToString', () => {
@@ -63,5 +64,31 @@ describe('helperCalcSpeedFromPreviousRow', () => {
     const prevRow = { date: new Date('2023-01-01 01:01:01'), items: 10 }
     const row = { date: new Date('2023-01-01 01:02:01'), items: 130 }
     expect(helperCalcSpeedFromPreviousRow(row, prevRow)).toBe(2.0)
+  })
+})
+
+describe('helperClearName', () => {
+  it('120 in 1min', () => {
+    const prevRow = { date: new Date('2023-01-01 01:01:01'), items: 10 }
+    const row = { date: new Date('2023-01-01 01:02:01'), items: 130 }
+    expect(helperCalcSpeedFromPreviousRow(row, prevRow)).toBe(2.0)
+  })
+})
+
+describe('clearName', () => {
+  it('spaces', () => {
+    expect(helperClearName(' abc ')).toBe('abc')
+  })
+  it(':', () => {
+    expect(helperClearName('a:b::c')).toBe('abc')
+  })
+  it('slashes', () => {
+    expect(helperClearName('a/b|c\\d')).toBe('abcd')
+  })
+  it('quotations', () => {
+    expect(helperClearName('abcd')).toBe('abcd')
+  })
+  it('brackets', () => {
+    expect(helperClearName('a()b[]c{}d')).toBe('abcd')
   })
 })
