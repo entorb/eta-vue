@@ -66,3 +66,13 @@ function playSound(url: string) {
   const audio = new Audio(url)
   audio.play()
 }
+
+// for multi-timer recent timers
+export const helperClearName = (name: string): string => {
+  return name
+    .replace('/', '')
+    .replace('|', '')
+    .replace('\\', '')
+    .replace(/[:"'{}[\]()]+/g, '')
+    .trim()
+}
