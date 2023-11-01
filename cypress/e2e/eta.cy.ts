@@ -7,6 +7,8 @@ describe('start app', () => {
 
   it('passes', () => {
     cy.get('#input-items').type('1')
+    cy.get('#select-mode').parent().click()
+    cy.get('.v-list > :nth-child(2)').click()
     cy.get('#input-target').type('10{enter}')
     cy.get('#input-items').type('2{enter}')
     cy.get('#btn-plus-1').click()
@@ -16,6 +18,8 @@ describe('start app', () => {
 describe('set target', () => {
   beforeEach(() => {
     cy.visit('eta/')
+    cy.get('#select-mode').parent().click()
+    cy.get('.v-list > :nth-child(2)').click()
   })
 
   it('sets target=10 to local storage', () => {
