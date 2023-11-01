@@ -24,7 +24,7 @@ describe('Tests Multi-Timer', () => {
     // delete 1 timer button
     cy.get('tbody > :nth-child(1) > .text-center > .v-btn').click()
     cy.should(() => {
-      expect(localStorage.getItem('eta_vue_multitimer')).to.be.null
+      expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
   })
 
@@ -64,7 +64,7 @@ describe('Tests Multi-Timer', () => {
 
     cy.get('#btn-deleteAll').click()
     cy.should(() => {
-      expect(localStorage.getItem('eta_vue_multitimer')).to.be.null
+      expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
   })
 })
