@@ -5,16 +5,16 @@ import MainEta from '../MainEta.vue'
 function initializeWrapper(wrapper) {
   localStorage.clear()
   wrapper.vm.data = []
+  wrapper.vm.target = undefined
   wrapper.vm.settings = {}
 }
 
-describe('App', () => {
+describe('Component renders', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     initializeWrapper(wrapper)
   })
-
   it('renders', () => {
     expect(wrapper.exists()).toBe(true)
   })
