@@ -18,6 +18,8 @@ describe('plus-1', () => {
   })
 
   it('1 click on plus-1, target = 10', () => {
+    cy.get('#select-mode').parent().click()
+    cy.get('.v-list > :nth-child(2)').click()
     cy.get('#input-target').type('10{enter}')
     // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#btn-plus-1')
@@ -32,6 +34,8 @@ describe('plus-1', () => {
   })
 
   it('1 click on plus-1, target = 0, items = 123', () => {
+    cy.get('#select-mode').parent().click()
+    cy.get('.v-list > :nth-child(2)').click()
     cy.get('#input-target').type('0{enter}')
     cy.get('#input-items').type('123{enter}')
 

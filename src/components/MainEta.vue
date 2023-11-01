@@ -1,9 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-col><h1>ETA - Estimated Time of Arrival</h1></v-col>
-    </v-row>
-    <v-row>
       <InputItemsAndTarget :target="target" @set-target="setTarget" @add-row="addRow" />
       <ActionsBlock :unit-initial="settings.unitSpeed" @plus-one="plus1" @unit="setUnitOfSpeed" />
     </v-row>
