@@ -17,6 +17,7 @@ import { mdiNumericPositive1 } from '@mdi/js'
 // import { mdiContentSave } from '@mdi/js'
 // import { mdiPlus } from '@mdi/js'
 import { mdiCheckCircle } from '@mdi/js'
+// import { mdiArrowUp, mdiArrowDown, mdiArrowUpDown } from '@mdi/js'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -39,6 +40,9 @@ export default createVuetify({
       ...aliases,
       trashCan: mdiTrashCan,
       save: mdiCheckCircle,
+      // arrowUp: mdiArrowUp,
+      // arrowDown: mdiArrowDown,
+      // arrowUpDown: mdiArrowUpDown,
       plus1: mdiNumericPositive1
     }
   }
