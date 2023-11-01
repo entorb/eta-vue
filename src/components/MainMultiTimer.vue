@@ -1,9 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-col><h1>Multi-Timer</h1></v-col>
-    </v-row>
-    <v-row>
       <v-col cols="7" md="3">
         <v-text-field
           id="input-name"
@@ -55,8 +52,8 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>End</th>
-              <th>Remaining</th>
+              <th v-if="!isMobile">End</th>
+              <th>Time</th>
               <th>Percent</th>
               <th :class="{ 'text-center': true }">
                 <v-btn
@@ -72,9 +69,10 @@
           <tbody>
             <tr v-for="(row, index) in data" :key="row.name">
               <td>{{ row.name }}</td>
-              <td>{{ helperDateToString(row.dateEnd, showDays) }}</td>
+              <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
               <td>{{ helperSecondsToString(row.remainingTime) }}</td>
               <td>
+                <!-- reverse -->
                 <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
                   {{ (100 * row.percent).toFixed(1) }}%
                 </v-progress-linear>
@@ -108,6 +106,8 @@ const showDays = ref(false)
 const data = ref<Array<TimerType>>([])
 const recentTimerNames = ref<Array<string>>([])
 
+const isMobile = ref(false)
+
 export interface TimerType {
   name: string
   dateStart: Date
@@ -122,6 +122,9 @@ onMounted(() => {
   readLocalStorageData()
   readLocalStorageRecentTimers()
   startTimer()
+
+  const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
+  isMobile.value = mobileMediaQuery.matches // Initial check
 })
 
 function addViaInput() {
