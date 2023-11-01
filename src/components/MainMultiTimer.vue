@@ -18,15 +18,15 @@
       </v-col>
       <v-col cols="6" md="3">
         <v-text-field
-          id="input-value"
+          id="input-time"
           v-model="inputTime"
           label="Time"
           type="text"
           inputmode="decimal"
           variant="outlined"
           append-icon="$save"
-          @click:append="enterTime"
-          @keyup.enter="enterTime"
+          @click:append="add"
+          @keyup.enter="add"
         />
       </v-col>
     </v-row>
@@ -46,7 +46,13 @@
               <th>Remaining</th>
               <th>Percent</th>
               <th :class="{ 'text-center': true }">
-                <v-btn icon="$trashCan" icon-color="red" flat @click="deleteAll" />
+                <v-btn
+                  id="btn-deleteAll"
+                  icon="$trashCan"
+                  icon-color="red"
+                  flat
+                  @click="deleteAll"
+                />
               </th>
             </tr>
           </thead>
@@ -98,7 +104,7 @@ onMounted(() => {
   startTimer()
 })
 
-function enterTime() {
+function add() {
   const time = parseFloat(inputTime.value.replace(',', '.'))
   if (isNaN(time)) {
     inputTime.value = ''
@@ -117,6 +123,8 @@ function enterTime() {
   const dateStart = new Date()
   const dateEnd = new Date(new Date().getTime() + time * 1000 * factor)
   inputTime.value = ''
+  inputName.value = ''
+
   data.value.push({
     name,
     dateStart,
@@ -124,6 +132,7 @@ function enterTime() {
     remainingTime: (dateEnd.getTime() - dateStart.getTime()) / 1000,
     percent: 0
   })
+
   updateLocalStorageData()
   startTimer()
 }
@@ -177,7 +186,7 @@ function startTimer() {
 function deleteAll() {
   data.value = []
   stopTimer()
-  updateLocalStorageData()
+  localStorage.removeItem('eta_vue_multitimer')
 }
 
 function deleteRow(index: number) {
@@ -187,13 +196,17 @@ function deleteRow(index: number) {
 }
 
 function updateLocalStorageData() {
-  // only store the core data, not the derived data like speed
-  const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
-    name,
-    dateStart,
-    dateEnd
-  }))
-  localStorage.setItem('eta_vue_multitimer', JSON.stringify(dataReduced))
+  if (data.value.length == 0) {
+    localStorage.removeItem('eta_vue_multitimer')
+  } else {
+    // only store the core data, not the derived data like speed
+    const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
+      name,
+      dateStart,
+      dateEnd
+    }))
+    localStorage.setItem('eta_vue_multitimer', JSON.stringify(dataReduced))
+  }
 }
 
 function readLocalStorageData() {

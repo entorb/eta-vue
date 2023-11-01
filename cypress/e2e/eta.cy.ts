@@ -1,4 +1,4 @@
-import { getLocalStorageDataFistLastRowItems } from './helper-cy'
+import { getEtaLocalStorageDataFistLastRowItems } from './helper-cy'
 
 describe('start app', () => {
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('set items', () => {
     cy.get('#input-items')
       .type('1{enter}')
       .should(() => {
-        const { first, last } = getLocalStorageDataFistLastRowItems()
+        const { first, last } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(1)
       })
@@ -55,7 +55,7 @@ describe('set items', () => {
       .type('2{enter}')
       .type('3{enter}')
       .should(() => {
-        const { first, last } = getLocalStorageDataFistLastRowItems()
+        const { first, last } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
         expect(last).to.eq(3)
       })
