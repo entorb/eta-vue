@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainEta from '@/components/MainEta.vue'
 import MainMultiTimer from '@/components/MainMultiTimer.vue'
+import MainInfo from '@/components/MainInfo.vue'
 
 export default createRouter({
   history: createWebHistory(),
@@ -16,6 +17,10 @@ export default createRouter({
     {
       path: '/eta/multitimer',
       component: MainMultiTimer
+    },
+    {
+      path: '/eta/info',
+      component: MainInfo
     },
     { path: '/:pathMatch(.*)', component: MainEta }
   ]
