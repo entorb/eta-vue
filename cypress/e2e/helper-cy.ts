@@ -11,7 +11,7 @@ export const getEtaLocalStorageDataFistLastRowItems = () => {
 }
 
 export const getMTLocalStorageDataFistLastRowItems = () => {
-  const stored = localStorage.getItem('eta_vue_multitimer')
+  const stored = localStorage.getItem('eta_vue_mt_data')
   const obj = JSON.parse(stored as string)
   const data = obj.map((row: { name: string; dateEnd: string }) => ({
     name: row.name,
