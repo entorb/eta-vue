@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="5" md="2">
+  <v-col cols="6" md="2">
     <v-select
       id="select-mode"
       v-model="selectedMode"
@@ -27,7 +27,7 @@
     <!-- append-icon="$save" @click:append="enterTarget" -->
   </v-col>
   <!-- label="Current items" -->
-  <v-col cols="7" md="3">
+  <v-col cols="6" md="3">
     <v-text-field
       id="input-items"
       v-model="inputItems"

@@ -1,6 +1,9 @@
 <template>
-  <v-card v-if="data.length >= 2 && showETA && !targetReached" width="250px">
-    <v-card-title class="text-h6 text-md-h5 text-lg-h4"
+  <!-- color="indigo" -->
+  <!-- width="250px"  -->
+  <v-card v-if="data.length >= 2 && showETA && !targetReached" variant="outlined">
+    <!-- class="text-h6 text-md-h5 text-lg-h4" -->
+    <v-card-title class="text-center"
       ><strong>{{ secToString(timeToETA) }}</strong></v-card-title
     >
   </v-card>
@@ -35,23 +38,23 @@
           {{ (100 * percentOfTargetEstimated).toFixed(1) }}%
         </v-progress-linear>
       </tr>
+      <tr v-if="target != undefined">
+        <td>Percent (last)</td>
+        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
+          {{ (100 * percentOfTarget).toFixed(1) }}%
+        </v-progress-linear>
+      </tr>
       <tr>
-        <td>Start</td>
-        <td>{{ dateToString(firstDate) }}</td>
+        <td>Last input</td>
+        <td>{{ secToString(timeSinceLastRow) }}</td>
       </tr>
       <tr>
         <td>Runtime</td>
         <td>{{ secToString(timeSinceFirstRow) }}</td>
       </tr>
       <tr>
-        <td>Last input</td>
-        <td>{{ secToString(timeSinceLastRow) }}</td>
-      </tr>
-      <tr v-if="target != undefined">
-        <td>Percent (last)</td>
-        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
-          {{ (100 * percentOfTarget).toFixed(1) }}%
-        </v-progress-linear>
+        <td>Start</td>
+        <td>{{ dateToString(firstDate) }}</td>
       </tr>
     </tbody>
   </v-table>
