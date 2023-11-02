@@ -5,10 +5,10 @@
       <ActionsBlock :unit-initial="settings.unitSpeed" @plus-one="plus1" @unit="setUnitOfSpeed" />
     </v-row>
     <v-row>
-      <v-col v-if="data.length >= 2" cols="12" md="6">
+      <v-col v-if="data.length >= 2" cols="12" md="3">
         <StatsTable :data="data" :settings="settings" :target="target" />
       </v-col>
-      <v-col v-if="data.length >= 1" cols="12" md="6">
+      <v-col v-if="data.length >= 1" cols="12" md="4">
         <DataTable
           :data="data"
           :settings="settings"
