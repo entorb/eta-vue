@@ -1,12 +1,18 @@
 <template>
+  <v-card v-if="data.length >= 2 && showETA && !targetReached" width="250px">
+    <v-card-title class="text-h6 text-md-h5 text-lg-h4"
+      ><strong>{{ secToString(timeToETA) }}</strong></v-card-title
+    >
+  </v-card>
+
   <v-table v-if="data.length >= 2" density="compact" class="align-start">
     <tbody>
-      <tr v-if="showETA && !targetReached">
+      <!-- <tr v-if="showETA && !targetReached">
         <td>Time to go</td>
         <td>
           <strong>{{ secToString(timeToETA) }}</strong>
         </td>
-      </tr>
+      </tr> -->
       <tr v-if="showETA">
         <td>ETA</td>
         <td>
