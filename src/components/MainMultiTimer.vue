@@ -11,7 +11,13 @@
         />
       </v-col>
       <v-col cols="5" md="2">
-        <v-select id="select-unit" v-model="unitSelected" variant="outlined" :items="unitList" />
+        <v-select
+          id="select-unit"
+          v-model="unitSelected"
+          label="Unit"
+          variant="outlined"
+          :items="unitList"
+        />
       </v-col>
       <v-col cols="6" md="3">
         <v-text-field
