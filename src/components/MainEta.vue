@@ -29,7 +29,7 @@ import StatsTable from './StatsTable.vue'
 import ActionsBlock from './ActionsBlock.vue'
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
 
-import { helperCalcSpeedFromPreviousRow } from '../helper'
+import { helperCalcSpeedFromPreviousRow, statsDataWrite } from '../helper'
 
 // target:
 // undefined -> simple mode, no ETA
@@ -71,6 +71,10 @@ function addRow(row: DataRowRedType) {
   data.value.push({ date, items, speed })
   decideIfToShowDays()
   updateLocalStorageData()
+  // update usage stats stats only if there are at least 3 rows
+  if (data.value.length == 3) {
+    statsDataWrite('eta')
+  }
 }
 
 function decideIfToShowDays() {
