@@ -97,10 +97,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import {
-  helperSecondsToString,
+  helperClearName,
   helperDateToString,
+  helperSecondsToString,
   playSoundTimerDone,
-  helperClearName
+  statsDataWrite
 } from '../helper'
 
 const inputName = ref('')
@@ -167,6 +168,7 @@ function add(name: string, time: number, unit: string) {
   })
 
   updateLocalStorageData()
+  statsDataWrite('eta-mt')
   startTimer()
 }
 
