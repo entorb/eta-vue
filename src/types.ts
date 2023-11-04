@@ -10,3 +10,9 @@ export interface DataRowRedType {
   date: Date
   items: number
 }
+
+export interface StatsDataType {
+  accesscounts: number
+  accesscounts7: number
+  firstaccess: string // 2023-11-03
+}

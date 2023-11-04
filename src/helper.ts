@@ -1,4 +1,5 @@
 import type { DataRowRedType } from './types'
+import type { StatsDataType } from './types'
 
 export const helperDateToString = (datetime: Date, showDays: boolean = false): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -75,4 +76,33 @@ export const helperClearName = (name: string): string => {
     .replace('\\', '')
     .replace(/[:"'{}[\]()]+/g, '')
     .trim()
+}
+
+export const statsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
+  try {
+    const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=read'
+    const response = await fetch(url)
+    if (response.ok) {
+      const respData = await response.json()
+      return respData
+    } else {
+      console.error('Failed to fetch stats data')
+      return
+    }
+  } catch (error) {
+    console.error('Error:', error)
+    return
+  }
+}
+
+export const statsDataWrite = async (origin: string) => {
+  try {
+    const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=write'
+    const response = await fetch(url)
+    if (!response.ok) {
+      console.error('Failed to update stats data')
+    }
+  } catch (error) {
+    console.error('Error:', error)
+  }
 }
