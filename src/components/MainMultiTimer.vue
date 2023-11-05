@@ -99,6 +99,7 @@ import { ref, onMounted } from 'vue'
 import {
   helperClearName,
   helperDateToString,
+  helperRunningOnProd,
   helperSecondsToString,
   playSoundTimerDone,
   statsDataWrite
@@ -168,7 +169,9 @@ function add(name: string, time: number, unit: string) {
   })
 
   updateLocalStorageData()
-  statsDataWrite('eta-mt')
+  if (helperRunningOnProd()) {
+    statsDataWrite('eta-mt')
+  }
   startTimer()
 }
 
