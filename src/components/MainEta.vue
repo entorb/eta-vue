@@ -56,7 +56,7 @@ import {
 // > 0 -> count-up mode
 // = 0 -> count-down mode
 
-const target = ref<number | undefined>(undefined)
+const target = ref<number | undefined>(0)
 // speed in items per sec
 const data = ref<Array<DataRowType>>([])
 const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
@@ -94,6 +94,10 @@ function addRow(row: DataRowRedType) {
   // update usage stats stats only if there are at least 3 rows
   if (helperRunningOnProd() && data.value.length == 3) {
     helperStatsDataWrite('eta')
+  }
+  // to ensure that default target=0 is stored into local storage
+  if (target.value == 0 && data.value.length == 1) {
+    updateLocalStorageTarget()
   }
 }
 
@@ -144,7 +148,7 @@ function deleteRow(index: number) {
 function deleteAllData() {
   data.value = []
   localStorage.removeItem('eta_vue_data')
-  target.value = undefined
+  target.value = 0
   localStorage.removeItem('eta_vue_target')
 }
 
