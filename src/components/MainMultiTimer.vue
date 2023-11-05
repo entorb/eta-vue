@@ -99,10 +99,10 @@ import { ref, onMounted } from 'vue'
 import {
   helperClearName,
   helperDateToString,
+  helperPlaySoundTimerDone,
   helperRunningOnProd,
   helperSecondsToString,
-  playSoundTimerDone,
-  statsDataWrite
+  helperStatsDataWrite
 } from '../helper'
 
 const inputName = ref('')
@@ -170,7 +170,7 @@ function add(name: string, time: number, unit: string) {
 
   updateLocalStorageData()
   if (helperRunningOnProd()) {
-    statsDataWrite('eta-mt')
+    helperStatsDataWrite('eta-mt')
   }
   startTimer()
 }
@@ -192,7 +192,7 @@ function updateRemainingTime() {
       } else {
         timer.remainingTime = 0
         timer.percent = 1
-        if (remaining != -1) playSoundTimerDone()
+        if (remaining != -1) helperPlaySoundTimerDone()
       }
     }
   }
