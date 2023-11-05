@@ -168,8 +168,9 @@ function deleteRow(index: number) {
 function deleteAllData() {
   data.value = []
   localStorage.removeItem('eta_vue_data')
-  target.value = 0
-  localStorage.removeItem('eta_vue_target')
+  // no: do not delete target, as this would trigger annoying reset of mode
+  // target.value = 0
+  // localStorage.removeItem('eta_vue_target')
 }
 
 function readLocalStorageTarget() {
