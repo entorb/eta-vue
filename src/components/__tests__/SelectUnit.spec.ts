@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
-import ActionsBlock from '../ActionsBlock.vue'
+import SelectUnit from '../SelectUnit.vue'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function initializeWrapper(wrapper) {}
@@ -8,7 +8,7 @@ function initializeWrapper(wrapper) {}
 describe('Component renders', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(ActionsBlock, {
+    wrapper = shallowMount(SelectUnit, {
       props: { unitInitial: 'sec' }
     })
     initializeWrapper(wrapper)
