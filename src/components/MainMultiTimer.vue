@@ -100,6 +100,7 @@ import {
   helperClearName,
   helperDateToString,
   helperPlaySoundTimerDone,
+  helperRunningOnMobile,
   helperRunningOnProd,
   helperSecondsToString,
   helperStatsDataWrite
@@ -114,7 +115,7 @@ const showDays = ref(false)
 const data = ref<Array<TimerType>>([])
 const recentTimerNames = ref<Array<string>>([])
 
-const isMobile = ref(false)
+const isMobile = ref(helperRunningOnMobile())
 
 export interface TimerType {
   name: string
@@ -130,9 +131,6 @@ onMounted(() => {
   readLocalStorageData()
   readLocalStorageRecentTimers()
   startTimer()
-
-  const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
-  isMobile.value = mobileMediaQuery.matches // Initial check
 })
 
 function addViaInput() {

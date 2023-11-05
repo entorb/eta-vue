@@ -115,3 +115,8 @@ export const helperRunningOnProd = () => {
     return false
   }
 }
+
+export const helperRunningOnMobile = () => {
+  const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
+  return mobileMediaQuery.matches
+}
