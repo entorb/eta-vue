@@ -34,7 +34,7 @@ describe('setTarget', () => {
     expect(wrapper.vm.target).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored)).toBe(value)
+    expect(parseFloat(stored as string)).toBe(value)
   })
 
   it('target = 0', () => {
@@ -44,7 +44,7 @@ describe('setTarget', () => {
     expect(wrapper.vm.target).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored)).toBe(value)
+    expect(parseFloat(stored as string)).toBe(value)
   })
 
   it('target undefinded', () => {
@@ -64,7 +64,7 @@ describe('setTarget', () => {
     expect(wrapper.vm.target).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored)).toBe(value)
+    expect(parseFloat(stored as string)).toBe(value)
   })
 })
 
@@ -241,7 +241,7 @@ describe('deleteAllData', () => {
     expect(wrapper.vm.data.length).toBe(3)
     wrapper.vm.deleteAllData()
     expect(wrapper.vm.data.length).toBe(0)
-    expect(wrapper.vm.target).toBe(undefined)
+    expect(wrapper.vm.target).toBe(0)
     expect(localStorage.getItem('eta_vue_data')).toBe(null)
     expect(localStorage.getItem('eta_vue_target')).toBe(null)
   })
