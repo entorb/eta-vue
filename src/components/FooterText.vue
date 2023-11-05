@@ -24,18 +24,18 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { statsDataRead } from '../helper'
+import { statsDataRead, helperRunningOnProd } from '../helper'
 import type { StatsDataType } from '../types'
 
 // Get the current route
 const route = useRoute()
 
 onMounted(() => {
-  updateStats()
+  fetchAccessStats()
 })
 
 watch(route, () => {
-  updateStats()
+  fetchAccessStats()
 })
 
 const statsData = ref<StatsDataType>({
@@ -44,7 +44,10 @@ const statsData = ref<StatsDataType>({
   firstaccess: '2000-01-01'
 })
 
-async function updateStats() {
+async function fetchAccessStats() {
+  if (!helperRunningOnProd()) {
+    return
+  }
   const origin = tab2origin(route.path)
   if (origin != '') {
     try {
