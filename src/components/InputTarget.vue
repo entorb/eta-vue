@@ -26,32 +26,19 @@ const props = defineProps({
 
 const { target } = toRefs(props)
 watch(target, () => {
-  updateInputFieldFromTarget()
+  inputTarget.value = target.value == undefined ? '' : target.value.toString()
 })
 
-const inputTarget = ref('')
+const inputTarget = ref(target.value == undefined ? '' : target.value.toString())
 
 function enterTarget() {
-  let target = undefined
-  if (inputTarget.value == '') {
-    target = undefined
-  } else {
-    target = parseFloat(inputTarget.value.replace(',', '.'))
-    if (isNaN(target)) {
-      inputTarget.value = ''
-      return
-    }
-  }
-  if (target != props.target) {
-    emits('set-target', target)
-  }
-}
-
-function updateInputFieldFromTarget() {
-  if (props.target !== undefined) {
-    inputTarget.value = props.target.toString()
-  } else {
+  const targetNew = parseFloat(inputTarget.value.replace(',', '.'))
+  if (isNaN(targetNew)) {
     inputTarget.value = ''
+    return
+  }
+  if (targetNew != props.target) {
+    emits('set-target', targetNew)
   }
 }
 </script>
