@@ -106,3 +106,12 @@ export const statsDataWrite = async (origin: string) => {
     console.error('Error:', error)
   }
 }
+
+export const helperRunningOnProd = () => {
+  const currentURL = window.location.href
+  if (currentURL.startsWith('https://entorb.net')) {
+    return true
+  } else {
+    return false
+  }
+}
