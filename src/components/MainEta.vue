@@ -1,5 +1,25 @@
 <template>
   <v-container>
+    <v-row v-if="data.length == 0">
+      <v-col cols="12">
+        <p v-if="target == 0">
+          Selected mode: count-down<br />
+          1. enter items to go<br />
+          2. repeat 1. when it has changed
+        </p>
+        <p v-if="target != undefined && target > 0">
+          Selected mode: count-up<br />
+          1. enter target items<br />
+          2. enter current items<br />
+          3. periodically repeat 2.
+        </p>
+        <p v-if="target == undefined">
+          Selected mode: simple<br />
+          1. enter current items<br />
+          2. periodically repeat 1.
+        </p>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="6" md="2">
         <SelectMode :target="target" @set-target="setTarget" />
