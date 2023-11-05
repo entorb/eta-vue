@@ -1,7 +1,15 @@
 <template>
   <v-container>
     <v-row>
-      <InputItemsAndTarget :target="target" @set-target="setTarget" @add-row="addRow" />
+      <v-col cols="6" md="2">
+        <SelectMode :target="target" @set-target="setTarget" />
+      </v-col>
+      <v-col v-if="target != undefined && target > 0" cols="6" md="3">
+        <InputTarget :target="target" @set-target="setTarget" />
+      </v-col>
+      <v-col cols="6" md="3">
+        <InputItems :target="target" @add-row="addRow" />
+      </v-col>
       <ActionsBlock :unit-initial="settings.unitSpeed" @plus-one="plus1" @unit="setUnitOfSpeed" />
     </v-row>
     <v-row>
@@ -23,7 +31,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import InputItemsAndTarget from './InputItemsAndTarget.vue'
+import SelectMode from './SelectMode.vue'
+import InputItems from './InputItems.vue'
+import InputTarget from './InputTarget.vue'
 import DataTable from './DataTable.vue'
 import StatsTable from './StatsTable.vue'
 import ActionsBlock from './ActionsBlock.vue'
