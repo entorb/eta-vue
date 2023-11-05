@@ -67,7 +67,7 @@ import {
   helperDateToString,
   helperSecondsToString,
   helperValueToString,
-  playSoundTimerDone
+  helperPlaySoundTimerDone
 } from '../helper'
 import { helperLinReg } from '../helperLinReg'
 import type { UnitType, DataRowType } from '../types'
@@ -285,7 +285,7 @@ function updateTimes() {
     percentOfTargetEstimated.value = 1 // 100%
     // prevent play sound on first run
     if (timeToETA.value != 0) {
-      playSoundTimerDone()
+      helperPlaySoundTimerDone()
     }
     stopTimer()
     timeToETA.value = 0 // prevent to play notification again

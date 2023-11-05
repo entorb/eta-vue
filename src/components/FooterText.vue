@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { statsDataRead, helperRunningOnProd } from '../helper'
+import { helperRunningOnProd, helperStatsDataRead } from '../helper'
 import type { StatsDataType } from '../types'
 
 // Get the current route
@@ -51,7 +51,7 @@ async function fetchAccessStats() {
   const origin = tab2origin(route.path)
   if (origin != '') {
     try {
-      const ret = await statsDataRead(origin)
+      const ret = await helperStatsDataRead(origin)
       if (ret != undefined) {
         statsData.value = ret
       }

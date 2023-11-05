@@ -39,7 +39,11 @@ import StatsTable from './StatsTable.vue'
 import ActionsBlock from './ActionsBlock.vue'
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
 
-import { helperCalcSpeedFromPreviousRow, helperRunningOnProd, statsDataWrite } from '../helper'
+import {
+  helperCalcSpeedFromPreviousRow,
+  helperRunningOnProd,
+  helperStatsDataWrite
+} from '../helper'
 
 // target:
 // undefined -> simple mode, no ETA
@@ -83,7 +87,7 @@ function addRow(row: DataRowRedType) {
   updateLocalStorageData()
   // update usage stats stats only if there are at least 3 rows
   if (helperRunningOnProd() && data.value.length == 3) {
-    statsDataWrite('eta')
+    helperStatsDataWrite('eta')
   }
 }
 

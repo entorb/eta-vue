@@ -56,7 +56,7 @@ export const helperCalcSpeedFromPreviousRow = (
 }
 
 /* c8 ignore next 6 */
-export const playSoundTimerDone = () => {
+export const helperPlaySoundTimerDone = () => {
   // playSound(notificationSound)
   // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
   playSound('audio/481151__matrixxx__cow-bells-01.mp3')
@@ -78,7 +78,7 @@ export const helperClearName = (name: string): string => {
     .trim()
 }
 
-export const statsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
+export const helperStatsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
   try {
     const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=read'
     const response = await fetch(url)
@@ -95,7 +95,7 @@ export const statsDataRead = async (origin: string): Promise<StatsDataType | und
   }
 }
 
-export const statsDataWrite = async (origin: string) => {
+export const helperStatsDataWrite = async (origin: string) => {
   try {
     const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=write'
     const response = await fetch(url)
