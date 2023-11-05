@@ -10,7 +10,13 @@
       <v-col cols="6" md="3">
         <InputItems :target="target" @add-row="addRow" />
       </v-col>
-      <ActionsBlock :unit-initial="settings.unitSpeed" @plus-one="plus1" @unit="setUnitOfSpeed" />
+      <!-- offset="1"  -->
+      <v-col cols="5" md="2">
+        <SelectUnit :unit-initial="settings.unitSpeed" @unit="setUnitOfSpeed" />
+      </v-col>
+      <v-col cols="3" md="2">
+        <v-btn id="btn-plus-1" icon="$plus1" @click="plus1" />
+      </v-col>
     </v-row>
     <v-row>
       <v-col v-if="data.length >= 2" cols="12" md="3">
@@ -36,7 +42,7 @@ import InputItems from './InputItems.vue'
 import InputTarget from './InputTarget.vue'
 import DataTable from './DataTable.vue'
 import StatsTable from './StatsTable.vue'
-import ActionsBlock from './ActionsBlock.vue'
+import SelectUnit from './SelectUnit.vue'
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
 
 import {
