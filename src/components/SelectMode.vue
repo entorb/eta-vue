@@ -23,12 +23,15 @@ watch(target, () => {
   selectedMode.value = target.value == undefined ? 'Simple' : target.value > 0 ? 'Up' : 'Down'
 })
 
-const modes = ref(['Up', 'Simple', 'Down'])
+const modes = ref(['Down', 'Up', 'Simple'])
 const selectedMode = ref(props.target == undefined ? 'Simple' : props.target > 0 ? 'Up' : 'Down')
 
 watch(selectedMode, () => {
   if (selectedMode.value == 'Down') {
     emits('set-target', 0)
+  } else if (selectedMode.value == 'Up') {
+    // defaults to target = 100
+    emits('set-target', 100)
   } else if (selectedMode.value == 'Simple') {
     emits('set-target', undefined)
   }
