@@ -22,11 +22,15 @@
           <strong>{{ dateToString(eta) }}</strong>
         </td>
       </tr>
-      <tr v-if="itemsPerSec !== 0.0">
-        <td>Total speed</td>
-        <td>
-          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>
-        </td>
+      <tr>
+        <td>Items (last)</td>
+        <td>{{ valueToString(itemsLast) }}</td>
+      </tr>
+      <tr v-if="target != undefined">
+        <td>Percent (last)</td>
+        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
+          {{ (100 * percentOfTarget).toFixed(1) }}%
+        </v-progress-linear>
       </tr>
       <tr>
         <td>Items (est.)</td>
@@ -38,11 +42,11 @@
           {{ (100 * percentOfTargetEstimated).toFixed(1) }}%
         </v-progress-linear>
       </tr>
-      <tr v-if="target != undefined">
-        <td>Percent (last)</td>
-        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
-          {{ (100 * percentOfTarget).toFixed(1) }}%
-        </v-progress-linear>
+      <tr v-if="itemsPerSec !== 0.0">
+        <td>Total speed</td>
+        <td>
+          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>
+        </td>
       </tr>
       <tr>
         <td>Last input</td>
@@ -106,7 +110,7 @@ watch(
   { deep: true }
 )
 
-const showETA = computed(() => props.target !== undefined)
+const showETA = computed(() => props.target !== undefined && eta.value.getTime() > 0)
 
 let targetReached = false
 // let timerInterval = null as NodeJS.Timeout | null
@@ -118,7 +122,7 @@ let timerInterval: number | null = null
 let firstDate = new Date(0)
 let lastDate = new Date(0)
 let firstItems = 0.0
-let lastItems = 0.0
+const itemsLast = ref(0.0)
 // displayed
 const eta = ref(new Date(0))
 const percentOfTarget = ref(0.0)
@@ -158,7 +162,7 @@ function resetStats() {
   firstDate = new Date(0)
   lastDate = new Date(0)
   firstItems = 0.0
-  lastItems = 0.0
+  itemsLast.value = 0.0
   itemsDone.value = 0
   itemsTotal.value = 0
   itemsPerSec.value = 0
@@ -178,8 +182,8 @@ function updateStats() {
   firstDate = props.data[0].date
   firstItems = props.data[0].items
   lastDate = props.data[props.data.length - 1].date
-  lastItems = props.data[props.data.length - 1].items
-  itemsDone.value = props.target != 0 ? lastItems : firstItems - lastItems
+  itemsLast.value = props.data[props.data.length - 1].items
+  itemsDone.value = props.target != 0 ? itemsLast.value : firstItems - itemsLast.value
 
   if (props.data.length == 1) {
     eta.value = new Date(0)
@@ -248,11 +252,11 @@ function updateTimes() {
   // 2. calc itemsEstimated, also for simple mode
   let est = 0
   if (props.data.length == 1) {
-    est = lastItems
-  } else if (lastItems == 0) {
+    est = itemsLast.value
+  } else if (itemsLast.value == 0) {
     est = 0
   } else {
-    est = lastItems + itemsPerSec.value * timeSinceLastRow.value
+    est = itemsLast.value + itemsPerSec.value * timeSinceLastRow.value
   }
   if (props.target == 0 && est < 0) {
     est = 0
