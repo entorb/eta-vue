@@ -93,6 +93,7 @@ function setTarget(targetNew: number | undefined) {
     // console.log('invalid negative target:', targetNew)
     return
   }
+  // console.log('targetNew:', targetNew)
   target.value = targetNew
   updateLocalStorageTarget()
 }

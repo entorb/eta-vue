@@ -20,19 +20,20 @@ const props = defineProps({
 
 const { target } = toRefs(props)
 watch(target, () => {
-  selectedMode.value = target.value == undefined ? 'Simple' : target.value > 0 ? 'Up' : 'Down'
+  selectedMode.value = target.value == undefined ? 'Simple' : target.value == 0 ? 'Down' : 'Up'
 })
 
 const modes = ref(['Down', 'Up', 'Simple'])
-const selectedMode = ref(props.target == undefined ? 'Simple' : props.target > 0 ? 'Up' : 'Down')
+const selectedMode = ref(props.target == undefined ? 'Simple' : props.target == 0 ? 'Down' : 'Up')
 
+// TODO: replace by trigger function
 watch(selectedMode, () => {
-  if (selectedMode.value == 'Down') {
+  if (selectedMode.value == 'Down' && target.value != 0) {
     emits('set-target', 0)
-  } else if (selectedMode.value == 'Up') {
+  } else if (selectedMode.value == 'Up' && (target.value == undefined || target.value == 0)) {
     // defaults to target = 100
     emits('set-target', 100)
-  } else if (selectedMode.value == 'Simple') {
+  } else if (selectedMode.value == 'Simple' && target.value != undefined) {
     emits('set-target', undefined)
   }
 })
