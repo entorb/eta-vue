@@ -9,7 +9,7 @@ export default mergeConfig(
       environment: 'jsdom',
       server: {
         deps: {
-          inline: ['vuetify']
+          inline: ['vuetify', 'echarts', 'vue-echarts']
         }
       },
       setupFiles: ['./vitest.setup.ts'],

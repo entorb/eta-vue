@@ -51,6 +51,9 @@
         />
       </v-col>
     </v-row>
+    <v-row v-if="data.length >= 2">
+      <EtaChart :data="data" :settings="settings" />
+    </v-row>
   </v-container>
 </template>
 
@@ -63,6 +66,7 @@ import InputTarget from './InputTarget.vue'
 import DataTable from './DataTable.vue'
 import StatsTable from './StatsTable.vue'
 import SelectUnit from './SelectUnit.vue'
+import EtaChart from './EtaChart.vue'
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
 
 import {
