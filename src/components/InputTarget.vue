@@ -6,7 +6,7 @@
   <v-text-field
     id="input-target"
     v-model="inputTarget"
-    label="Target items"
+    label="Target"
     type="text"
     inputmode="decimal"
     variant="outlined"

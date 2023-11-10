@@ -39,6 +39,6 @@ function enterItems() {
 }
 
 const inputItemsLabel = computed(() => {
-  return props.target == 0 ? 'Items to go' : 'Current items'
+  return props.target == 0 ? 'How many to go' : 'Current'
 })
 </script>

@@ -23,24 +23,25 @@
         </td>
       </tr>
       <tr>
-        <td>Items (last)</td>
-        <td>{{ valueToString(itemsLast) }}</td>
-      </tr>
-      <tr v-if="target != undefined">
-        <td>Percent (last)</td>
-        <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
-          {{ (100 * percentOfTarget).toFixed(1) }}%
-        </v-progress-linear>
+        <td>Value (last)</td>
+        <td v-if="target == undefined">{{ valueToString(itemsLast) }}</td>
+        <td v-if="target != undefined">
+          <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
+            {{ valueToString(itemsLast) }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
+          </v-progress-linear>
+        </td>
       </tr>
       <tr>
-        <td>Items (est.)</td>
-        <td>{{ valueToString(itemsEstimated) }}</td>
-      </tr>
-      <tr v-if="target != undefined && percentOfTarget < 1">
-        <td>Percent (est.)</td>
-        <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
-          {{ (100 * percentOfTargetEstimated).toFixed(1) }}%
-        </v-progress-linear>
+        <td>Value (est.)</td>
+        <td v-if="target == undefined">
+          {{ valueToString(itemsEstimated) }} ({{ itemsEstimated > itemsLast ? '+' : ''
+          }}{{ (100 * (itemsEstimated / itemsLast - 1)).toFixed(1) }}%)
+        </td>
+        <td v-if="target != undefined">
+          <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
+            {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
+          </v-progress-linear>
+        </td>
       </tr>
       <tr v-if="itemsPerSec !== 0.0">
         <td>Total speed</td>
@@ -50,7 +51,7 @@
       </tr>
       <tr>
         <td>Last input</td>
-        <td>{{ secToString(timeSinceLastRow) }}</td>
+        <td width="150">{{ secToString(timeSinceLastRow) }}</td>
       </tr>
       <tr>
         <td>Runtime</td>

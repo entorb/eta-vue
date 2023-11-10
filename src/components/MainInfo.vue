@@ -47,7 +47,12 @@
           <strong>Count-down</strong> (target = 0)<br />
           use case: "standing in a queue" etc.
         </p>
-        <p>
+        <p style="padding-top: 10px">
+          <strong>Usage:</strong> Periodically input the current value (of items/to go).<br />
+          <strong>Optional: +1</strong> use the "+1" button for quick input if the value has changed
+          by 1 since last input.
+        </p>
+        <p style="padding-top: 10px">
           In all modes the average progress speed is derived using
           <a href="https://en.wikipedia.org/wiki/Weighted_least_squares" target="_blank"
             >weighted linear regression</a
