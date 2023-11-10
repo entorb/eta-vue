@@ -70,12 +70,7 @@ function playSound(url: string) {
 
 // for multi-timer recent timers
 export const helperClearName = (name: string): string => {
-  return name
-    .replace('/', '')
-    .replace('|', '')
-    .replace('\\', '')
-    .replace(/[:"'{}[\]()]+/g, '')
-    .trim()
+  return name.replace(/[/|\\:"'{}[\]()]+/g, '').trim()
 }
 
 export const helperStatsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
@@ -109,7 +104,7 @@ export const helperStatsDataWrite = async (origin: string) => {
 
 export const helperRunningOnProd = () => {
   const currentURL = window.location.href
-  if (currentURL.startsWith('https://entorb.net')) {
+  if (currentURL.startsWith('https://entorb.net/')) {
     return true
   } else {
     return false
