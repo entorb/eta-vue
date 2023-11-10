@@ -3,10 +3,8 @@
     <v-row>
       <v-col>
         <h2>How to install as app</h2>
-        <p>
-          <a href="https://en.wikipedia.org/wiki/Progressive_web_app" target="_blank"
-            >Progressive Web App (PWA)</a
-          >
+        <p style="padding-bottom: 10px">
+          <a href="https://en.wikipedia.org/wiki/Progressive_web_app" target="_blank">PWA</a>
           technology is used to enable installation as app.
         </p>
         <p>
@@ -31,7 +29,7 @@
     <v-row>
       <v-col>
         <h2>ETA</h2>
-        <p>
+        <p style="padding-bottom: 10px">
           Calculate the average progress speed and estimated time of arrival.<br />
           3 distinct working modes:
         </p>
@@ -65,6 +63,15 @@
       <v-col>
         <h2>Multi-Timer</h2>
         <p>Create an arbitrary number of countdown timers.</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h2>Previous version</h2>
+        <p>
+          For the previous version of ETA, visit
+          <a href="https://entorb.net/eta-v1/">entorb.net/eta-v1/</a>.
+        </p>
       </v-col>
     </v-row>
   </v-container>
