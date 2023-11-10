@@ -83,7 +83,7 @@ describe('clearName', () => {
     expect(helperClearName('a:b::c')).toBe('abc')
   })
   it('slashes', () => {
-    expect(helperClearName('a/b|c\\d')).toBe('abcd')
+    expect(helperClearName('a//b||c\\\\d')).toBe('abcd')
   })
   it('quotations', () => {
     expect(helperClearName('abcd')).toBe('abcd')
