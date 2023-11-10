@@ -5,7 +5,7 @@
     <thead>
       <tr>
         <th>Date</th>
-        <th>Items</th>
+        <th>Value</th>
         <th>Speed</th>
         <th :class="{ 'text-center': true }">
           <v-btn icon="$trashCan" icon-color="red" flat @click="$emit('delete-all-data')" />
