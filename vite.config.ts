@@ -17,12 +17,22 @@ export default defineConfig({
   // (X-Content-Type-Options: nosniff)
   base: '/eta/',
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),
         eta: resolve(__dirname, 'index1.html'),
         multitimer: resolve(__dirname, 'index2.html')
       }
+      // !!! this prevents lazy loading via defineAsyncComponent !!!
+      // output: {
+      //   manualChunks: {
+      //     'eta-chart': ['src/components/EtaChart.vue'],
+      //     multitimer: ['src/components/MainMultiTimer.vue'],
+      //     info: ['src/components/MainInfo.vue'],
+      //     eta: ['src/components/MainEta.vue']
+      //   }
+      // }
     }
   },
   preview: { port: 4173 },
