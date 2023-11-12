@@ -6,32 +6,34 @@ describe('start app', () => {
   })
 
   it('passes', () => {
-    cy.get('#input-items').type('1')
     cy.get('#select-mode').parent().click()
-    cy.get('.v-list > :nth-child(2)').click()
-    cy.get('#input-target').type('10{enter}')
+    cy.get('.v-list > :nth-child(3)').click()
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
+    cy.get('#input-target').clear().type('10{enter}')
+    cy.get('#input-items').type('1')
     cy.get('#input-items').type('2{enter}')
     cy.get('#btn-plus-1').click()
   })
 })
 
-describe('set target', () => {
+describe('mode count-up: set target', () => {
   beforeEach(() => {
     cy.visit('eta/')
     cy.get('#select-mode').parent().click()
-    cy.get('.v-list > :nth-child(2)').click()
+    cy.get('.v-list > :nth-child(3)').click()
   })
 
-  it('sets target=10 to local storage', () => {
+  it('sets target=20 to local storage', () => {
     // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target')
-      .type('10{enter}')
+      .clear()
+      .type('20{enter}')
       .should(() => {
         // var 1
-        expect(localStorage.getItem('eta_vue_target')).to.eq('10')
+        expect(localStorage.getItem('eta_vue_target')).to.eq('20')
         // var 2
         const target = localStorage.getItem('eta_vue_target')
-        expect(target).to.eq('10')
+        expect(target).to.eq('20')
       })
   })
 })
