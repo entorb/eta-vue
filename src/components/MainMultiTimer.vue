@@ -106,10 +106,12 @@ import {
   helperStatsDataWrite
 } from '../helper'
 
+import type { UnitType } from '../types'
+
 const inputName = ref('')
 const inputTime = ref('')
-const unitList = ref(['sec', 'min', 'hour', 'day'])
-const unitSelected = ref('min')
+const unitList = ref<UnitType[]>(['sec', 'min', 'hour', 'day'])
+const unitSelected = ref<UnitType>('min')
 const showDays = ref(false)
 
 const data = ref<Array<TimerType>>([])
