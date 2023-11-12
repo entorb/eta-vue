@@ -10,17 +10,18 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { UnitType } from '../types'
 
 const emits = defineEmits(['unit'])
 
 const props = defineProps({
-  unitInitial: { type: String, required: true }
+  unitInitial: { type: String as () => UnitType, required: true }
 })
 
-const unitList = ref(['sec', 'min', 'hour', 'day'])
-const unitSelected = ref(props.unitInitial)
+const unitList = ref<UnitType[]>(['sec', 'min', 'hour', 'day'])
+const unitSelected = ref<UnitType>(props.unitInitial)
 
 watch(unitSelected, () => {
-  emits('unit', unitSelected)
+  emits('unit', unitSelected.value)
 })
 </script>
