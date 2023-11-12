@@ -88,7 +88,7 @@ const option = ref<EChartsOption>({
       animation: false,
       yAxisIndex: 1,
       color: chartColors[1],
-      data: props.data.map(row => [row.date, row.speed])
+      data: props.data.slice(1).map(row => [row.date, row.speed])
       // TODO: use lin reg value from stats
       // markLine: {
       //   symbol: 'none',
@@ -139,7 +139,7 @@ function updateChart() {
 
   option.value.series = option.value.series as LineSeriesOption[]
   option.value.series[0].data = props.data.map(row => [row.date, row.items])
-  option.value.series[1].data = props.data.map(row => [row.date, row.speed * factor])
+  option.value.series[1].data = props.data.slice(1).map(row => [row.date, row.speed * factor])
 
   // if speed is neg: invert axis
   // TODO: use speed from stats instead
