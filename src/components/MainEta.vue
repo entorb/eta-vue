@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
 
 import SelectMode from './SelectMode.vue'
 import InputItems from './InputItems.vue'
@@ -66,7 +66,9 @@ import InputTarget from './InputTarget.vue'
 import DataTable from './DataTable.vue'
 import StatsTable from './StatsTable.vue'
 import SelectUnit from './SelectUnit.vue'
-import EtaChart from './EtaChart.vue'
+// Lazy loading of EtaChart to speed up initial loading
+const EtaChart = defineAsyncComponent(() => import('@/components/EtaChart.vue'))
+
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
 
 import {
