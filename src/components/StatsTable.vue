@@ -78,6 +78,8 @@ import { helperLinReg } from '../helperLinReg'
 import type { UnitType, DataRowType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
 
+const emits = defineEmits(['items-per-sec'])
+
 // Not used any more, since I want to prevent hashed filenames and allow for caching on client side
 // import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
@@ -194,6 +196,7 @@ function updateStats() {
 
   const { slope } = helperLinReg(props.data, true)
   itemsPerSec.value = slope
+  emits('items-per-sec', slope)
 
   // calc eta
   // only for mode count-up and count-down the eta calc is possible

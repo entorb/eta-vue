@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 import type { UnitType, DataRowType } from '../types'
 
@@ -13,7 +13,8 @@ const props = defineProps({
     type: Object as () => { showDays: boolean; unitSpeed: UnitType },
     default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType }),
     required: true
-  }
+  },
+  ips: { type: Number, required: false, default: 0 }
 })
 
 import VChart from 'vue-echarts'
@@ -61,6 +62,15 @@ type EChartsOption = ComposeOption<
 
 const chartColors = ['#3ba272', '#5470c6', '#91cc75']
 
+const unitFactor = computed(() => {
+  return {
+    sec: 1,
+    min: 60,
+    hour: 3600,
+    day: 86400
+  }[props.settings.unitSpeed]
+})
+
 const option = ref<EChartsOption>({
   // title: {
   //   text: 'Items and speed over time',
@@ -88,15 +98,15 @@ const option = ref<EChartsOption>({
       animation: false,
       yAxisIndex: 1,
       color: chartColors[1],
-      data: props.data.slice(1).map(row => [row.date, row.speed])
+      data: props.data.slice(1).map(row => [row.date, row.speed]),
       // TODO: use lin reg value from stats
-      // markLine: {
-      //   symbol: 'none',
-      //   label: { show: false },
-      //   silent: true,
-      //   animation: true,
-      //   //data: [{ yAxis: speedAverage }]
-      // }
+      markLine: {
+        symbol: 'none',
+        label: { show: false },
+        silent: true,
+        animation: true,
+        data: [{ yAxis: props.ips * unitFactor.value }]
+      }
     }
   ],
   xAxis: { type: 'time' },
@@ -130,21 +140,18 @@ watch(
 )
 
 function updateChart() {
-  const factor = {
-    sec: 1,
-    min: 60,
-    hour: 3600,
-    day: 86400
-  }[props.settings.unitSpeed]
-
   option.value.series = option.value.series as LineSeriesOption[]
   option.value.series[0].data = props.data.map(row => [row.date, row.items])
-  option.value.series[1].data = props.data.slice(1).map(row => [row.date, row.speed * factor])
-
+  option.value.series[1].data = props.data
+    .slice(1)
+    .map(row => [row.date, row.speed * unitFactor.value])
+  if (option.value.series[1]?.markLine) {
+    option.value.series[1].markLine.data = [{ yAxis: props.ips * unitFactor.value }]
+  }
   // if speed is neg: invert axis
   // TODO: use speed from stats instead
   if (props.data.length > 0) {
-    const speeds = props.data.map(row => row.speed * factor)
+    const speeds = props.data.map(row => row.speed * unitFactor.value)
     const average = speeds.reduce((acc, speed) => acc + speed, 0) / speeds.length
 
     // option.value.yAxis = (option.value.yAxis || []) as EChartsOption['yAxis']
