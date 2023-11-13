@@ -57,6 +57,11 @@
           >
           to empathize the latest data points.
         </p>
+        <p style="padding-top: 10px">
+          The largest supported input value is the JavaScript limit of
+          <a href="https://www.w3schools.com/jsref/jsref_max_value.asp" target="_blank">1.79e+308</a
+          >.
+        </p>
       </v-col>
     </v-row>
     <v-row>
@@ -74,7 +79,26 @@
         </p>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <h2>Disclaimer</h2>
+        <p>
+          Your data is exclusively stored on your local device, ensuring the utmost privacy and
+          security. Click
+          <a href="javascript:void(0)" @click="clearLocalStorage">here</a>
+          to delete this app's data stored on your device. Only anonymous usage statistics are
+          gathered on the server. No access to 3rd party systems like Google services are performed.
+        </p>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+function clearLocalStorage() {
+  localStorage.removeItem('eta_vue_data')
+  localStorage.removeItem('eta_vue_target')
+  localStorage.removeItem('eta_vue_mt_data')
+  localStorage.removeItem('eta_vue_mt_recent')
+}
+</script>
