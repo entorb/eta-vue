@@ -40,7 +40,12 @@
     </v-row>
     <v-row>
       <v-col v-if="data.length >= 2" cols="12" md="3">
-        <StatsTable :data="data" :settings="settings" :target="target" />
+        <StatsTable
+          :data="data"
+          :settings="settings"
+          :target="target"
+          @items-per-sec="forwardIpS"
+        />
       </v-col>
       <v-col v-if="data.length >= 1" cols="12" md="4">
         <DataTable
@@ -52,7 +57,7 @@
       </v-col>
     </v-row>
     <v-row v-if="data.length >= 2">
-      <EtaChart :data="data" :settings="settings" />
+      <EtaChart :data="data" :settings="settings" :ips="itemsPerSec" />
     </v-row>
   </v-container>
 </template>
@@ -86,6 +91,7 @@ const target = ref<number | undefined>(0)
 // speed in items per sec
 const data = ref<Array<DataRowType>>([])
 const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
+const itemsPerSec = ref(0) // from StatsTable, forwarded to EtaChart
 
 onMounted(() => {
   // read data from Local Storage
@@ -102,6 +108,10 @@ function setTarget(targetNew: number | undefined) {
   // console.log('targetNew:', targetNew)
   target.value = targetNew
   updateLocalStorageTarget()
+}
+
+function forwardIpS(ips: number) {
+  itemsPerSec.value = ips
 }
 
 function setUnitOfSpeed(unit: string) {
