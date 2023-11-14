@@ -225,7 +225,7 @@ function updateStats() {
 
   updateTimes()
 
-  if (targetReached == false) {
+  if (targetReached == false || props.target == undefined) {
     startTimer()
   }
 }
@@ -321,7 +321,7 @@ function startTimer() {
   stopTimer()
   let sleep: number = 1
   // decide on the sleep time
-  if ((timeToETA.value == 0 || timeToETA.value > 15 * 60) && timeSinceFirstRow.value > 15 * 60) {
+  if (timeToETA.value > 15 * 60 && timeSinceLastRow.value > 15 * 60) {
     sleep = 30
   }
 
