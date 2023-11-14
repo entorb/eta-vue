@@ -8,15 +8,14 @@
       the last 7 days, {{ statsData.accesscounts }} in total since {{ statsData.firstaccess }}.
     </p>
     <p class="text-disabled">
-      This app is free, ad-free and OpenSource. Complete source code and project documentation are
-      at
-      <a class="text-disabled" href="https://github.com/entorb/eta-vue/" target="_blank"
-        >GitHub.com/entorb/etc-vue/</a
-      >.
+      This app is free (as of free-beer), ad-free and OpenSource. If you like it, please share it.
       <a class="text-disabled" href="https://entorb.net/contact.php?origin=eta" target="_blank"
         >Feedback</a
       >
-      is appreciated.
+      is highly appreciated. Complete source code and project documentation are at
+      <a class="text-disabled" href="https://github.com/entorb/eta-vue/" target="_blank"
+        >GitHub.com/entorb/etc-vue/</a
+      >.
     </p>
   </div>
 </template>
