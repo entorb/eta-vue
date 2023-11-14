@@ -14,7 +14,8 @@ const props = defineProps({
     default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType }),
     required: true
   },
-  ips: { type: Number, required: false, default: 0 }
+  ips: { type: Number, required: false, default: 0 },
+  target: { type: Number, default: undefined as number | undefined }
 })
 
 import VChart from 'vue-echarts'
@@ -125,8 +126,8 @@ const option = ref<EChartsOption>({
       nameTextStyle: { color: chartColors[1] },
       axisLabel: { color: chartColors[1] },
       splitLine: { show: false }, // no grid line,
-      // TODO: set initial value based on target or speed
-      inverse: false
+      // set initial value based on target
+      inverse: props.target == 0 ? true : false
     }
   ]
 })
@@ -149,15 +150,9 @@ function updateChart() {
     option.value.series[1].markLine.data = [{ yAxis: props.ips * unitFactor.value }]
   }
   // if speed is neg: invert axis
-  // TODO: use speed from stats instead
   if (props.data.length > 0) {
-    const speeds = props.data.map(row => row.speed * unitFactor.value)
-    const average = speeds.reduce((acc, speed) => acc + speed, 0) / speeds.length
-
-    // option.value.yAxis = (option.value.yAxis || []) as EChartsOption['yAxis']
-    // tell TypeScript, that 2 axis objects exist
     option.value.yAxis = (option.value.yAxis || []) as [{}, {}]
-    option.value.yAxis[1].inverse = average > 0 ? false : true
+    option.value.yAxis[1].inverse = props.target == 0 ? true : false
   }
 }
 </script>
