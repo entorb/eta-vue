@@ -59,9 +59,11 @@
             <tr>
               <th>Name</th>
               <th v-if="!isMobile">End</th>
-              <th>Time</th>
-              <th>Percent</th>
-              <th :class="{ 'text-center': true }">
+              <th width="150px">Time</th>
+              <th :class="{ 'text-center': true, 'small-width': true }">
+                <v-btn id="btn-resetAll" icon="$repeat" icon-color="red" flat @click="resetAll" />
+              </th>
+              <th :class="{ 'text-center': true, 'small-width': true }">
                 <v-btn
                   id="btn-deleteAll"
                   icon="$trashCan"
@@ -76,14 +78,16 @@
             <tr v-for="(row, index) in data" :key="row.name">
               <td>{{ row.name }}</td>
               <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
-              <td>{{ helperSecondsToString(row.remainingTime) }}</td>
-              <td>
-                <!-- reverse -->
+              <td style="white-space: nowrap">
                 <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
-                  {{ (100 * row.percent).toFixed(1) }}%
+                  {{ helperSecondsToString(row.remainingTime) }}
                 </v-progress-linear>
+                <!-- ({{ (100 * row.percent).toFixed(1) }}%) -->
               </td>
-              <td :class="{ 'text-center': true }">
+              <td :class="{ 'text-center': true, 'small-width': true }">
+                <v-btn icon="$repeat" size="small" flat @click="resetRow(index)" />
+              </td>
+              <td :class="{ 'text-center': true, 'small-width': true }">
                 <v-btn icon="$trashCan" size="small" flat @click="deleteRow(index)" />
               </td>
             </tr>
@@ -221,16 +225,38 @@ function startTimer() {
   }, sleep * 1000)
 }
 
-function deleteAll() {
-  data.value = []
-  stopTimer()
-  localStorage.removeItem('eta_vue_mt_data')
+function resetRow(index: number) {
+  const time = data.value[index].dateEnd.getTime() - data.value[index].dateStart.getTime()
+  data.value[index].dateStart = new Date()
+  data.value[index].dateEnd = new Date(data.value[index].dateStart.getTime() + time)
+  data.value[index].remainingTime = time / 1000
+  data.value[index].percent = 0
+  startTimer()
+  updateLocalStorageData()
+}
+
+function resetAll() {
+  for (let index = 0; index < data.value.length; index++) {
+    const time = data.value[index].dateEnd.getTime() - data.value[index].dateStart.getTime()
+    data.value[index].dateStart = new Date()
+    data.value[index].dateEnd = new Date(data.value[index].dateStart.getTime() + time)
+    data.value[index].remainingTime = time / 1000
+    data.value[index].percent = 0
+  }
+  startTimer()
+  updateLocalStorageData()
 }
 
 function deleteRow(index: number) {
   data.value.splice(index, 1)
   startTimer()
   updateLocalStorageData()
+}
+
+function deleteAll() {
+  data.value = []
+  stopTimer()
+  localStorage.removeItem('eta_vue_mt_data')
 }
 
 function updateLocalStorageData() {
@@ -313,3 +339,10 @@ function addFromRecentTimer(title: string) {
   add(name, time, unit)
 }
 </script>
+
+<style>
+.small-width {
+  width: 25px !important;
+  max-width: 25px !important;
+}
+</style>
