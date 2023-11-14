@@ -57,7 +57,7 @@
       </v-col>
     </v-row>
     <v-row v-if="data.length >= 2">
-      <EtaChart :data="data" :settings="settings" :ips="itemsPerSec" />
+      <EtaChart :data="data" :settings="settings" :target="target" :ips="itemsPerSec" />
     </v-row>
   </v-container>
 </template>
