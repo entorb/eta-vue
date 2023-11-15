@@ -66,10 +66,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'ETA (Estimated Time of Arrival) and Multi-Timer',
+        name: 'ETA calc. and Multi-Timer',
         short_name: 'ETA',
         description:
-          'ETA: Calculate the average progress speed and estimated time of arrival. 3 modes: simple (no target), count-up (target > 0), count-down (target = 0). Weighted linear regression is applied. Multi-Timer: Set multiple countdown timers.',
+          'ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0). Multi-Timer: Set and manage multiple countdown timers.',
         icons: [
           {
             src: 'icons/apple-touch-icon.png',

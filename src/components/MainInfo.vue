@@ -30,7 +30,7 @@
       <v-col>
         <h2>ETA</h2>
         <p style="padding-bottom: 10px">
-          Calculate the average progress speed and estimated time of arrival.<br />
+          Calculate remaining (waiting) time / estimated time of arrival.<br />
           3 distinct working modes:
         </p>
         <p>
