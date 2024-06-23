@@ -57,9 +57,13 @@ see <https://www.cypress.io/>
 npm install cypress --save-dev
 ```
 
-To run against Vite preview: run in host mode via package.conf
+To run against Vite preview: run in host mode via package.json
 
-```json
+```sh
+npm i -g npm-check-updates
+ncu -u
+npm install
+
 "preview": "vite preview --host",
 ```
 
@@ -68,7 +72,10 @@ than
 ```sh
 npm run build
 npm run preview
+npm run cy:open
 ```
+
+Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
 
 My test cases: [cypress/e2e/](https://github.com/entorb/eta-vue/blob/main/cypress/e2e)
 

@@ -49,6 +49,14 @@ ncu -u
 npm install
 ```
 
+To force-cleanup of package cache:
+
+```sh
+rm -r node_modules package-lock.json
+npm cache clean --force
+npm install
+```
+
 ## Support tools used for this project
 
 - [Prettier](https://prettier.io) code formatter
