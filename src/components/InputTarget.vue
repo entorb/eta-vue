@@ -5,9 +5,10 @@
     label="Target"
     type="text"
     inputmode="decimal"
+    prepend-icon="$target"
     variant="outlined"
-    @keyup.enter="enterTarget"
     @blur="enterTarget"
+    @keyup.enter="enterTarget"
   />
 </template>
 
