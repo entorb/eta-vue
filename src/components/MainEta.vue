@@ -1,18 +1,9 @@
 <template>
   <v-container>
-    <v-row v-if="data.length == 0">
-      <v-col cols="12">
-        <p v-if="target == 0">
-          Selected mode: count-down<br />
-          1. enter how many to go<br />
-          2. periodically repeat 1.
-        </p>
-        <p v-if="target > 0">
-          Selected mode: count-up<br />
-          1. enter target<br />
-          2. enter current<br />
-          3. periodically repeat 2.
-        </p>
+    <v-row v-if="data.length < 2">
+      <v-col cols="12" md="12">
+        1. enter target (can be 0)<br />2. enter current value<br />3. periodically repeat 2. when
+        it has changed
       </v-col>
     </v-row>
     <v-row>
@@ -22,9 +13,11 @@
       <v-col cols="6" md="3">
         <InputItems :target="target" @add-row="addRow" />
       </v-col>
-      <!-- offset="1"  -->
-      <v-col cols="3" md="2">
+      <v-col cols="2" md="2" offset="1">
         <v-btn id="btn-plus-1" icon="$plus1" @click="plus1" />
+      </v-col>
+      <v-col cols="2" md="2">
+        <v-btn id="btn-plus-1" icon="$trash" @click="deleteAllData" />
       </v-col>
     </v-row>
     <v-row>
@@ -84,6 +77,7 @@ onMounted(() => {
   readLocalStorageTarget()
   readLocalStorageData()
   decideIfToShowDays()
+  setUnitOfSpeed('min')
 })
 
 function setTarget(targetNew: number) {
@@ -98,6 +92,16 @@ function setTarget(targetNew: number) {
 
 function forwardIpS(ips: number) {
   itemsPerSec.value = ips
+  const x = Math.abs(ips)
+  if (x < 1 / 24 / 3600) {
+    setUnitOfSpeed('day')
+  } else if (x < 1 / 3600) {
+    setUnitOfSpeed('hour')
+  } else if (x < 1) {
+    setUnitOfSpeed('min')
+  } else {
+    setUnitOfSpeed('sec')
+  }
 }
 
 function setUnitOfSpeed(unit: string) {
@@ -120,7 +124,6 @@ function addRow(row: DataRowRedType) {
   }
   // to ensure that default target=0 is stored into local storage
   if (target.value == 0 && data.value.length == 1) {
-    console.log('target', target.value)
     updateLocalStorageTarget()
   }
 }
@@ -172,9 +175,8 @@ function deleteRow(index: number) {
 function deleteAllData() {
   data.value = []
   localStorage.removeItem('eta_vue_data')
-  // no: do not delete target, as this would trigger annoying reset of mode
-  // target.value = 0
-  // localStorage.removeItem('eta_vue_target')
+  localStorage.removeItem('eta_vue_target')
+  target.value = 0
 }
 
 function readLocalStorageTarget() {
