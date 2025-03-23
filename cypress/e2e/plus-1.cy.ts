@@ -8,10 +8,10 @@ describe('plus-1', () => {
 
   it('1 click on plus-1, target = none', () => {
     cy.get('.v-list-item__content').contains('Simple').click()
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#btn-plus-1')
       .click()
       .should(() => {
+        // eslint-disable-next-line
         expect(localStorage.getItem('eta_vue_data')).not.to.be.null
         const { last, first } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
@@ -21,13 +21,12 @@ describe('plus-1', () => {
 
   it('1 click on plus-1, target = 10', () => {
     cy.get('.v-list-item__content').contains('Up').click()
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target').clear().type('10{enter}')
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#btn-plus-1')
       .click()
       .should(() => {
         expect(localStorage.getItem('eta_vue_target')).to.eq('10')
+        // eslint-disable-next-line
         expect(localStorage.getItem('eta_vue_data')).not.to.be.null
         const { last, first } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
@@ -42,6 +41,7 @@ describe('plus-1', () => {
     cy.get('#btn-plus-1').click()
     cy.should(() => {
       expect(localStorage.getItem('eta_vue_target')).to.eq('0')
+      // eslint-disable-next-line
       expect(localStorage.getItem('eta_vue_data')).not.to.be.null
       const { last, first } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(123)
@@ -55,6 +55,7 @@ describe('plus-1', () => {
       cy.get('#btn-plus-1').click()
     }
     cy.should(() => {
+      // eslint-disable-next-line
       expect(localStorage.getItem('eta_vue_data')).not.to.be.null
       const { last, first } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(1)

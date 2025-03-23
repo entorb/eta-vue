@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import MainMultiTimer from '../MainMultiTimer.vue'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function initializeWrapper(wrapper) {
   localStorage.clear()
   wrapper.vm.data.value = []

@@ -11,8 +11,7 @@ const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
   settings: {
     type: Object as () => { showDays: boolean; unitSpeed: UnitType },
-    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType }),
-    required: true
+    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType })
   },
   ips: { type: Number, required: false, default: 0 },
   target: { type: Number, default: undefined as number | undefined }
@@ -151,6 +150,7 @@ function updateChart() {
   }
   // if speed is neg: invert axis
   if (props.data.length > 0) {
+    // eslint-disable-next-line
     option.value.yAxis = (option.value.yAxis || []) as [{}, {}]
     option.value.yAxis[1].inverse = props.target == 0 ? true : false
   }
