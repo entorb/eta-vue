@@ -22,10 +22,10 @@
     "@fontsource/roboto": "^5.2.5",
     "@mdi/font": "^7.4.47",
     "echarts": "^5.6.0",
-    "vue": "^3.4.30",
+    "vue": "^3.5.13",
     "vue-echarts": "^7.0.3",
-    "vue-router": "^4.4.0",
-    "vuetify": "^3.6.10"
+    "vue-router": "^4.5.0",
+    "vuetify": "^3.7.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
