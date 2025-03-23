@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+// https://docs.cypress.io/app/component-testing/vue/overview
+
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
