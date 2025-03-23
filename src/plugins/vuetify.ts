@@ -12,12 +12,9 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 // TM: do not import all icons, this makes build size too large
 // import '@mdi/font/css/materialdesignicons.css'
 // my icons
-import { mdiTrashCan } from '@mdi/js'
-import { mdiNumericPositive1 } from '@mdi/js'
+import { mdiTrashCan, mdiNumericPositive1, mdiCheckCircle, mdiRepeatVariant } from '@mdi/js'
 // import { mdiContentSave } from '@mdi/js'
 // import { mdiPlus } from '@mdi/js'
-import { mdiCheckCircle } from '@mdi/js'
-import { mdiRepeatVariant } from '@mdi/js'
 // import { mdiArrowUp, mdiArrowDown, mdiArrowUpDown } from '@mdi/js'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
