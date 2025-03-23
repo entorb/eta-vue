@@ -21,7 +21,7 @@ import type { DataRowRedType } from '../types'
 const emits = defineEmits(['add-row'])
 
 const props = defineProps({
-  target: { type: Number, default: undefined as number | undefined }
+  target: { type: Number, default: 0 }
 })
 
 const inputItems = ref('')

@@ -7,16 +7,11 @@
           1. enter how many to go<br />
           2. periodically repeat 1.
         </p>
-        <p v-if="target != undefined && target > 0">
+        <p v-if="target > 0">
           Selected mode: count-up<br />
           1. enter target<br />
           2. enter current<br />
           3. periodically repeat 2.
-        </p>
-        <p v-if="target == undefined">
-          Selected mode: simple<br />
-          1. enter current<br />
-          2. periodically repeat 1.
         </p>
       </v-col>
     </v-row>
@@ -24,7 +19,7 @@
       <v-col cols="6" md="2">
         <SelectMode :target="target" @set-target="setTarget" />
       </v-col>
-      <v-col v-if="target != undefined && target > 0" cols="6" md="3">
+      <v-col v-if="target > 0" cols="6" md="3">
         <InputTarget :target="target" @set-target="setTarget" />
       </v-col>
       <v-col cols="6" md="3">
@@ -83,11 +78,10 @@ import {
 } from '../helper'
 
 // target:
-// undefined -> simple mode, no ETA
-// > 0 -> count-up mode
 // = 0 -> count-down mode
+// > 0 -> count-up mode
 
-const target = ref<number | undefined>(0)
+const target = ref<number>(0)
 // speed in items per sec
 const data = ref<Array<DataRowType>>([])
 const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
@@ -100,8 +94,8 @@ onMounted(() => {
   decideIfToShowDays()
 })
 
-function setTarget(targetNew: number | undefined) {
-  if (targetNew != undefined && targetNew < 0) {
+function setTarget(targetNew: number) {
+  if (targetNew < 0) {
     // console.log('invalid negative target:', targetNew)
     return
   }
@@ -155,7 +149,7 @@ function plus1() {
   // count-down mode: exit if lastValue <= 0
   if (target.value == 0 && lastItems <= 0) return
 
-  // count-down: -1, count-up & simple: +1
+  // count-down: -1, count-up: +1
   const items = target.value == 0 ? lastItems - 1 : lastItems + 1
 
   const newRow: DataRowRedType = { date: new Date(), items }
@@ -222,11 +216,7 @@ function readLocalStorageData() {
 }
 
 function updateLocalStorageTarget() {
-  if (target.value != undefined) {
-    localStorage.setItem('eta_vue_target', target.value.toString())
-  } else {
-    localStorage.removeItem('eta_vue_data')
-  }
+  localStorage.setItem('eta_vue_target', target.value.toString())
 }
 
 function updateLocalStorageData() {

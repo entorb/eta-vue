@@ -3,19 +3,13 @@
   <!-- width="250px"  -->
   <v-card v-if="data.length >= 2 && showETA && !targetReached" variant="outlined">
     <!-- class="text-h6 text-md-h5 text-lg-h4" -->
-    <v-card-title class="text-center"
-      ><strong>{{ secToString(timeToETA) }}</strong></v-card-title
-    >
+    <v-card-title class="text-center">
+      <strong>{{ secToString(secToETA) }}</strong>
+    </v-card-title>
   </v-card>
 
   <v-table v-if="data.length >= 2" density="compact" class="align-start">
     <tbody>
-      <!-- <tr v-if="showETA && !targetReached">
-        <td>Time to go</td>
-        <td>
-          <strong>{{ secToString(timeToETA) }}</strong>
-        </td>
-      </tr> -->
       <tr v-if="showETA">
         <td>ETA</td>
         <td>
@@ -24,8 +18,7 @@
       </tr>
       <tr>
         <td>Value (last)</td>
-        <td v-if="target == undefined">{{ valueToString(itemsLast) }}</td>
-        <td v-if="target != undefined">
+        <td>
           <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
             {{ valueToString(itemsLast) }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
           </v-progress-linear>
@@ -33,11 +26,7 @@
       </tr>
       <tr>
         <td>Value (est.)</td>
-        <td v-if="target == undefined">
-          {{ valueToString(itemsEstimated) }} ({{ itemsEstimated > itemsLast ? '+' : ''
-          }}{{ (100 * (itemsEstimated / itemsLast - 1)).toFixed(1) }}%)
-        </td>
-        <td v-if="target != undefined">
+        <td>
           <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
             {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
           </v-progress-linear>
@@ -51,11 +40,11 @@
       </tr>
       <tr>
         <td>Last input</td>
-        <td width="150">{{ secToString(timeSinceLastRow) }}</td>
+        <td width="150">{{ secToString(secSinceLastRow) }}</td>
       </tr>
       <tr>
         <td>Runtime</td>
-        <td>{{ secToString(timeSinceFirstRow) }}</td>
+        <td>{{ secToString(secSinceFirstRow) }}</td>
       </tr>
       <tr>
         <td>Start</td>
@@ -89,13 +78,12 @@ const props = defineProps({
     type: Object,
     default: () => ({ showDays: false, unitSpeed: 'min' as UnitType })
   },
-  target: { type: Number, default: undefined as number | undefined }
+  target: { type: Number, default: 0 }
 })
 
 const { target } = toRefs(props)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-watch(target, (_newTarget, _oldTarget) => {
+watch(target, () => {
   targetReached = false
   updateStats()
 })
@@ -112,18 +100,18 @@ watch(
   { deep: true }
 )
 
-const showETA = computed(() => props.target !== undefined && eta.value.getTime() > 0)
+const showETA = computed(() => eta.value.getTime() > 0)
 
 let targetReached = false
 // let timerInterval = null as NodeJS.Timeout | null
 let timerInterval: number | null = null
 
-// these are not computed, because only available if target is set
+// TODO: Leftover from simple mode: these are not computed, because only available if target is set
 // calc in updateStats()
 // not displayed
-let firstDate = new Date(0)
-let lastDate = new Date(0)
-let firstItems = 0.0
+const firstDate = ref(new Date(0))
+const lastDate = ref(new Date(0))
+const firstItems = ref(0.0)
 const itemsLast = ref(0.0)
 // displayed
 const eta = ref(new Date(0))
@@ -133,11 +121,11 @@ const itemsDone = ref(0)
 const itemsPerSec = ref(0)
 
 // calc in updateTimes()
-const timeSinceFirstRow = ref(0.0)
-const timeSinceLastRow = ref(0.0)
+const secSinceFirstRow = ref(0.0)
+const secSinceLastRow = ref(0.0)
 const itemsEstimated = ref(0.0)
 const percentOfTargetEstimated = ref(0.0)
-const timeToETA = ref(0)
+const secToETA = ref(0)
 
 onMounted(() => {
   updateStats()
@@ -160,122 +148,74 @@ function secToString(sec: number): string {
 }
 
 function resetStats() {
+  // triggered by watcher if data empty
   eta.value = new Date(0)
-  firstDate = new Date(0)
-  lastDate = new Date(0)
-  firstItems = 0.0
+  firstDate.value = new Date(0)
+  lastDate.value = new Date(0)
+  firstItems.value = 0.0
   itemsLast.value = 0.0
   itemsDone.value = 0
   itemsTotal.value = 0
   itemsPerSec.value = 0
-  timeSinceFirstRow.value = 0
-  timeSinceLastRow.value = 0
+  secSinceFirstRow.value = 0
+  secSinceLastRow.value = 0
   itemsEstimated.value = 0
   percentOfTarget.value = 0
-  timeToETA.value = 0
+  secToETA.value = 0
 }
 
 function updateStats() {
-  if (props.data.length == 0) {
-    eta.value = new Date(0)
-    // this case is handled by resetStats()
+  // triggered by watcher if data changed
+  if (props.data.length < 2) {
     return
   }
-  firstDate = props.data[0].date
-  firstItems = props.data[0].items
-  lastDate = props.data[props.data.length - 1].date
-  itemsLast.value = props.data[props.data.length - 1].items
-  itemsDone.value = props.target != 0 ? itemsLast.value : firstItems - itemsLast.value
 
-  if (props.data.length == 1) {
-    eta.value = new Date(0)
-    itemsPerSec.value = 0
-    return
-  }
+  // read first and last row
+  firstDate.value = props.data[0].date
+  firstItems.value = props.data[0].items
+  lastDate.value = props.data[props.data.length - 1].date
+  itemsLast.value = props.data[props.data.length - 1].items
+  // calc done and total items
+  itemsDone.value = props.target > 0 ? itemsLast.value : firstItems.value - itemsLast.value
+  itemsTotal.value = props.target > 0 ? props.target : firstItems.value
 
   const { slope } = helperLinReg(props.data, true)
   itemsPerSec.value = slope
   emits('items-per-sec', slope)
 
-  // calc eta
-  // only for mode count-up and count-down the eta calc is possible
-  if (props.target !== undefined) {
-    itemsTotal.value = props.target != 0 ? props.target : firstItems
-
-    percentOfTarget.value = itemsDone.value / itemsTotal.value
-    if (itemsDone.value >= itemsTotal.value) {
-      targetReached = true
-    }
-
-    if (itemsPerSec.value == 0 || itemsTotal.value <= itemsDone.value) {
-      eta.value = new Date(0)
-    } else {
-      let timeLastRowToETA = 0
-      if (props.target != 0) {
-        // mode count-up
-        timeLastRowToETA = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
-      } else {
-        // mode count-down has neg slope
-        timeLastRowToETA = (itemsTotal.value - itemsDone.value) / -itemsPerSec.value
-      }
-      eta.value = new Date(lastDate.getTime() + timeLastRowToETA * 1000)
-    }
+  percentOfTarget.value = itemsDone.value / itemsTotal.value
+  if (itemsDone.value >= itemsTotal.value) {
+    targetReached = true
   }
 
-  updateTimes()
+  // for invalid speed or target, the ETA is set 0
+  if (itemsPerSec.value == 0 || itemsTotal.value <= itemsDone.value) {
+    eta.value = new Date(0)
+  } else {
+    const t = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
+    // mode 'Down' has neg slope
+    const timeLastRowToETA = props.target > 0 ? t : -t
+    eta.value = new Date(lastDate.value.getTime() + timeLastRowToETA * 1000)
+  }
 
-  if (targetReached == false || props.target == undefined) {
+  if (!targetReached) {
     startTimer()
+  } else {
+    stopTimer()
   }
 }
 
-function updateTimes() {
+function timer_triggered_function() {
   // periodically executed by interval timer
   // updates timers and estimation of percentages and items
-  // calculates
+  // calculates:
   // timeSinceFirstRow
   // timeSinceLastRow
   // itemsEstimated
   // percentOfTargetEstimated
   // timeToETA
 
-  if (props.data.length == 0) {
-    return
-  }
-  const nowTS = new Date().getTime()
-  // 1. timeSinceFirstRow and timeSinceLastRow
-  if (targetReached) {
-    timeSinceFirstRow.value = Math.round((lastDate.getTime() - firstDate.getTime()) / 1000)
-  } else {
-    timeSinceFirstRow.value = Math.round((nowTS - firstDate.getTime()) / 1000)
-  }
-
-  timeSinceLastRow.value = (nowTS - lastDate.getTime()) / 1000
-
-  // 2. calc itemsEstimated, also for simple mode
-  let est = 0
-  if (props.data.length == 1) {
-    est = itemsLast.value
-  } else if (itemsLast.value == 0) {
-    est = 0
-  } else {
-    est = itemsLast.value + itemsPerSec.value * timeSinceLastRow.value
-  }
-  if (props.target == 0 && est < 0) {
-    est = 0
-  } else if (props.target != undefined && props.target != 0 && nowTS > eta.value.getTime()) {
-    est = props.target
-  }
-
-  itemsEstimated.value = est
-
-  // simple mode: no end of timer and eta calc
-  if (props.target == undefined) {
-    return
-  }
-
-  // only one entry: no end of timer
-  if (props.data.length == 1) {
+  if (props.data.length < 2) {
     return
   }
 
@@ -284,6 +224,29 @@ function updateTimes() {
     return
   }
 
+  const nowTS = new Date().getTime()
+  // 1. timeSinceFirstRow and timeSinceLastRow
+  if (targetReached) {
+    secSinceFirstRow.value = Math.round(
+      (lastDate.value.getTime() - firstDate.value.getTime()) / 1000
+    )
+  } else {
+    secSinceFirstRow.value = Math.round((nowTS - firstDate.value.getTime()) / 1000)
+  }
+
+  secSinceLastRow.value = (nowTS - lastDate.value.getTime()) / 1000
+
+  // 2. estimate current items
+  let estItemsCurrent = itemsLast.value + itemsPerSec.value * secSinceLastRow.value
+
+  // handle overestimation
+  if (props.target == 0 && estItemsCurrent < 0) {
+    estItemsCurrent = 0 // Down: limit to 0
+  } else if (props.target > 0 && estItemsCurrent > props.target) {
+    estItemsCurrent = props.target // Up: limit to target
+  }
+  itemsEstimated.value = estItemsCurrent
+
   // 3. calc percentOfTargetEstimated and timeToETA
 
   // 3.1 target reached: end timer and play notification
@@ -291,11 +254,11 @@ function updateTimes() {
     targetReached = true
     percentOfTargetEstimated.value = 1 // 100%
     // prevent play sound on first run
-    if (timeToETA.value != 0) {
+    if (secToETA.value != 0) {
       helperPlaySoundTimerDone()
     }
     stopTimer()
-    timeToETA.value = 0 // prevent to play notification again
+    secToETA.value = 0 // prevent to play notification again
     return
   }
 
@@ -303,29 +266,30 @@ function updateTimes() {
 
   // 3.2.1 percentOfTargetEstimated
   // count-up
-  if (props.target != 0) {
-    percentOfTargetEstimated.value =
-      (itemsDone.value + itemsPerSec.value * timeSinceLastRow.value) / itemsTotal.value
-  } else {
-    // count-down: itemsPerSec is negative!
-    percentOfTargetEstimated.value =
-      (itemsDone.value - itemsPerSec.value * timeSinceLastRow.value) / itemsTotal.value
-  }
+  const estItemsDone = // items estimated
+    props.target > 0
+      ? itemsDone.value + itemsPerSec.value * secSinceLastRow.value
+      : itemsDone.value - itemsPerSec.value * secSinceLastRow.value
+  percentOfTargetEstimated.value = estItemsDone / itemsTotal.value
+
   // 3.2.2 timeToETA
-  timeToETA.value = Math.round((eta.value.getTime() - nowTS) / 1000)
+  secToETA.value = Math.round((eta.value.getTime() - nowTS) / 1000)
 }
 
 // create a timer, that updates the elapsed and remaining time periodically
 function startTimer() {
   stopTimer()
+  if (targetReached) {
+    return
+  }
   let sleep: number = 1
-  // decide on the sleep time
-  if (timeToETA.value > 15 * 60 && timeSinceLastRow.value > 15 * 60) {
+  // dynamically decide on the sleep time
+  if (secToETA.value > 15 * 60 && secSinceLastRow.value > 15 * 60) {
     sleep = 30
   }
 
   timerInterval = window.setInterval(() => {
-    updateTimes()
+    timer_triggered_function()
   }, sleep * 1000)
 }
 

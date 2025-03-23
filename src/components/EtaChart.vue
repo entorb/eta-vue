@@ -14,7 +14,7 @@ const props = defineProps({
     default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType })
   },
   ips: { type: Number, required: false, default: 0 },
-  target: { type: Number, default: undefined as number | undefined }
+  target: { type: Number, default: 0 }
 })
 
 import VChart from 'vue-echarts'

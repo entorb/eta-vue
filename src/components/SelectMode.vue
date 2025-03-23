@@ -15,26 +15,24 @@ import { ref, toRefs, watch } from 'vue'
 const emits = defineEmits(['set-target'])
 
 const props = defineProps({
-  target: { type: Number, default: undefined as number | undefined }
+  target: { type: Number, default: 0 }
 })
 
 const { target } = toRefs(props)
 watch(target, () => {
-  selectedMode.value = target.value == undefined ? 'Simple' : target.value == 0 ? 'Down' : 'Up'
+  selectedMode.value = target.value > 0 ? 'Up' : 'Down'
 })
 
-const modes = ref(['Down', 'Up', 'Simple'])
-const selectedMode = ref(props.target == undefined ? 'Simple' : props.target == 0 ? 'Down' : 'Up')
+const modes = ref(['Down', 'Up'])
+const selectedMode = ref(props.target > 0 ? 'Up' : 'Down')
 
 // TODO: replace by trigger function
 watch(selectedMode, () => {
   if (selectedMode.value == 'Down' && target.value != 0) {
     emits('set-target', 0)
-  } else if (selectedMode.value == 'Up' && (target.value == undefined || target.value == 0)) {
+  } else if (selectedMode.value == 'Up' && target.value <= 0) {
     // defaults to target = 100
     emits('set-target', 100)
-  } else if (selectedMode.value == 'Simple' && target.value != undefined) {
-    emits('set-target', undefined)
   }
 })
 

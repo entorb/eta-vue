@@ -35,6 +35,8 @@ describe('mode count-up: set target', () => {
         const target = localStorage.getItem('eta_vue_target')
         expect(target).to.eq('20')
       })
+      cy.get('#input-items')
+      .type('3{enter}')
   })
 })
 
@@ -64,26 +66,6 @@ describe('mode count-down: set items', () => {
         const { first, last } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(3)
         expect(last).to.eq(1)
-      })
-  })
-})
-
-describe('mode simple: set items', () => {
-  beforeEach(() => {
-    cy.visit('eta/')
-    cy.get('#select-mode').parent().click()
-    cy.get('.v-list-item__content').contains('Simple').click()
-  })
-
-  it('add 3 items', () => {
-    cy.get('#input-items')
-      .type('1{enter}')
-      .type('2{enter}')
-      .type('3{enter}')
-      .should(() => {
-        const { first, last } = getEtaLocalStorageDataFistLastRowItems()
-        expect(first).to.eq(1)
-        expect(last).to.eq(3)
       })
   })
 })
