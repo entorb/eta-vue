@@ -29,7 +29,9 @@ OpenSource icon collection
 Icon search
 <https://vuetifyjs.com/en/features/icon-fonts/#mdi-icon-search>
 
-use `mdi` as prefix in Vuetify (e.g. `trash-can` -> `mdi-trash-can`)
+use `mdi` as prefix in Vuetify (e.g. `trash-can` -> `mdiTrashCan`)
+
+see [vuetify.ts](/src/plugins/vuetify.ts)
 
 ## Unplugin-Fonts (do not load fonts from Google server)
 
@@ -40,7 +42,7 @@ use `mdi` as prefix in Vuetify (e.g. `trash-can` -> `mdi-trash-can`)
 npm install @fontsource/roboto
 ```
 
-see [vite.config.ts](https://github.com/entorb/eta-vue/blob/main/vite.config.ts)
+see [vite.config.ts](/vite.config.ts)
 
 ## Vitest - Testing Framework
 
@@ -137,9 +139,10 @@ see <https://router.vuejs.org/guide/advanced/lazy-loading.html>
 
 ## Vue I18n - Internationalization
 
-<https://vue-i18n.intlify.dev/guide/>
+<https://vue-i18n.intlify.dev>
 how to at <https://phrase.com/blog/posts/ultimate-guide-to-vue-localization-with-vue-i18n/>
 and <https://codingpr.com/create-international-website-with-vue-3/>
+and <https://lokalise.com/blog/vue-i18n/>
 
 ### Pinia - store for Vue.js
 
