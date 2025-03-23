@@ -12,10 +12,17 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 // TM: do not import all icons, this makes build size too large
 // import '@mdi/font/css/materialdesignicons.css'
 // my icons
-import { mdiTrashCan, mdiNumericPositive1, mdiCheckCircle, mdiRepeatVariant } from '@mdi/js'
-// import { mdiContentSave } from '@mdi/js'
-// import { mdiPlus } from '@mdi/js'
-// import { mdiArrowUp, mdiArrowDown, mdiArrowUpDown } from '@mdi/js'
+import {
+  mdiBullseyeArrow,
+  mdiCheckCircle,
+  mdiCounter,
+  mdiNumericPositive1,
+  mdiRepeatVariant,
+  mdiTrashCan
+} from '@mdi/js'
+// mdiContentSave
+// mdiPlus
+// mdiArrowUp, mdiArrowDown, mdiArrowUpDown
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -36,13 +43,15 @@ export default createVuetify({
     defaultSet: 'mdi',
     aliases: {
       ...aliases,
-      trashCan: mdiTrashCan,
-      save: mdiCheckCircle,
-      // arrowUp: mdiArrowUp,
       // arrowDown: mdiArrowDown,
+      // arrowUp: mdiArrowUp,
       // arrowUpDown: mdiArrowUpDown,
+      items: mdiCounter,
+      plus1: mdiNumericPositive1,
       repeat: mdiRepeatVariant,
-      plus1: mdiNumericPositive1
+      save: mdiCheckCircle,
+      target: mdiBullseyeArrow,
+      trashCan: mdiTrashCan
     }
   }
 })

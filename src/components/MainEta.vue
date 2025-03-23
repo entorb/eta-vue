@@ -16,10 +16,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6" md="2">
-        <SelectMode :target="target" @set-target="setTarget" />
-      </v-col>
-      <v-col v-if="target > 0" cols="6" md="3">
+      <v-col cols="5" md="3">
         <InputTarget :target="target" @set-target="setTarget" />
       </v-col>
       <v-col cols="6" md="3">
@@ -128,6 +125,7 @@ function addRow(row: DataRowRedType) {
   }
   // to ensure that default target=0 is stored into local storage
   if (target.value == 0 && data.value.length == 1) {
+    console.log('target', target.value)
     updateLocalStorageTarget()
   }
 }
