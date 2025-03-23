@@ -46,13 +46,15 @@ export default defineConfig({
     }),
     Unfonts({
       fontsource: {
-        families: ['Roboto'],
-        name: 'Roboto',
-        weights: [400, 700],
-        styles: ['italic', 'normal']
+        families: [
+          {
+            name: 'Roboto',
+            weights: [400, 700],
+            styles: ['normal'] // 'italic'
+          }
+        ]
       }
     }),
-    // eslint-disable-next-line new-cap
     // ViteFonts({
     //   google: {
     //     families: [
@@ -79,7 +81,8 @@ export default defineConfig({
           },
           { src: 'icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
-        ]
+        ],
+        theme_color: '#ffffff'
       }
     })
   ],
@@ -90,8 +93,5 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
     //   extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
-    // },
-    // server: {
-    //   port: 3000,
   }
 })
