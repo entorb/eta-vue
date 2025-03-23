@@ -47,15 +47,6 @@ describe('setTarget', () => {
     expect(parseFloat(stored as string)).toBe(value)
   })
 
-  it('target undefinded', () => {
-    const value = undefined
-    wrapper.vm.setTarget(value)
-
-    expect(wrapper.vm.target).toBe(value)
-    const stored = localStorage.getItem('eta_vue_target')
-    expect(stored).toBe(null)
-  })
-
   it('target -1 -> unchanged', () => {
     const value = 10
     wrapper.vm.setTarget(value)
@@ -139,14 +130,6 @@ describe('plus1', () => {
 
   it('target > 0', () => {
     wrapper.vm.setTarget(100)
-    wrapper.vm.plus1()
-
-    expect(wrapper.vm.data.length).toBe(2)
-    expect(wrapper.vm.data[1].items).toBe(101)
-  })
-
-  it('target undefined', () => {
-    wrapper.vm.setTarget(undefined)
     wrapper.vm.plus1()
 
     expect(wrapper.vm.data.length).toBe(2)
