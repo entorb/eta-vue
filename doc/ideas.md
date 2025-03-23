@@ -5,9 +5,8 @@
 ### Feature: ETA
 
 - [x] Calculate remaining (waiting) time / estimated time of arrival
-- [x] Mode: simple: no target / use case: just calculate the speed of process
-- [x] Mode: count-up (target >0) / use case: X of Y done
-- [x] Mode: count-down (target =0) / use case: "standing in a queue"
+- [x] Mode: count-down (target = 0) / use case: "standing in a queue"
+- [x] Mode: count-up (target > 0) / use case: X of Y done
 - [x] Using [weighted linear regression](https://en.wikipedia.org/wiki/Weighted_least_squares) to empathize the latest data points
 - [x] Stats of speed and eta
 - [x] Chart of items and speed over time
@@ -72,7 +71,6 @@ No use to re-invent the wheel, use [Pomofocus](https://pomofocus.io) instead
 ## Data handling
 
 - [x] Central definition of data types in `types.ts`
-- [x] Simple mode: Target = undefined vs. -1 ? undefined is correct, -1 would be easier to code
 - [x] Store calculated speeds in `data` (not calc in `DataTable.vue` )
 - [x] Update of target should trigger update of stats
 

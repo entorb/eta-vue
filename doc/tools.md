@@ -9,6 +9,7 @@ see [doc/vue-how-to.md](https://github.com/entorb/eta-vue/blob/main/doc/vue-how-
 
 ## CSpell - Code spell checker
 
+- to install cspell globally: `npm install -g cspell@latest`
 - `npm run spell`
 - [cspell.json](https://github.com/entorb/eta-vue/blob/main/cspell.json) configuration (note `ignorePaths`)
 - [cspell-words.txt](https://github.com/entorb/eta-vue/blob/main/cspell-words.txt) custom project dictionary
@@ -31,23 +32,6 @@ see [doc/vue-how-to.md](https://github.com/entorb/eta-vue/blob/main/doc/vue-how-
 - `npm run test`
 - [vitest.config.ts](https://github.com/entorb/eta-vue/blob/main/vitest.config.ts) configuration (note `exclude:`)
 - [package.json](https://github.com/entorb/eta-vue/blob/main/package.json) -> `scripts -> test` shows the runtime parameters. (note `--coverage` for v8 code-coverage report)
-
-## pre-commit hook via Husky and Lint-Staged
-
-via Lint-Staged and Husky, the tools above are configured as git pre-commit hook
-
-- `npx lint-staged` manual run
-- [.husky/pre-commit](https://github.com/entorb/eta-vue/blob/main/.husky/pre-commit) runs `npx lint-staged`
-- [.lintstagedrc](https://github.com/entorb/eta-vue/blob/main/.husky/.lintstagedrc) configuration of scripts to run per staged filetype
-
-See nice how to at
-<https://www.coffeeclass.io/articles/commit-better-code-with-husky-prettier-eslint-lint-staged>
-
-Preparation: setup Husky pre-commit hook via
-
-```sh
-npm run prepare
-```
 
 ## Cypress - Frontend end to end (E2E) testing
 
@@ -79,8 +63,38 @@ Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in F
 
 My test cases: [cypress/e2e/](https://github.com/entorb/eta-vue/blob/main/cypress/e2e)
 
+## Optionally
+
+### pre-commit hook via Husky and Lint-Staged
+
+See nice how to at <https://www.coffeeclass.io/articles/commit-better-code-with-husky-prettier-eslint-lint-staged>
+
+```sh
+npm install --save-dev husky lint-staged
+```
+
+add `.husky\pre-commit`:
+
+```sh
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+```
+
+setup Husky pre-commit hook via
+
+```sh
+npx husky
+```
+
+**Attention**: this seems not to work on Windows
+delete the generated `.husky` dir to fix problems of the pre-commit hook
+
+### Matomo - Gather user stats
+
+I use a self-hosted instance of [Matomo](https://matomo.org/) to count the users of this tool.
+
 ## Not used yet
 
 ### Sentry - Exception tracking
-
-### Matomo - Gather user stats

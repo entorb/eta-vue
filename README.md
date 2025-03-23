@@ -31,15 +31,39 @@ This project is a complete rewrite of [github.com/entorb/eta](https://github.com
 - [doc/vue-how-to.md](https://github.com/entorb/eta-vue/blob/main/doc/vue-how-to.md) outlines the Vue.js tech-stack and provides links to documentation and how-tos
 - [doc/issus.md](https://github.com/entorb/eta-vue/blob/main/doc/issues.md) lists problems and obstacles, faced during development
 
-## Build this Project Locally
+## Build and Run this Project Locally
+
+Install npm packages\_ `npm install`
+
+Run live-updated dev-instance: `npm run dev`
+
+Build and run: `npm run run`
+
+## Check code after changes
+
+### Format and unit tests
 
 ```sh
-npm install
+npm run check
+# this runs: format lint spell test-once
 
-npm run dev
-# or
-npm run build && npm run preview
+# unit test only
+npm run test-once
+# or run this to permanently retest upon file changes
+npm run test
 ```
+
+### Cypress E2E tests
+
+```sh
+npm run build
+npm run preview
+npm run cy:open
+```
+
+Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
+
+## Update
 
 To force-update all dependencies to their latest version:
 
@@ -67,6 +91,19 @@ npm install
 - [Matomo](https://matomo.org) visitor stats (locally hosted instance)
 
 see [doc/tools.md](https://github.com/entorb/eta-vue/blob/main/doc/tools.md)
+
+## known issues
+
+eslint throws
+
+```sh
+[MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of eslint.config.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/torben/GitHub/eta-vue/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+```
+
+but setting `"type": "module"` in `package.json` prevents Cypress to start.
 
 ## Credits
 
