@@ -1,5 +1,4 @@
-import type { DataRowRedType } from './types'
-import type { StatsDataType } from './types'
+import type { DataRowRedType, StatsDataType } from './types'
 
 export const helperDateToString = (datetime: Date, showDays: boolean = false): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -12,7 +11,6 @@ export const helperDateToString = (datetime: Date, showDays: boolean = false): s
     options.second = undefined
     options.day = '2-digit'
     options.month = '2-digit'
-    // options.year = "2-digit"; // year not needed
   }
   return datetime.toLocaleString('de-DE', options)
 }
