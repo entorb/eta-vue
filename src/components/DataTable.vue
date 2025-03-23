@@ -34,14 +34,11 @@
 <script setup lang="ts">
 import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from '../helper'
-import type { UnitType, DataRowType } from '../types'
+import type { DataRowType } from '../types'
 
 const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
-  settings: {
-    type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType })
-  }
+  settings: { type: Object, required: true }
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
