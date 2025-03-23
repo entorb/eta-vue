@@ -1,8 +1,9 @@
 <template>
+  <!-- :label="inputItemsLabel" -->
   <v-text-field
     id="input-items"
     v-model="inputItems"
-    :label="inputItemsLabel"
+    label="Value"
     type="text"
     inputmode="decimal"
     append-icon="$save"
@@ -15,14 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+// , computed
 import type { DataRowRedType } from '../types'
 
 const emits = defineEmits(['add-row'])
 
-const props = defineProps({
-  target: { type: Number, default: 0 }
-})
+// const props = defineProps({
+//   target: { type: Number, default: 0 }
+// })
 
 const inputItems = ref('')
 
@@ -38,7 +40,7 @@ function enterItems() {
   inputItems.value = ''
 }
 
-const inputItemsLabel = computed(() => {
-  return props.target > 0 ? 'Current' : 'To go'
-})
+// const inputItemsLabel = computed(() => {
+//   return props.target > 0 ? 'Current' : 'To go'
+// })
 </script>

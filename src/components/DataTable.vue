@@ -8,7 +8,7 @@
         <th>Value</th>
         <th>Speed</th>
         <th :class="{ 'text-center': true }">
-          <v-btn icon="$trashCan" icon-color="red" flat @click="$emit('delete-all-data')" />
+          <v-btn icon="$trash" icon-color="red" flat @click="$emit('delete-all-data')" />
         </th>
       </tr>
     </thead>
@@ -24,7 +24,13 @@
           ></TooltipSpeed>
         </td>
         <td :class="{ 'text-center': true }">
-          <v-btn icon="$trashCan" size="small" flat @click="$emit('delete-row', index)" />
+          <v-btn
+            :id="'btn-del-row-' + index"
+            icon="$trash"
+            size="small"
+            flat
+            @click="$emit('delete-row', index)"
+          />
         </td>
       </tr>
     </tbody>
