@@ -87,8 +87,7 @@ const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
   settings: {
     type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'min' as UnitType }),
-    required: true
+    default: () => ({ showDays: false, unitSpeed: 'min' as UnitType })
   },
   target: { type: Number, default: undefined as number | undefined }
 })
@@ -337,7 +336,7 @@ function stopTimer() {
   }
 }
 
-function valueToString(value: number): String {
+function valueToString(value: number): string {
   return helperValueToString(value)
 }
 </script>
