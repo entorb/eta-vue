@@ -88,7 +88,13 @@
                 <v-btn icon="$repeat" size="small" flat @click="resetRow(index)" />
               </td>
               <td :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn icon="$trashCan" size="small" flat @click="deleteRow(index)" />
+                <v-btn
+                  :id="'btn-del-row-' + index"
+                  icon="$trashCan"
+                  size="small"
+                  flat
+                  @click="deleteRow(index)"
+                />
               </td>
             </tr>
           </tbody>
