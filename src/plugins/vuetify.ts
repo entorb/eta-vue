@@ -51,7 +51,7 @@ export default createVuetify({
       repeat: mdiRepeatVariant,
       save: mdiCheckCircle,
       target: mdiBullseyeArrow,
-      trashCan: mdiTrashCan
+      trash: mdiTrashCan
     }
   }
 })
