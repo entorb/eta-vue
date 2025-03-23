@@ -33,20 +33,15 @@
       <v-col>
         <h2>ETA</h2>
         <p style="padding-bottom: 10px">
-          Calculate remaining (waiting) time / estimated time of arrival.<br />
-          3 distinct working modes:
-        </p>
-        <p>
-          <strong>Simple</strong> (no target)<br />
-          use case: just calculates the speed of process
-        </p>
-        <p>
-          <strong>Count-up</strong> (target > 0)<br />
-          use case: "10 of 100 done"
+          Calculate remaining (waiting) time / estimated time of arrival.
         </p>
         <p>
           <strong>Count-down</strong> (target = 0)<br />
           use case: "standing in a queue" etc.
+        </p>
+        <p>
+          <strong>Count-up</strong> (target > 0)<br />
+          use case: "10 of 100 done"
         </p>
         <p style="padding-top: 10px">
           <strong>Usage:</strong> Periodically input the current value (of items/to go).<br />
