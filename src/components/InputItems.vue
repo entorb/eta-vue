@@ -1,16 +1,16 @@
 <template>
-  <!-- label="Current items" -->
   <v-text-field
     id="input-items"
     v-model="inputItems"
     :label="inputItemsLabel"
     type="text"
     inputmode="decimal"
-    variant="outlined"
     append-icon="$save"
-    @keyup.enter="enterItems"
+    prepend-icon="$items"
+    variant="outlined"
     @blur="enterItems"
     @click:append="enterItems"
+    @keyup.enter="enterItems"
   />
 </template>
 
@@ -39,6 +39,6 @@ function enterItems() {
 }
 
 const inputItemsLabel = computed(() => {
-  return props.target == 0 ? 'How many to go' : 'Current'
+  return props.target > 0 ? 'Current' : 'To go'
 })
 </script>
