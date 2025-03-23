@@ -1,4 +1,0 @@
-in package.json
-"lint": "eslint . --cache --fix",
-
-use 00_new_eslint.config.js instead of .eslintrc.js
