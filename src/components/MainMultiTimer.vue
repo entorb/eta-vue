@@ -64,13 +64,7 @@
                 <v-btn id="btn-resetAll" icon="$repeat" icon-color="red" flat @click="resetAll" />
               </th>
               <th :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn
-                  id="btn-deleteAll"
-                  icon="$trashCan"
-                  icon-color="red"
-                  flat
-                  @click="deleteAll"
-                />
+                <v-btn id="btn-deleteAll" icon="$trash" icon-color="red" flat @click="deleteAll" />
               </th>
             </tr>
           </thead>
@@ -90,7 +84,7 @@
               <td :class="{ 'text-center': true, 'small-width': true }">
                 <v-btn
                   :id="'btn-del-row-' + index"
-                  icon="$trashCan"
+                  icon="$trash"
                   size="small"
                   flat
                   @click="deleteRow(index)"
