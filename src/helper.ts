@@ -38,7 +38,7 @@ export const helperSecondsToString = (totalSeconds: number): string => {
 }
 
 // used at StatsTable and TooltipSpeed
-export const helperValueToString = (value: number): String => {
+export const helperValueToString = (value: number): string => {
   if (value < 100) {
     return value.toPrecision(3)
   } else {
