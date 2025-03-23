@@ -35,8 +35,7 @@ describe('mode count-up: set target', () => {
         const target = localStorage.getItem('eta_vue_target')
         expect(target).to.eq('20')
       })
-      cy.get('#input-items')
-      .type('3{enter}')
+    cy.get('#input-items').type('3{enter}')
   })
 })
 
