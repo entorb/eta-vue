@@ -64,8 +64,8 @@ describe('Tests Multi-Timer', () => {
       expect(firstEnd.getTime()).to.be.lt(new Date().getTime() + 1.1 * 3600 * 1000)
       expect(firstEnd.getTime()).to.be.gt(new Date().getTime() + 1.1 * 3600 * 1000 - 1000)
     })
-    // delete 1 timer button
-    cy.get('tbody > :nth-child(1) > .text-center > .v-btn').click()
+    // delete 1 timer
+    cy.get('#btn-del-row-0').click({ force: true })
     cy.should(() => {
       expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
@@ -87,7 +87,7 @@ describe('Tests Multi-Timer', () => {
     enterTimer('MyTestTimerName2', 'hour', '2.1')
     enterTimer('MyTestTimerName3', 'hour', '3.1')
     // delete button
-    cy.get('tbody > :nth-child(1) > .text-center > .v-btn').click()
+    cy.get('#btn-del-row-0').click({ force: true })
     cy.should(() => {
       const { firstName, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName2')
@@ -105,7 +105,7 @@ describe('Tests Multi-Timer', () => {
       expect(lastName).to.eq('MyTestTimerName2')
     })
 
-    cy.get('#btn-deleteAll').click()
+    cy.get('#btn-deleteAll').click({ force: true })
     cy.should(() => {
       expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
