@@ -9,7 +9,6 @@ describe('start app', () => {
     cy.get('#select-mode').parent().click()
     cy.get('.v-list-item__content').contains('Up').click()
     // cy.get('.v-list > :nth-child(3)').click()
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target').clear().type('10{enter}')
     cy.get('#input-items').type('1')
     cy.get('#input-items').type('2{enter}')
@@ -26,7 +25,6 @@ describe('mode count-up: set target', () => {
   })
 
   it('sets target=20 to local storage', () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-target')
       .clear()
       .type('20{enter}')
@@ -48,7 +46,6 @@ describe('mode count-down: set items', () => {
   })
 
   it('add 1 item', () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-items')
       .type('1{enter}')
       .should(() => {
@@ -59,7 +56,6 @@ describe('mode count-down: set items', () => {
   })
 
   it('add 3 items', () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-items')
       .type('3{enter}')
       .type('2{enter}')
@@ -80,7 +76,6 @@ describe('mode simple: set items', () => {
   })
 
   it('add 3 items', () => {
-    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('#input-items')
       .type('1{enter}')
       .type('2{enter}')

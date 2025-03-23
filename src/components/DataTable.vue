@@ -40,8 +40,7 @@ const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
   settings: {
     type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType }),
-    required: true
+    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType })
   }
 })
 
