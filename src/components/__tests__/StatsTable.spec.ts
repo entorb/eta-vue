@@ -9,7 +9,7 @@ describe('Component renders', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallowMount(StatsTable, {
-      props: { data: [], settings: { showDays: false, unitSpeed: 'sec' } }
+      props: { data: [], settings: { showDays: false, unitSpeed: 'min' } }
     })
     initializeWrapper(wrapper)
   })

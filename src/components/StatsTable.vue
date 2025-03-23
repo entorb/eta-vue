@@ -64,7 +64,7 @@ import {
   helperPlaySoundTimerDone
 } from '../helper'
 import { helperLinReg } from '../helperLinReg'
-import type { UnitType, DataRowType } from '../types'
+import type { DataRowType } from '../types'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 const emits = defineEmits(['items-per-sec'])
@@ -74,10 +74,7 @@ const emits = defineEmits(['items-per-sec'])
 
 const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
-  settings: {
-    type: Object,
-    default: () => ({ showDays: false, unitSpeed: 'min' as UnitType })
-  },
+  settings: { type: Object, required: true },
   target: { type: Number, default: 0 }
 })
 
