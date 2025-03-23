@@ -1,29 +1,17 @@
-// from https://eslint.vuejs.org/user-guide/#example-configuration-with-typescript-eslint-and-prettier
+// npx eslint --init
 
-import eslint from '@eslint/js'
-import eslintConfigPrettier from 'eslint-config-prettier'
-import eslintPluginVue from 'eslint-plugin-vue'
+import { defineConfig } from 'eslint/config'
 import globals from 'globals'
-import typescriptEslint from 'typescript-eslint'
+import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import pluginVue from 'eslint-plugin-vue'
 
-export default typescriptEslint.config(
-  { ignores: ['*.d.ts', '**/coverage', '**/dist'] },
-  {
-    extends: [
-      eslint.configs.recommended,
-      ...typescriptEslint.configs.recommended,
-      ...eslintPluginVue.configs['flat/recommended']
-    ],
-    files: ['**/*.{ts,vue}'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: globals.browser,
-      parserOptions: {
-        parser: typescriptEslint.parser
-      }
-    },
-    rules: {}
-  },
-  eslintConfigPrettier
-)
+export default defineConfig([
+  { ignores: ['*.d.ts', '**/coverage', '**/dist', '**/deprecated'] },
+  { files: ['**/*.{js,mjs,cjs,ts,vue}'] },
+  { files: ['**/*.{js,mjs,cjs,ts,vue}'], languageOptions: { globals: globals.browser } },
+  { files: ['**/*.{js,mjs,cjs,ts,vue}'], plugins: { js }, extends: ['js/recommended'] },
+  tseslint.configs.recommended,
+  pluginVue.configs['flat/essential'],
+  { files: ['**/*.vue'], languageOptions: { parserOptions: { parser: tseslint.parser } } }
+])
