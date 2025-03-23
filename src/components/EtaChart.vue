@@ -5,14 +5,11 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 
-import type { UnitType, DataRowType } from '../types'
+import type { DataRowType } from '../types'
 
 const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
-  settings: {
-    type: Object as () => { showDays: boolean; unitSpeed: UnitType },
-    default: () => ({ showDays: false, unitSpeed: 'sec' as UnitType })
-  },
+  settings: { type: Object, required: true },
   ips: { type: Number, required: false, default: 0 },
   target: { type: Number, default: 0 }
 })
@@ -63,12 +60,13 @@ type EChartsOption = ComposeOption<
 const chartColors = ['#3ba272', '#5470c6', '#91cc75']
 
 const unitFactor = computed(() => {
+  const unitSpeed = props.settings.unitSpeed as 'sec' | 'min' | 'hour' | 'day'
   return {
     sec: 1,
     min: 60,
     hour: 3600,
     day: 86400
-  }[props.settings.unitSpeed]
+  }[unitSpeed]
 })
 
 const option = ref<EChartsOption>({
