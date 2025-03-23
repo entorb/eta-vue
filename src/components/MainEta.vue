@@ -5,7 +5,7 @@
         <p v-if="target == 0">
           Selected mode: count-down<br />
           1. enter how many to go<br />
-          2. repeat 1. when it has changed
+          2. periodically repeat 1.
         </p>
         <p v-if="target != undefined && target > 0">
           Selected mode: count-up<br />
