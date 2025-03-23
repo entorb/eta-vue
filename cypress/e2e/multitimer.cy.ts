@@ -67,6 +67,7 @@ describe('Tests Multi-Timer', () => {
     // delete 1 timer
     cy.get('#btn-del-row-0').click({ force: true })
     cy.should(() => {
+      // eslint-disable-next-line
       expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
   })
@@ -107,6 +108,7 @@ describe('Tests Multi-Timer', () => {
 
     cy.get('#btn-deleteAll').click({ force: true })
     cy.should(() => {
+      // eslint-disable-next-line
       expect(localStorage.getItem('eta_vue_mt_data')).to.be.null
     })
   })
