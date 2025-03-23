@@ -126,7 +126,7 @@ const option = ref<EChartsOption>({
       axisLabel: { color: chartColors[1] },
       splitLine: { show: false }, // no grid line,
       // set initial value based on target
-      inverse: props.target == 0 ? true : false
+      inverse: props.target == 0
     }
   ]
 })
@@ -152,7 +152,7 @@ function updateChart() {
   if (props.data.length > 0) {
     // eslint-disable-next-line
     option.value.yAxis = (option.value.yAxis || []) as [{}, {}]
-    option.value.yAxis[1].inverse = props.target == 0 ? true : false
+    option.value.yAxis[1].inverse = props.target == 0
   }
 }
 </script>
