@@ -68,7 +68,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'ETA calc. and Multi-Timer',
+        name: 'ETA and Multi-Timer',
         short_name: 'ETA',
         description:
           'ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0). Multi-Timer: Set and manage multiple countdown timers.',
