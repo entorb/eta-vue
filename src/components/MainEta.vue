@@ -14,10 +14,10 @@
         <InputItems :target="target" @add-row="addRow" />
       </v-col>
       <v-col v-if="data.length >= 1" cols="2" md="2" offset="1">
-        <v-btn id="btn-plus-1" icon="$plus1" @click="plus1" />
+        <v-btn id="btn-plus-1" icon="$plus1" color="blue-lighten-2" @click="plus1" />
       </v-col>
       <v-col v-if="data.length >= 1" cols="2" md="2">
-        <v-btn id="btn-plus-1" icon="$trash" @click="deleteAllData" />
+        <v-btn id="btn-del-all" icon="$trash" color="red" @click="deleteAllData" />
       </v-col>
     </v-row>
     <v-row>
