@@ -6,12 +6,13 @@
 import { ref, watch, computed } from 'vue'
 
 import type { DataRowType } from '../types'
+import { colorItems, colorSpeed } from '../colors'
 
 const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
   settings: { type: Object, required: true },
   ips: { type: Number, required: false, default: 0 },
-  target: { type: Number, default: 0 }
+  target: { type: Number, required: true }
 })
 
 import VChart from 'vue-echarts'
@@ -57,7 +58,7 @@ type EChartsOption = ComposeOption<
 >
 // End generated code
 
-const chartColors = ['#3ba272', '#5470c6', '#91cc75']
+const speedInverter = props.target > 0 ? 1 : -1
 
 const unitFactor = computed(() => {
   const unitSpeed = props.settings.unitSpeed as 'sec' | 'min' | 'hour' | 'day'
@@ -85,7 +86,7 @@ const option = ref<EChartsOption>({
       animation: false,
       yAxisIndex: 0,
       data: props.data.map(row => [row.date, row.items]),
-      color: chartColors[0],
+      color: colorItems,
       areaStyle: { opacity: 0.5 }
     },
     {
@@ -95,9 +96,8 @@ const option = ref<EChartsOption>({
       silent: true,
       animation: false,
       yAxisIndex: 1,
-      color: chartColors[1],
+      color: colorSpeed,
       data: props.data.slice(1).map(row => [row.date, row.speed]),
-      // TODO: use lin reg value from stats
       markLine: {
         symbol: 'none',
         label: { show: false },
@@ -113,18 +113,16 @@ const option = ref<EChartsOption>({
       name: 'Value',
       position: 'left',
       type: 'value',
-      nameTextStyle: { color: chartColors[0] },
-      axisLabel: { color: chartColors[0] }
+      nameTextStyle: { color: colorItems },
+      axisLabel: { color: colorItems }
     },
     {
       name: 'Speed',
       type: 'value',
       position: 'right',
-      nameTextStyle: { color: chartColors[1] },
-      axisLabel: { color: chartColors[1] },
-      splitLine: { show: false }, // no grid line,
-      // set initial value based on target
-      inverse: props.target == 0
+      nameTextStyle: { color: colorSpeed },
+      axisLabel: { color: colorSpeed },
+      splitLine: { show: false } // no grid line,
     }
   ]
 })
@@ -138,19 +136,18 @@ watch(
 )
 
 function updateChart() {
+  // invert the speed if target = 0
   option.value.series = option.value.series as LineSeriesOption[]
   option.value.series[0].data = props.data.map(row => [row.date, row.items])
   option.value.series[1].data = props.data
     .slice(1)
-    .map(row => [row.date, row.speed * unitFactor.value])
+    .map(row => [row.date, row.speed * speedInverter * unitFactor.value])
   if (option.value.series[1]?.markLine) {
     option.value.series[1].markLine.data = [{ yAxis: props.ips * unitFactor.value }]
   }
-  // if speed is neg: invert axis
   if (props.data.length > 0) {
     // eslint-disable-next-line
     option.value.yAxis = (option.value.yAxis || []) as [{}, {}]
-    option.value.yAxis[1].inverse = props.target == 0
   }
 }
 </script>

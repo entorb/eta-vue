@@ -4,51 +4,60 @@
   <v-card v-if="data.length >= 2 && showETA && !targetReached" variant="outlined">
     <!-- class="text-h6 text-md-h5 text-lg-h4" -->
     <v-card-title class="text-center">
-      <strong>{{ secToString(secToETA) }}</strong>
+      <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="30" color="amber">
+        <strong>{{ secToString(secToETA) }}</strong>
+      </v-progress-linear>
     </v-card-title>
   </v-card>
 
   <v-table v-if="data.length >= 2" density="compact" class="align-start">
     <tbody>
       <tr v-if="showETA">
-        <td>ETA</td>
-        <td>
-          <strong>{{ dateToString(eta) }}</strong>
+        <td><v-icon icon="$eta" /></td>
+        <td :style="{ fontWeight: 'bold' }">
+          {{ dateToString(eta) }}
         </td>
       </tr>
       <tr>
-        <td>Value (last)</td>
+        <td><v-icon icon="$items" /></td>
         <td>
-          <v-progress-linear v-model="percentOfTarget" max="1" height="20" color="amber">
-            {{ valueToString(itemsLast) }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
+          <v-progress-linear v-model="percentOfTarget" max="1" height="20" :color="colorItems">
+            <span :style="{ fontWeight: 'bold' }">
+              {{ itemsLast }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
+            </span>
           </v-progress-linear>
-        </td>
-      </tr>
-      <tr>
-        <td>Value (est.)</td>
-        <td>
+          <!-- <br /> -->
           <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
             {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
           </v-progress-linear>
         </td>
       </tr>
+      <!-- <tr>
+        <td>Value (est.)</td>
+        <td :style="{ fontWeight: 'bold', color: colorItems }">
+          <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
+            {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
+          </v-progress-linear>
+        </td>
+      </tr> -->
       <tr v-if="itemsPerSec !== 0.0">
-        <td>Total speed</td>
-        <td>
-          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>
+        <td><v-icon icon="$speed" /></td>
+        <td :style="{ fontWeight: 'bold', color: colorSpeed }">
+          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>/
+          {{ settings.unitSpeed }}
         </td>
       </tr>
       <tr>
-        <td>Last input</td>
-        <td width="150">{{ secToString(secSinceLastRow) }}</td>
+        <td><v-icon icon="$timeLastInput" /></td>
+        <td width="150" :style="{ fontWeight: 'bold' }">{{ secToString(secSinceLastRow) }}</td>
       </tr>
       <tr>
-        <td>Runtime</td>
-        <td>{{ secToString(secSinceFirstRow) }}</td>
+        <td><v-icon icon="$timeRunning" /></td>
+        <td :style="{ fontWeight: 'bold' }">{{ secToString(secSinceFirstRow) }}</td>
       </tr>
       <tr>
-        <td>Start</td>
-        <td>{{ dateToString(firstDate) }}</td>
+        <td><v-icon icon="$timeStart" /></td>
+        <td :style="{ fontWeight: 'bold' }">{{ dateToString(firstDate) }}</td>
       </tr>
     </tbody>
   </v-table>
@@ -65,6 +74,7 @@ import {
 } from '../helper'
 import { helperLinReg } from '../helperLinReg'
 import type { DataRowType } from '../types'
+import { colorItems, colorSpeed } from '../colors'
 import TooltipSpeed from './TooltipSpeed.vue'
 
 const emits = defineEmits(['items-per-sec'])
