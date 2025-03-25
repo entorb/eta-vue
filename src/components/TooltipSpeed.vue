@@ -1,10 +1,10 @@
 <template>
   {{ speedInUnit }}
   <v-tooltip activator="parent">
-    {{ ipsInUnit('sec') }}<br />
-    {{ ipsInUnit('min') }}<br />
-    {{ ipsInUnit('hour') }}<br />
-    {{ ipsInUnit('day') }}
+    {{ ipsInUnit('sec') }} / sec<br />
+    {{ ipsInUnit('min') }} / min<br />
+    {{ ipsInUnit('hour') }} / hour<br />
+    {{ ipsInUnit('day') }} / day
   </v-tooltip>
 </template>
 
@@ -34,7 +34,7 @@ const ipsInUnit = (unit: UnitType): string => {
     hour: 3600,
     day: 86400
   }[unit]
-  return helperValueToString(props.ips * factor) + '/' + unit.charAt(0)
+  return helperValueToString(Math.abs(props.ips * factor))
 }
 
 watch(
