@@ -11,13 +11,19 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 
 // TM: do not import all icons, this makes build size too large
 // import '@mdi/font/css/materialdesignicons.css'
+// https://vuetifyjs.com/en/features/icon-fonts/#mdi-icon-search
 // my icons
 import {
+  mdiBikeFast,
   mdiBullseyeArrow,
   mdiCheckCircle,
+  mdiClockCheckOutline,
   mdiCounter,
   mdiNumericPositive1,
+  mdiPlay,
   mdiRepeatVariant,
+  mdiTimerMarkerOutline,
+  mdiTimerOutline,
   mdiTrashCan
 } from '@mdi/js'
 // mdiContentSave
@@ -46,11 +52,16 @@ export default createVuetify({
       // arrowDown: mdiArrowDown,
       // arrowUp: mdiArrowUp,
       // arrowUpDown: mdiArrowUpDown,
+      eta: mdiClockCheckOutline,
       items: mdiCounter,
       plus1: mdiNumericPositive1,
       repeat: mdiRepeatVariant,
       save: mdiCheckCircle,
+      speed: mdiBikeFast,
       target: mdiBullseyeArrow,
+      timeLastInput: mdiTimerMarkerOutline,
+      timeRunning: mdiTimerOutline,
+      timeStart: mdiPlay,
       trash: mdiTrashCan
     }
   }

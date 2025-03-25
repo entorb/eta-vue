@@ -2,8 +2,11 @@
   <v-container>
     <v-row v-if="data.length < 2">
       <v-col cols="12" md="12">
-        1. enter target (can be 0)<br />2. enter current value<br />3. periodically repeat 2. when
-        it has changed
+        1. set <v-icon icon="$target" /> (target can be 0)<br />
+        2. update <v-icon icon="$items" /> (current value)<br />
+        <!-- <span :style="{ color: colorItems }"></span> -->
+        <!--:color="colorItems" -->
+        3. periodically repeat 2. when it has changed
       </v-col>
     </v-row>
     <v-row>
@@ -55,6 +58,7 @@ import StatsTable from './StatsTable.vue'
 const EtaChart = defineAsyncComponent(() => import('@/components/EtaChart.vue'))
 
 import type { UnitType, DataRowType, DataRowRedType } from '../types'
+// import { colorItems } from '../colors'
 
 import {
   helperCalcSpeedFromPreviousRow,

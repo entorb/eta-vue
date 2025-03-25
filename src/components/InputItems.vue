@@ -9,6 +9,8 @@
     append-icon="$save"
     prepend-icon="$items"
     variant="outlined"
+    :base-color="colorItems"
+    :color="colorItems"
     @blur="enterItems"
     @click:append="enterItems"
     @keyup.enter="enterItems"
@@ -19,6 +21,7 @@
 import { ref } from 'vue'
 // , computed
 import type { DataRowRedType } from '../types'
+import { colorItems } from '../colors'
 
 const emits = defineEmits(['add-row'])
 

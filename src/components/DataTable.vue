@@ -4,22 +4,26 @@
   <v-table ref="tableRef" fixed-header density="compact" class="align-start">
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Value</th>
-        <th>Speed</th>
-        <th></th>
+        <th scope="col" :class="{ 'text-center': true }"><v-icon icon="$timeLastInput" /></th>
+        <th scope="col" :class="{ 'text-center': true }"><v-icon icon="$items" /></th>
+        <th scope="col" :class="{ 'text-center': true }"><v-icon icon="$speed" /></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(row, index) in data" :key="generateRowKey(row)">
         <td>{{ dateToString(row.date) }}</td>
-        <td :class="{ 'text-right': true }">{{ row.items }}</td>
+        <td :class="{ 'text-right': true }">
+          <span :style="{ color: colorItems, fontWeight: 'bold' }">{{ row.items }}</span>
+        </td>
         <td :class="{ 'text-center': true }">
-          <TooltipSpeed
-            v-if="index >= 1"
-            :ips="row.speed"
-            :unit="settings.unitSpeed"
-          ></TooltipSpeed>
+          <span :style="{ color: colorSpeed, fontWeight: 'bold' }">
+            <TooltipSpeed
+              v-if="index >= 1"
+              :ips="row.speed"
+              :unit="settings.unitSpeed"
+            ></TooltipSpeed>
+          </span>
         </td>
         <td :class="{ 'text-center': true }">
           <v-btn
@@ -39,6 +43,7 @@
 import TooltipSpeed from './TooltipSpeed.vue'
 import { helperDateToString } from '../helper'
 import type { DataRowType } from '../types'
+import { colorItems, colorSpeed } from '../colors'
 
 const props = defineProps({
   data: { type: Array<DataRowType>, required: true },
