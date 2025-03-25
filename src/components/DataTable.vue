@@ -7,9 +7,7 @@
         <th>Date</th>
         <th>Value</th>
         <th>Speed</th>
-        <th :class="{ 'text-center': true }">
-          <v-btn icon="$trash" icon-color="red" flat @click="$emit('delete-all-data')" />
-        </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -28,7 +26,7 @@
             :id="'btn-del-row-' + index"
             icon="$trash"
             size="small"
-            flat
+            variant="text"
             @click="$emit('delete-row', index)"
           />
         </td>
