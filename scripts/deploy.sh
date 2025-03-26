@@ -4,4 +4,4 @@
 script_dir=$(cd $(dirname $0) && pwd)
 cd $script_dir/..
 
-npm run check && npm run build && rsync -rhv --delete --no-perms --ignore-times dist/ entorb@entorb.net:html/eta/
+npm run check && npm run build-only && rsync -rhv --delete --no-perms --ignore-times dist/ entorb@entorb.net:html/eta/

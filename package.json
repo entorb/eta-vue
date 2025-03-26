@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite --host",
-    "build": "run-s type-check \"build-only {@}\" --",
+    "build": "run-s type-check build-only",
     "preview": "vite preview --host",
     "run": "run-s build preview",
     "build-only": "vite build",
@@ -13,7 +13,7 @@
     "format": "prettier --cache --write src/ doc/ index.html *.ts *.json *.md cypress/",
     "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" \"doc/*\"",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
-    "check": "run-p format lint spell test-once",
+    "check": "run-p type-check format lint spell test-once",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "vitest --watch=true --coverage",
