@@ -31,17 +31,17 @@
     </v-row>
     <v-row>
       <v-col>
-        <h2>ETA</h2>
+        <h2>Remaining-Timer / ETA</h2>
         <p style="padding-bottom: 10px">
           Calculate remaining (waiting) time / estimated time of arrival.
         </p>
         <p>
           <strong>Count-down</strong> (target = 0)<br />
-          use case: "standing in a queue" etc.
+          use case: "standing in a queue", etc.
         </p>
         <p>
           <strong>Count-up</strong> (target > 0)<br />
-          use case: "10 of 100 done"
+          use case: "10 of 100 done", etc.
         </p>
         <p style="padding-top: 10px">
           <strong>Usage:</strong> Periodically input the current value (of items/to go).<br />
