@@ -16,15 +16,17 @@
       <v-col cols="6" md="3">
         <InputItems :target="target" @add-row="addRow" />
       </v-col>
-      <v-col v-if="data.length >= 1" cols="2" md="2" offset="1">
-        <v-btn id="btn-plus-1" icon="$plus1" color="blue-lighten-2" @click="plus1" />
-      </v-col>
-      <v-col v-if="data.length >= 1" cols="2" md="2">
+    </v-row>
+    <v-row v-if="data.length >= 1">
+      <v-col cols="4" md="2" offset="2" offsetMd="0">
         <v-btn id="btn-del-all" icon="$trash" color="red" @click="deleteAllData" />
       </v-col>
+      <v-col cols="4" md="2" offset="1" offsetMd="3">
+        <v-btn id="btn-plus-1" icon="$plus1" color="blue-lighten-2" @click="plus1" />
+      </v-col>
     </v-row>
-    <v-row>
-      <v-col v-if="data.length >= 2" cols="12" md="3">
+    <v-row v-if="data.length >= 1">
+      <v-col v-if="data.length >= 2" cols="12" md="6">
         <StatsTable
           :data="data"
           :settings="settings"
@@ -32,7 +34,7 @@
           @items-per-sec="forwardIpS"
         />
       </v-col>
-      <v-col v-if="data.length >= 1" cols="12" md="4">
+      <v-col cols="12" md="6">
         <DataTable
           :data="data"
           :settings="settings"
