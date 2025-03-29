@@ -107,7 +107,12 @@ const option = ref<EChartsOption>({
       }
     }
   ],
-  xAxis: { type: 'time' },
+  xAxis: {
+    type: 'time',
+    minInterval: 60000, // no seconds
+    minorTick: { show: false }, // for mobile display
+    splitNumber: 3
+  },
   yAxis: [
     {
       name: 'Value',
