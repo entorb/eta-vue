@@ -3,10 +3,7 @@
     <v-row v-if="data.length < 2">
       <v-col cols="12" md="12">
         1. set <v-icon icon="$target" /> (target can be 0)<br />
-        2. update <v-icon icon="$items" /> (current value)<br />
-        <!-- <span :style="{ color: colorItems }"></span> -->
-        <!--:color="colorItems" -->
-        3. periodically repeat 2. when it has changed
+        2. periodically update <v-icon icon="$items" /> (current value) when it has changed
       </v-col>
     </v-row>
     <v-row>
@@ -26,7 +23,7 @@
       </v-col>
     </v-row>
     <v-row v-if="data.length >= 1">
-      <v-col v-if="data.length >= 2" cols="12" md="6">
+      <v-col v-if="data.length >= 2" cols="12" md="3">
         <StatsTable
           :data="data"
           :settings="settings"
@@ -34,7 +31,7 @@
           @items-per-sec="forwardIpS"
         />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <DataTable
           :data="data"
           :settings="settings"
@@ -42,9 +39,9 @@
           @delete-row="deleteRow"
         />
       </v-col>
-    </v-row>
-    <v-row v-if="data.length >= 2">
-      <EtaChart :data="data" :settings="settings" :target="target" :ips="itemsPerSec" />
+      <v-col cols="12" md="5" v-if="data.length >= 2">
+        <EtaChart :data="data" :settings="settings" :target="target" :ips="itemsPerSec" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
