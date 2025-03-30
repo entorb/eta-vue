@@ -10,16 +10,7 @@
           variant="outlined"
         />
       </v-col>
-      <v-col cols="5" md="2">
-        <v-select
-          id="select-unit"
-          v-model="unitSelected"
-          label="Unit"
-          variant="outlined"
-          :items="unitList"
-        />
-      </v-col>
-      <v-col cols="6" md="3">
+      <v-col cols="5" md="3">
         <v-text-field
           id="input-time"
           v-model="inputTime"
@@ -28,6 +19,7 @@
           inputmode="decimal"
           variant="outlined"
           append-icon="$save"
+          @blur="addViaInput"
           @click:append="addViaInput"
           @keyup.enter="addViaInput"
         />
@@ -57,13 +49,13 @@
         >
           <thead>
             <tr>
-              <th>Name</th>
-              <th v-if="!isMobile">End</th>
-              <th width="150px">Time</th>
-              <th :class="{ 'text-center': true, 'small-width': true }">
+              <th scope="col">Name</th>
+              <th scope="col" v-if="!isMobile">End</th>
+              <th scope="col" width="150px">Time</th>
+              <th scope="col" :class="{ 'text-center': true, 'small-width': true }">
                 <v-btn id="btn-resetAll" icon="$repeat" icon-color="red" flat @click="resetAll" />
               </th>
-              <th :class="{ 'text-center': true, 'small-width': true }">
+              <th scope="col" :class="{ 'text-center': true, 'small-width': true }">
                 <v-btn id="btn-deleteAll" icon="$trash" icon-color="red" flat @click="deleteAll" />
               </th>
             </tr>
@@ -74,7 +66,7 @@
               <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
               <td style="white-space: nowrap">
                 <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
-                  {{ helperSecondsToString(row.remainingTime) }}
+                  <strong>{{ helperSecondsToString(row.remainingTime) }}</strong>
                 </v-progress-linear>
                 <!-- ({{ (100 * row.percent).toFixed(1) }}%) -->
               </td>
@@ -110,12 +102,8 @@ import {
   helperStatsDataWrite
 } from '../helper'
 
-import type { UnitType } from '../types'
-
 const inputName = ref('')
 const inputTime = ref('')
-const unitList = ref<UnitType[]>(['sec', 'min', 'hour', 'day'])
-const unitSelected = ref<UnitType>('min')
 const showDays = ref(false)
 
 const data = ref<Array<TimerType>>([])
@@ -140,18 +128,46 @@ onMounted(() => {
 })
 
 function addViaInput() {
-  const time = parseFloat(inputTime.value.replace(',', '.'))
+  // support unit as suffix
+  let input = inputTime.value
+  const u = input.slice(-1)
+  let unit = 'min'
+  if (['s', 'm', 'h', 'd'].includes(u)) {
+    input = input.slice(0, -1)
+    switch (u) {
+      case 's':
+        unit = 'sec'
+        break
+      case 'h':
+        unit = 'hour'
+        break
+      case 'd':
+        unit = 'day'
+        break
+    }
+  }
+
+  // support time in format 12:34 and convert to decimal 12.57
+  const regex = /:(\d{2})/
+  const match = input.match(regex)
+  if (match) {
+    const seconds = parseInt(match[1], 10)
+    const minutes = Math.round((seconds / 60) * 100) / 100
+    input = input.replace(regex, minutes.toString().replace(/^0/, ''))
+  }
+
+  const time = parseFloat(input.replace(',', '.'))
   if (isNaN(time)) {
     inputTime.value = ''
     return
   }
   const cleanName = helperClearName(inputName.value)
   const name = cleanName === '' ? 'Timer' : cleanName
-  const unit = unitSelected.value
+  // const unit = unitSelected.value
   inputTime.value = ''
   inputName.value = ''
   add(name, time, unit)
-  const thisTimerName = genRecentTimerName(name, time, unit)
+  const thisTimerName = genTimerName(name, time, unit)
   if (!recentTimerNames.value.includes(thisTimerName)) {
     recentTimerNames.value.push(thisTimerName)
     recentTimerNames.value.sort((a, b) => a.localeCompare(b))
@@ -236,12 +252,12 @@ function resetRow(index: number) {
 }
 
 function resetAll() {
-  for (let index = 0; index < data.value.length; index++) {
-    const time = data.value[index].dateEnd.getTime() - data.value[index].dateStart.getTime()
-    data.value[index].dateStart = new Date()
-    data.value[index].dateEnd = new Date(data.value[index].dateStart.getTime() + time)
-    data.value[index].remainingTime = time / 1000
-    data.value[index].percent = 0
+  for (const element of data.value) {
+    const time = element.dateEnd.getTime() - element.dateStart.getTime()
+    element.dateStart = new Date()
+    element.dateEnd = new Date(element.dateStart.getTime() + time)
+    element.remainingTime = time / 1000
+    element.percent = 0
   }
   startTimer()
   updateLocalStorageData()
@@ -263,7 +279,6 @@ function updateLocalStorageData() {
   if (data.value.length == 0) {
     localStorage.removeItem('eta_vue_mt_data')
   } else {
-    // only store the core data, not the derived data like speed
     const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
       name,
       dateStart,
@@ -310,11 +325,11 @@ function readLocalStorageRecentTimers() {
   }
 }
 
-function genRecentTimerName(name: string, time: number, unit: string): string {
+function genTimerName(name: string, time: number, unit: string): string {
   return helperClearName(name) + ':' + time.toString() + unit.charAt(0)
 }
 
-function parseRecentTimerName(title: string): { name: string; time: number; unit: string } {
+function parseTimerName(title: string): { name: string; time: number; unit: string } {
   let s = title
   const unitShort = s.charAt(s.length - 1)
   const unit =
@@ -335,7 +350,7 @@ function removeFromRecentTimer(title: string) {
 }
 
 function addFromRecentTimer(title: string) {
-  const { name, time, unit } = parseRecentTimerName(title)
+  const { name, time, unit } = parseTimerName(title)
   add(name, time, unit)
 }
 </script>
