@@ -1,9 +1,7 @@
 import { getMTLocalStorageDataFistLastRowItems } from './helper-cy'
 
-function enterTimer(name: string, unit: string, time: string) {
+function enterTimer(name: string, time: string) {
   cy.get('#input-name').type(name)
-  cy.get('#select-unit').parent().click()
-  cy.get('.v-list-item__content').contains(unit).click()
   cy.get('#input-time').type(time + '{enter}')
 }
 
@@ -13,7 +11,7 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('12s timer', () => {
-    enterTimer('MyTestTimerName s', 'sec', '12')
+    enterTimer('MyTestTimerName s', '12s')
     cy.should(() => {
       const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName s')
@@ -22,8 +20,8 @@ describe('Tests Multi-Timer', () => {
     })
   })
 
-  it('1.2min timer', () => {
-    enterTimer('MyTestTimerName m', 'min', '1.2')
+  it('1.2min timer 1', () => {
+    enterTimer('MyTestTimerName m', '1.2')
     cy.should(() => {
       const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName m')
@@ -33,8 +31,41 @@ describe('Tests Multi-Timer', () => {
     })
   })
 
-  it('1,2h timer (using comma)', () => {
-    enterTimer('MyTestTimerName h', 'hour', '1,2')
+  it('1.2min timer 2', () => {
+    enterTimer('MyTestTimerName m', '1.2m')
+    cy.should(() => {
+      const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
+      expect(firstName).to.eq('MyTestTimerName m')
+      expect(lastName).to.eq('MyTestTimerName m')
+      expect(firstEnd.getTime()).to.be.lt(new Date().getTime() + 1.2 * 60 * 1000)
+      expect(firstEnd.getTime()).to.be.gt(new Date().getTime() + 1.2 * 60 * 1000 - 1000)
+    })
+  })
+
+  it('1.2min timer 3', () => {
+    enterTimer('MyTestTimerName m', '1,2m')
+    cy.should(() => {
+      const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
+      expect(firstName).to.eq('MyTestTimerName m')
+      expect(lastName).to.eq('MyTestTimerName m')
+      expect(firstEnd.getTime()).to.be.lt(new Date().getTime() + 1.2 * 60 * 1000)
+      expect(firstEnd.getTime()).to.be.gt(new Date().getTime() + 1.2 * 60 * 1000 - 1000)
+    })
+  })
+
+  it('1.2min timer 4', () => {
+    enterTimer('MyTestTimerName m', '1:12m')
+    cy.should(() => {
+      const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
+      expect(firstName).to.eq('MyTestTimerName m')
+      expect(lastName).to.eq('MyTestTimerName m')
+      expect(firstEnd.getTime()).to.be.lt(new Date().getTime() + 1.2 * 60 * 1000)
+      expect(firstEnd.getTime()).to.be.gt(new Date().getTime() + 1.2 * 60 * 1000 - 1000)
+    })
+  })
+
+  it('1.2h timer', () => {
+    enterTimer('MyTestTimerName h', '1.2h')
     cy.should(() => {
       const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName h')
@@ -45,7 +76,7 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('1.2d timer', () => {
-    enterTimer('MyTestTimerName d', 'day', '1.2')
+    enterTimer('MyTestTimerName d', '1.2d')
     cy.should(() => {
       const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName d')
@@ -56,7 +87,7 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('add and delete 1 timer', () => {
-    enterTimer('MyTestTimerName', 'hour', '1.1')
+    enterTimer('MyTestTimerName', '1.1h')
     cy.should(() => {
       const { firstName, firstEnd, lastName } = getMTLocalStorageDataFistLastRowItems()
       expect(firstName).to.eq('MyTestTimerName')
@@ -73,8 +104,8 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('add 2 timers', () => {
-    enterTimer('MyTestTimerName1', 'hour', '1.1')
-    enterTimer('MyTestTimerName2', 'hour', '2.1')
+    enterTimer('MyTestTimerName1', '1.1h')
+    enterTimer('MyTestTimerName2', '2.1h')
 
     cy.should(() => {
       const { firstName, lastName } = getMTLocalStorageDataFistLastRowItems()
@@ -84,9 +115,9 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('add 3 timers, del 1st', () => {
-    enterTimer('MyTestTimerName1', 'hour', '1.1')
-    enterTimer('MyTestTimerName2', 'hour', '2.1')
-    enterTimer('MyTestTimerName3', 'hour', '3.1')
+    enterTimer('MyTestTimerName1', '1.1h')
+    enterTimer('MyTestTimerName2', '2.1h')
+    enterTimer('MyTestTimerName3', '3.1h')
     // delete button
     cy.get('#btn-del-row-0').click({ force: true })
     cy.should(() => {
@@ -97,8 +128,8 @@ describe('Tests Multi-Timer', () => {
   })
 
   it('deleteAll', () => {
-    enterTimer('MyTestTimerName1', 'hour', '1.1')
-    enterTimer('MyTestTimerName2', 'hour', '2.1')
+    enterTimer('MyTestTimerName1', '1.1h')
+    enterTimer('MyTestTimerName2', '2.1h')
 
     cy.should(() => {
       const { firstName, lastName } = getMTLocalStorageDataFistLastRowItems()
