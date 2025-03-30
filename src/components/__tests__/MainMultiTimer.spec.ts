@@ -26,12 +26,12 @@ describe('recentTimerStuff', () => {
     initializeWrapper(wrapper)
   })
 
-  it('genRecentTimerName abc:123h', () => {
-    expect(wrapper.vm.genRecentTimerName(' a:b"c ', 123, 'hour')).toBe('abc:123h')
+  it('genTimerName abc:123h', () => {
+    expect(wrapper.vm.genTimerName(' a:b"c ', 123, 'hour')).toBe('abc:123h')
   })
 
-  it('parseRecentTimerName abc:123h', () => {
-    expect(wrapper.vm.parseRecentTimerName('abc:123h')).toStrictEqual({
+  it('parseTimerName abc:123h', () => {
+    expect(wrapper.vm.parseTimerName('abc:123h')).toStrictEqual({
       name: 'abc',
       time: 123,
       unit: 'hour'
