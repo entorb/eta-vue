@@ -77,10 +77,10 @@ describe('helperClearName', () => {
 
 describe('clearName', () => {
   it('spaces', () => {
-    expect(helperClearName(' abc ')).toBe('abc')
+    expect(helperClearName(' ab c ')).toBe('ab c')
   })
   it(':', () => {
-    expect(helperClearName('a:b::c')).toBe('abc')
+    expect(helperClearName('a:b::c d')).toBe('abc d')
   })
   it('slashes', () => {
     expect(helperClearName('a//b||c\\\\d')).toBe('abcd')
