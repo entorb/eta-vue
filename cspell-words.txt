@@ -19,6 +19,7 @@ Pomodoro
 Pomofocus
 recalc
 roboto
+SonarQube
 Torben
 undefinded
 unplugin
