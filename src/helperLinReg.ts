@@ -17,10 +17,10 @@ export const helperLinReg = (
     }
     return { slope: dY / dX, intercept: Y[0] - (dY / dX) * X[0] }
   }
-  if (weighted == false) {
-    return calculateLinearRegression(X, Y)
-  } else {
+  if (weighted) {
     return calculateWeightedLinearRegression(X, Y)
+  } else {
+    return calculateLinearRegression(X, Y)
   }
 }
 
