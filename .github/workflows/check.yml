@@ -1,0 +1,47 @@
+name: Check and Test Vue.js Project
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set timezone to DE
+        run: sudo timedatectl set-timezone Europe/Berlin
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # required for SonarQube
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci cspell prettier eslint
+      - name: Run type check
+        run: npm run type-check
+      - name: Run code formatter
+        run: npm run format
+      - name: Run linter
+        run: npm run lint
+      #   - name: Run spell checker
+      #     run: npm run spell
+      - name: Run unit tests
+        run: npm run test-once
+
+      # for SonarQube Coverage report
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
