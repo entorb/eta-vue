@@ -19,9 +19,11 @@ Pomodoro
 Pomofocus
 recalc
 roboto
+SonarCloud
 SonarQube
 Torben
 undefinded
 unplugin
+Vite
 vitest
 vuetify

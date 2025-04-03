@@ -17,7 +17,7 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "vitest --watch=true --coverage",
-    "test-once": "vitest --watch=false"
+    "test-once": "vitest --watch=false --coverage"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.5",
