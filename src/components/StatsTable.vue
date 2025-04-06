@@ -57,7 +57,7 @@
       </tr>
       <tr>
         <td><v-icon icon="$timeStart" /></td>
-        <td :style="{ fontWeight: 'bold' }">{{ dateToString(firstDate) }}</td>
+        <td :style="{ fontWeight: 'bold' }">{{ dateToString(dateFirst) }}</td>
       </tr>
     </tbody>
   </v-table>
@@ -116,9 +116,9 @@ let timerInterval: number | null = null
 // TODO: Leftover from simple mode: these are not computed, because only available if target is set
 // calc in updateStats()
 // not displayed
-const firstDate = ref(new Date(0))
-const lastDate = ref(new Date(0))
-const firstItems = ref(0.0)
+const dateFirst = ref(new Date(0))
+const dateLast = ref(new Date(0))
+const itemsFirst = ref(0.0)
 const itemsLast = ref(0.0)
 // displayed
 const eta = ref(new Date(0))
@@ -157,9 +157,9 @@ function secToString(sec: number): string {
 function resetStats() {
   // triggered by watcher if data empty
   eta.value = new Date(0)
-  firstDate.value = new Date(0)
-  lastDate.value = new Date(0)
-  firstItems.value = 0.0
+  dateFirst.value = new Date(0)
+  dateLast.value = new Date(0)
+  itemsFirst.value = 0.0
   itemsLast.value = 0.0
   itemsDone.value = 0
   itemsTotal.value = 0
@@ -178,13 +178,13 @@ function updateStats() {
   }
 
   // read first and last row
-  firstDate.value = props.data[0].date
-  firstItems.value = props.data[0].items
-  lastDate.value = props.data[props.data.length - 1].date
+  dateFirst.value = props.data[0].date
+  itemsFirst.value = props.data[0].items
+  dateLast.value = props.data[props.data.length - 1].date
   itemsLast.value = props.data[props.data.length - 1].items
   // calc done and total items
-  itemsDone.value = props.target > 0 ? itemsLast.value : firstItems.value - itemsLast.value
-  itemsTotal.value = props.target > 0 ? props.target : firstItems.value
+  itemsDone.value = props.target > 0 ? itemsLast.value : itemsFirst.value - itemsLast.value
+  itemsTotal.value = props.target > 0 ? props.target : itemsFirst.value
 
   const { slope } = helperLinReg(props.data, true)
   itemsPerSec.value = slope
@@ -202,7 +202,7 @@ function updateStats() {
     const t = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
     // mode 'Down' has neg slope
     const timeLastRowToETA = props.target > 0 ? t : -t
-    eta.value = new Date(lastDate.value.getTime() + timeLastRowToETA * 1000)
+    eta.value = new Date(dateLast.value.getTime() + timeLastRowToETA * 1000)
   }
 
   if (!targetReached) {
@@ -226,22 +226,17 @@ function timer_triggered_function() {
     return
   }
 
-  // if ETA = 0 -> stop here
-  if (eta.value.getTime() == new Date(0).getTime()) {
-    return
-  }
-
   const nowTS = new Date().getTime()
   // 1. timeSinceFirstRow and timeSinceLastRow
   if (targetReached) {
     secSinceFirstRow.value = Math.round(
-      (lastDate.value.getTime() - firstDate.value.getTime()) / 1000
+      (dateLast.value.getTime() - dateFirst.value.getTime()) / 1000
     )
   } else {
-    secSinceFirstRow.value = Math.round((nowTS - firstDate.value.getTime()) / 1000)
+    secSinceFirstRow.value = Math.round((nowTS - dateFirst.value.getTime()) / 1000)
   }
 
-  secSinceLastRow.value = (nowTS - lastDate.value.getTime()) / 1000
+  secSinceLastRow.value = (nowTS - dateLast.value.getTime()) / 1000
 
   // 2. estimate current items
   let estItemsCurrent = itemsLast.value + itemsPerSec.value * secSinceLastRow.value
