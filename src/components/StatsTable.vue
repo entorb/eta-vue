@@ -21,25 +21,16 @@
       <tr>
         <td><v-icon icon="$items" /></td>
         <td>
-          <v-progress-linear v-model="percentOfTarget" max="1" height="20" :color="colorItems">
-            <span :style="{ fontWeight: 'bold' }">
+          <v-progress-linear v-model="percentOfTarget" max="1" height="30" :color="colorItems">
+            <span :style="{ fontWeight: 'bold', fontSize: '1.2em' }">
               {{ itemsLast }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
             </span>
           </v-progress-linear>
-          <!-- <br /> -->
           <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
             {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
           </v-progress-linear>
         </td>
       </tr>
-      <!-- <tr>
-        <td>Value (est.)</td>
-        <td :style="{ fontWeight: 'bold', color: colorItems }">
-          <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
-            {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
-          </v-progress-linear>
-        </td>
-      </tr> -->
       <tr v-if="itemsPerSec !== 0.0">
         <td><v-icon icon="$speed" /></td>
         <td :style="{ fontWeight: 'bold', color: colorSpeed }">
