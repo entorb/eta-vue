@@ -1,9 +1,8 @@
 <template>
-  <!-- :label="inputItemsLabel" -->
   <v-text-field
     id="input-items"
     v-model="inputItems"
-    label="Value"
+    :label="label"
     type="text"
     inputmode="decimal"
     append-icon="$save"
@@ -18,18 +17,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 // , computed
 import type { DataRowRedType } from '../types'
 import { colorItems } from '../colors'
 
 const emits = defineEmits(['add-row'])
 
-// const props = defineProps({
-//   target: { type: Number, default: 0 }
-// })
+const props = defineProps({
+  currentItems: { type: Number, required: true }
+})
 
 const inputItems = ref('')
+const label = ref('Value')
+
+watch(
+  () => props.currentItems,
+  newVal => {
+    label.value = isNaN(newVal) ? 'Value' : String(newVal)
+  }
+)
 
 function enterItems() {
   const items = parseFloat(inputItems.value.replace(',', '.'))

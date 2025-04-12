@@ -11,7 +11,7 @@
         <InputTarget :target="target" @set-target="setTarget" />
       </v-col>
       <v-col cols="6" md="3">
-        <InputItems :target="target" @add-row="addRow" />
+        <InputItems :target="target" :currentItems="current" @add-row="addRow" />
       </v-col>
     </v-row>
     <v-row v-if="data.length >= 1">
@@ -70,6 +70,8 @@ import {
 // > 0 -> count-up mode
 
 const target = ref<number>(0)
+const current = ref<number>(NaN)
+
 // speed in items per sec
 const data = ref<Array<DataRowType>>([])
 const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
@@ -119,6 +121,7 @@ function addRow(row: DataRowRedType) {
     speed = helperCalcSpeedFromPreviousRow({ date, items }, prevRow)
   }
   data.value.push({ date, items, speed })
+  current.value = items
   decideIfToShowDays()
   updateLocalStorageData()
   // update usage stats stats only if there are at least 3 rows
@@ -173,6 +176,7 @@ function deleteRow(index: number) {
   }
   decideIfToShowDays()
   updateLocalStorageData()
+  current.value = data.value.length > 0 ? data.value[data.value.length - 1].items : NaN
 }
 
 function deleteAllData() {
@@ -180,6 +184,7 @@ function deleteAllData() {
   localStorage.removeItem('eta_vue_data')
   localStorage.removeItem('eta_vue_target')
   target.value = 0
+  current.value = NaN
 }
 
 function readLocalStorageTarget() {
@@ -211,6 +216,7 @@ function readLocalStorageData() {
     newData.push({ date, items, speed })
   }
   data.value = newData
+  current.value = newData[newData.length - 1].items
 }
 
 function updateLocalStorageTarget() {
