@@ -1,0 +1,38 @@
+name: Update Vite
+
+on:
+  schedule:
+    - cron: '51 5 * * 0' # Every Sunday morning
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'npm'
+
+      - name: Update Vite
+        run: npm install --update vite
+
+      - name: Commit changes if any
+        run: |
+          if [[ $(git status --porcelain) ]]; then
+            git config --local user.name "GitHub Action"
+            git config --local user.email "action@github.com"
+            git add package-lock.json
+            git commit -m "Update package-lock.json"
+            git add package.json
+            git commit -m "Update Vite"
+            git push
+          fi
