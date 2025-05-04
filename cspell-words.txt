@@ -18,10 +18,12 @@ Pinia
 Pomodoro
 Pomofocus
 recalc
+Reparsing
 roboto
 SonarCloud
 SonarQube
 Torben
+TYPELESS
 undefinded
 unplugin
 Vite
