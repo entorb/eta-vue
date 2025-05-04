@@ -103,7 +103,7 @@ const option = ref<EChartsOption>({
         label: { show: false },
         silent: true,
         animation: true,
-        data: [{ yAxis: props.ips * unitFactor.value }]
+        data: [{ yAxis: props.ips * speedInverter * unitFactor.value }]
       }
     }
   ],
@@ -141,14 +141,17 @@ watch(
 )
 
 function updateChart() {
+  // recalc the speed unit and inverter
+  const speedInverter = props.target > 0 ? 1 : -1
+  const speedFactor = speedInverter * unitFactor.value
+
   // invert the speed if target = 0
   option.value.series = option.value.series as LineSeriesOption[]
   option.value.series[0].data = props.data.map(row => [row.date, row.items])
-  option.value.series[1].data = props.data
-    .slice(1)
-    .map(row => [row.date, row.speed * speedInverter * unitFactor.value])
+  option.value.series[1].data = props.data.slice(1).map(row => [row.date, row.speed * speedFactor])
+  // update mean speed line
   if (option.value.series[1]?.markLine) {
-    option.value.series[1].markLine.data = [{ yAxis: props.ips * unitFactor.value }]
+    option.value.series[1].markLine.data = [{ yAxis: props.ips * speedFactor }]
   }
   if (props.data.length > 0) {
     // eslint-disable-next-line
