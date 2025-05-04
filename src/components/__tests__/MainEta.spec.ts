@@ -99,27 +99,6 @@ describe('addRow', () => {
   })
 })
 
-describe('decideIfToShowDays', () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
-  })
-
-  it('<24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-17T16:00:00'), items: 113 })
-
-    expect(wrapper.vm.settings.showDays).toBe(false)
-  })
-
-  it('>=24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-18T12:00:00'), items: 113 })
-
-    expect(wrapper.vm.settings.showDays).toBe(true)
-  })
-})
-
 describe('plus1', () => {
   let wrapper
   beforeEach(() => {
@@ -227,5 +206,85 @@ describe('deleteAllData', () => {
     expect(localStorage.getItem('eta_vue_data')).toBe(null)
     // expect(wrapper.vm.target).toBe(0)
     // expect(localStorage.getItem('eta_vue_target')).toBe(null)
+  })
+})
+
+describe('decideIfToShowDays', () => {
+  let wrapper
+  beforeEach(() => {
+    wrapper = shallowMount(MainEta)
+    initializeWrapper(wrapper)
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
+  })
+
+  it('<24h', () => {
+    wrapper.vm.addRow({ date: new Date('2023-10-17T16:00:00'), items: 113 })
+
+    expect(wrapper.vm.settings.showDays).toBe(false)
+  })
+
+  it('>=24h', () => {
+    wrapper.vm.addRow({ date: new Date('2023-10-18T12:00:00'), items: 113 })
+
+    expect(wrapper.vm.settings.showDays).toBe(true)
+  })
+})
+
+describe('calcSpeeds', () => {
+  let wrapper
+  beforeEach(() => {
+    wrapper = shallowMount(MainEta)
+    initializeWrapper(wrapper)
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+  })
+
+  it('works', () => {
+    expect(wrapper.vm.data[0].speed).toBe(0)
+    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(wrapper.vm.data[2].speed).toBe(2)
+    // modify
+    wrapper.vm.data[1].speed = 12.3
+    expect(wrapper.vm.data[1].speed).toBe(12.3)
+    // calcSpeeds()
+    wrapper.vm.calcSpeeds()
+    expect(wrapper.vm.data[0].speed).toBe(0)
+    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(wrapper.vm.data[2].speed).toBe(2)
+  })
+})
+
+describe('updateRow', () => {
+  let wrapper
+  beforeEach(() => {
+    wrapper = shallowMount(MainEta)
+    initializeWrapper(wrapper)
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+  })
+
+  it('update items', () => {
+    expect(wrapper.vm.data[0].speed).toBe(0)
+    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(wrapper.vm.data[2].speed).toBe(2)
+    wrapper.vm.updateRow(1, { date: new Date('2023-10-17T12:00:02'), items: 3 })
+    expect(wrapper.vm.data[0].speed).toBe(0)
+    expect(wrapper.vm.data[1].speed).toBe(2)
+    expect(wrapper.vm.data[2].speed).toBe(1)
+    expect(wrapper.vm.data[1].items).toBe(3)
+  })
+
+  it('update date', () => {
+    expect(wrapper.vm.data[0].items).toBe(1)
+    expect(wrapper.vm.data[1].items).toBe(2)
+    expect(wrapper.vm.data[2].items).toBe(4)
+    wrapper.vm.updateRow(1, { date: new Date('2023-10-17T12:00:00'), items: 0 })
+    expect(wrapper.vm.data[0].items).toBe(0)
+    expect(wrapper.vm.data[1].items).toBe(1)
+    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(wrapper.vm.data[2].items).toBe(4)
+    expect(wrapper.vm.data[2].speed).toBe(1.5)
   })
 })

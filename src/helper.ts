@@ -15,6 +15,17 @@ export const helperDateToString = (datetime: Date, showDays: boolean = false): s
   return datetime.toLocaleString('de-DE', options)
 }
 
+export const helperDateToIsoString = (date: Date): string => {
+  const pad = (n: number) => n.toString().padStart(2, '0')
+  const year = date.getFullYear()
+  const month = pad(date.getMonth() + 1)
+  const day = pad(date.getDate())
+  const hours = pad(date.getHours())
+  const minutes = pad(date.getMinutes())
+  const seconds = pad(date.getSeconds())
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+}
+
 export const helperSecondsToString = (totalSeconds: number): string => {
   totalSeconds = Math.round(totalSeconds)
   const days = Math.floor(totalSeconds / 86400)
@@ -33,6 +44,12 @@ export const helperSecondsToString = (totalSeconds: number): string => {
   } else {
     return `${seconds}s`
   }
+}
+
+// validate input of items
+export const helperValidateItemsInput = (inputStr: string): boolean => {
+  const items = parseFloat(inputStr.replace(',', '.'))
+  return !isNaN(items)
 }
 
 // used at StatsTable and TooltipSpeed

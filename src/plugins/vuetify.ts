@@ -8,6 +8,8 @@ import 'vuetify/styles'
 
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
+// import { VDateInput } from 'vuetify/labs/VDateInput'
+// import { VTimePicker } from 'vuetify/labs/VTimePicker'
 
 // TM: do not import all icons, this makes build size too large
 // import '@mdi/font/css/materialdesignicons.css'
@@ -20,6 +22,7 @@ import {
   mdiClockCheckOutline,
   mdiCounter,
   mdiNumericPositive1,
+  mdiPencil,
   mdiPlay,
   mdiRepeatVariant,
   mdiTimerMarkerOutline,
@@ -52,6 +55,7 @@ export default createVuetify({
       // arrowDown: mdiArrowDown,
       // arrowUp: mdiArrowUp,
       // arrowUpDown: mdiArrowUpDown,
+      edit: mdiPencil,
       eta: mdiClockCheckOutline,
       items: mdiCounter,
       plus1: mdiNumericPositive1,
@@ -65,4 +69,8 @@ export default createVuetify({
       trash: mdiTrashCan
     }
   }
+  // components: {
+  //   VDateInput,
+  //   VTimePicker
+  // }
 })

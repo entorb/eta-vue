@@ -20,6 +20,7 @@
 import { ref, watch } from 'vue'
 // , computed
 import type { DataRowRedType } from '../types'
+import { helperValidateItemsInput } from '../helper'
 import { colorItems } from '../colors'
 
 const emits = defineEmits(['add-row'])
@@ -39,12 +40,12 @@ watch(
 )
 
 function enterItems() {
-  const items = parseFloat(inputItems.value.replace(',', '.'))
-  if (isNaN(items)) {
+  const itemsStr = inputItems.value
+  if (!helperValidateItemsInput(itemsStr)) {
     return
   }
   const date = new Date()
-  const newRow: DataRowRedType = { date: date, items: items }
+  const newRow: DataRowRedType = { date: date, items: Number(itemsStr) }
   // Emit an event to add the row to the data
   emits('add-row', newRow)
   inputItems.value = ''
