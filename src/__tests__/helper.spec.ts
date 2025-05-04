@@ -1,10 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import {
+  helperCalcSpeedFromPreviousRow,
+  helperClearName,
+  helperDateToIsoString,
   helperDateToString,
   helperSecondsToString,
-  helperValueToString,
-  helperCalcSpeedFromPreviousRow,
-  helperClearName
+  helperValidateItemsInput,
+  helperValueToString
 } from '../helper'
 
 describe('helperDateToString', () => {
@@ -18,6 +20,19 @@ describe('helperDateToString', () => {
     const datetime = new Date('2023-10-17T12:34:56Z')
     const formattedDate = helperDateToString(datetime, true)
     expect(formattedDate).toBe('17.10., 14:34')
+  })
+})
+
+describe('helperDateToIsoString', () => {
+  it('summer time', () => {
+    const datetime = new Date('2023-06-17T12:34:56Z')
+    const formattedDate = helperDateToIsoString(datetime)
+    expect(formattedDate).toBe('2023-06-17T14:34:56')
+  })
+  it('winter time', () => {
+    const datetime = new Date('2023-12-17T12:34:56Z')
+    const formattedDate = helperDateToIsoString(datetime)
+    expect(formattedDate).toBe('2023-12-17T13:34:56')
   })
 })
 
@@ -46,6 +61,17 @@ describe('helperSecondsToString', () => {
     const totalSeconds = 59
     const formattedDate = helperSecondsToString(totalSeconds)
     expect(formattedDate).toBe('59s')
+  })
+})
+
+describe('helperValidateItemsInput', () => {
+  it('various values', () => {
+    expect(helperValidateItemsInput('123')).toBe(true)
+    expect(helperValidateItemsInput('123.1')).toBe(true)
+    expect(helperValidateItemsInput('123,1')).toBe(true)
+    expect(helperValidateItemsInput('abc')).toBe(false)
+    expect(helperValidateItemsInput('a123')).toBe(false)
+    // expect(helperValidateItemsInput('123a')).toBe(false)
   })
 })
 
