@@ -33,11 +33,13 @@ This project is a complete rewrite of [github.com/entorb/eta](https://github.com
 
 ## Build and Run this Project Locally
 
-Install npm packages\_ `npm install`
+Install npm packages: `npm install`
 
 Run live-updated dev-instance: `npm run dev`
 
 Build and run: `npm run run`
+
+Live preview of changes: `npm run dev` (via `vite --host`)
 
 ## Check code after changes
 
@@ -47,8 +49,9 @@ Build and run: `npm run run`
 npm run check
 # this runs: format lint spell test-once
 
-# unit test only
+# to run unit test only, generating coverage report in coverage\lcov-report\index.html
 npm run test-once
+
 # or run this to permanently retest upon file changes
 npm run test
 ```
