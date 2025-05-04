@@ -37,6 +37,7 @@
           :settings="settings"
           @delete-all-data="deleteAllData"
           @delete-row="deleteRow"
+          @update-row="updateRow"
         />
       </v-col>
       <v-col cols="12" md="5" v-if="data.length >= 2">
@@ -118,9 +119,11 @@ function addRow(row: DataRowRedType) {
   let speed = 0
   if (data.value.length > 0) {
     const prevRow = data.value[data.value.length - 1]
-    speed = helperCalcSpeedFromPreviousRow({ date, items }, prevRow)
+    speed = helperCalcSpeedFromPreviousRow(row, prevRow)
   }
-  data.value.push({ date, items, speed })
+  // add row
+  data.value.push({ date, items, speed } as DataRowType)
+  // aftermath
   current.value = items
   decideIfToShowDays()
   updateLocalStorageData()
@@ -134,32 +137,30 @@ function addRow(row: DataRowRedType) {
   }
 }
 
-function decideIfToShowDays() {
-  if (data.value.length > 0) {
-    const firstDate = data.value[0].date
-    const lastDate = data.value[data.value.length - 1].date
-    settings.value.showDays = firstDate.getTime() <= lastDate.getTime() - 86400 * 1000
-  } else {
-    settings.value.showDays = false
-  }
-}
-
 function plus1() {
-  const hasData = data.value.length > 0
-  const lastItems = hasData ? data.value[data.value.length - 1].items : 0
-
+  const length = data.value.length
+  const lastItems = length > 0 ? data.value[length - 1].items : 0
   // count-down mode: exit if lastValue <= 0
   if (target.value == 0 && lastItems <= 0) return
-
   // count-down: -1, count-up: +1
   const items = target.value == 0 ? lastItems - 1 : lastItems + 1
+  addRow({ date: new Date(), items })
+}
 
-  const newRow: DataRowRedType = { date: new Date(), items }
-  addRow(newRow)
+function updateRow(index: number, row: DataRowRedType) {
+  // Update
+  data.value[index].date = row.date
+  data.value[index].items = row.items
+  // sort data by dates
+  data.value.sort((a, b) => a.date.getTime() - b.date.getTime())
+  calcSpeeds()
+  decideIfToShowDays()
+  updateLocalStorageData()
 }
 
 function deleteRow(index: number) {
   if (index >= 0 && index < data.value.length) {
+    // remove row
     data.value.splice(index, 1)
   }
   // recalc speed
@@ -171,7 +172,8 @@ function deleteRow(index: number) {
     } else {
       const prevRow = data.value[index - 1]
       const row = data.value[index]
-      row.speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+      // calc the speed
+      data.value[index].speed = helperCalcSpeedFromPreviousRow(row, prevRow)
     }
   }
   decideIfToShowDays()
@@ -185,6 +187,31 @@ function deleteAllData() {
   localStorage.removeItem('eta_vue_target')
   target.value = 0
   current.value = NaN
+}
+
+function decideIfToShowDays() {
+  if (data.value.length > 0) {
+    const firstDate = data.value[0].date
+    const lastDate = data.value[data.value.length - 1].date
+    settings.value.showDays = firstDate.getTime() <= lastDate.getTime() - 86400 * 1000
+  } else {
+    settings.value.showDays = false
+  }
+}
+
+function calcSpeeds() {
+  // Cache the length
+  const length = data.value.length
+  for (let i = 0; i < length; i++) {
+    if (i == 0) {
+      data.value[i].speed = 0
+    } else {
+      const row = data.value[i]
+      const prevRow = data.value[i - 1]
+      data.value[i].speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+    }
+  }
+  current.value = data.value.length > 0 ? data.value[data.value.length - 1].items : NaN
 }
 
 function readLocalStorageTarget() {
@@ -203,20 +230,12 @@ function readLocalStorageData() {
   }
 
   const obj = JSON.parse(stored)
-  const dataReduced: DataRowRedType[] = obj.map(({ date, items }: DataRowRedType) => ({
+  data.value = obj.map(({ date, items, speed }: DataRowType) => ({
     date: new Date(date),
-    items
+    items,
+    speed: speed || 0
   }))
-
-  const newData: DataRowType[] = []
-  const dataReducedLength = dataReduced.length // Cache the length
-  for (let i = 0; i < dataReducedLength; i++) {
-    const { date, items } = dataReduced[i]
-    const speed = i >= 1 ? helperCalcSpeedFromPreviousRow({ date, items }, newData[i - 1]) : 0
-    newData.push({ date, items, speed })
-  }
-  data.value = newData
-  current.value = newData[newData.length - 1].items
+  calcSpeeds()
 }
 
 function updateLocalStorageTarget() {
