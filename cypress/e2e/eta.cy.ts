@@ -12,6 +12,8 @@ describe('start app', () => {
     })
 
     cy.get('#input-items').type('1{enter}')
+    // 1
+
     cy.get('#input-items')
       .type('12{enter}')
       .should(() => {
@@ -19,12 +21,15 @@ describe('start app', () => {
         expect(first).to.eq(1)
         expect(last).to.eq(12)
       })
+    // 1,12
+
     cy.get('#btn-plus-1').click()
     cy.should(() => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(1)
       expect(last).to.eq(12 + 1)
     })
+    // 1,12,13
 
     cy.get('#btn-del-row-0').click()
     cy.should(() => {
@@ -32,6 +37,7 @@ describe('start app', () => {
       expect(first).to.eq(12)
       expect(last).to.eq(13)
     })
+    // 12,13
   })
 
   it('Down', () => {
@@ -59,6 +65,38 @@ describe('start app', () => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(99)
       expect(last).to.eq(66)
+    })
+  })
+
+  it('Edit Dialog', () => {
+    cy.get('#input-target').clear().type('100{enter}')
+
+    cy.get('#input-items').type('1{enter}')
+    cy.wait(1000)
+    // 1
+
+    cy.get('#btn-plus-1').click()
+    cy.wait(1000)
+    // 1,2
+
+    cy.get('#input-items').type('4{enter}')
+    cy.wait(1000)
+    // 1,2,4
+
+    cy.get('#btn-edit-row-0').click()
+    cy.get('#edit-items').should('have.value', '1')
+    cy.get('#edit-items').clear().type('0{enter}')
+    // 0,2,4
+
+    cy.get('#btn-edit-row-2').click()
+    cy.get('#edit-items').should('have.value', '4')
+    cy.get('#edit-items').clear().type('5{enter}')
+    // 0,2,5
+
+    cy.should(() => {
+      const { first, last } = getEtaLocalStorageDataFistLastRowItems()
+      expect(first).to.eq(0)
+      expect(last).to.eq(5)
     })
   })
 })
