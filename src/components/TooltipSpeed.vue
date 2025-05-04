@@ -3,6 +3,7 @@
   <v-tooltip activator="parent">
     {{ ipsInUnit('sec') }} / sec<br />
     {{ ipsInUnit('min') }} / min<br />
+    {{ minPerItem(props.ips) }} min/item<br />
     {{ ipsInUnit('hour') }} / hour<br />
     {{ ipsInUnit('day') }} / day
   </v-tooltip>
@@ -35,6 +36,10 @@ const ipsInUnit = (unit: UnitType): string => {
     day: 86400
   }[unit]
   return helperValueToString(Math.abs(props.ips * factor))
+}
+
+function minPerItem(ips: number): string {
+  return helperValueToString(Math.abs(1 / (60 * ips)))
 }
 
 watch(
