@@ -99,4 +99,20 @@ describe('start app', () => {
       expect(last).to.eq(5)
     })
   })
+
+  it('Decimal input', () => {
+    cy.get('#input-target').clear().type('12,1{enter}')
+    cy.should(() => {
+      expect(localStorage.getItem('eta_vue_target')).to.eq('12.1')
+    })
+
+    cy.get('#input-items').type('0.1{enter}')
+    cy.get('#input-items')
+      .type('0,2{enter}')
+      .should(() => {
+        const { first, last } = getEtaLocalStorageDataFistLastRowItems()
+        expect(first).to.eq(0.1)
+        expect(last).to.eq(0.2)
+      })
+  })
 })
