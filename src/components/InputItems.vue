@@ -45,7 +45,7 @@ function enterItems() {
     return
   }
   const date = new Date()
-  const newRow: DataRowRedType = { date: date, items: Number(itemsStr) }
+  const newRow: DataRowRedType = { date: date, items: parseFloat(itemsStr.replace(',', '.')) }
   // Emit an event to add the row to the data
   emits('add-row', newRow)
   inputItems.value = ''
