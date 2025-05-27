@@ -1,0 +1,26 @@
+.vscode/
+coverage/
+dist/
+node_modules/
+vorlagen/
+
+.DS_Store
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+
+# Editor directories and files
+.cspellcache
+.eslintcache
+
+# Cypress
+cypress/screenshots/
+cypress/e2e/1-getting-started/
+cypress/e2e/2-advanced-examples/
+
+# SonarQube
+sonar-report.xml
