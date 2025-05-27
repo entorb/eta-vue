@@ -48,6 +48,12 @@ jobs:
       - name: Run unit tests
         run: npm run test-once
 
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npx vite build
+          start: npx vite preview --host
+
       # for SonarQube Coverage report
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
