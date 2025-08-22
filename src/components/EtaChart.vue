@@ -147,8 +147,14 @@ function updateChart() {
 
   // invert the speed if target = 0
   option.value.series = option.value.series as LineSeriesOption[]
-  option.value.series[0].data = props.data.map(row => [row.date, row.items])
-  option.value.series[1].data = props.data.slice(1).map(row => [row.date, row.speed * speedFactor])
+  if (option.value.series[0]) {
+    option.value.series[0].data = props.data.map(row => [row.date, row.items])
+  }
+  if (option.value.series[1]) {
+    option.value.series[1].data = props.data
+      .slice(1)
+      .map(row => [row.date, row.speed * speedFactor])
+  }
   // update mean speed line
   if (option.value.series[1]?.markLine) {
     option.value.series[1].markLine.data = [{ yAxis: props.ips * speedFactor }]

@@ -169,10 +169,12 @@ function updateStats() {
   }
 
   // read first and last row
-  dateFirst.value = props.data[0].date
-  itemsFirst.value = props.data[0].items
-  dateLast.value = props.data[props.data.length - 1].date
-  itemsLast.value = props.data[props.data.length - 1].items
+  if (props.data[0] && props.data[props.data.length - 1]) {
+    dateFirst.value = props.data[0].date
+    itemsFirst.value = props.data[0].items
+    dateLast.value = props.data[props.data.length - 1]?.date ?? new Date(0)
+    itemsLast.value = props.data[props.data.length - 1]?.items ?? 0
+  }
   // calc done and total items
   itemsDone.value = props.target > 0 ? itemsLast.value : itemsFirst.value - itemsLast.value
   itemsTotal.value = props.target > 0 ? props.target : itemsFirst.value
