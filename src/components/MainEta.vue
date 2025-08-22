@@ -119,7 +119,9 @@ function addRow(row: DataRowRedType) {
   let speed = 0
   if (data.value.length > 0) {
     const prevRow = data.value[data.value.length - 1]
-    speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+    if (prevRow !== undefined) {
+      speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+    }
   }
   // add row
   data.value.push({ date, items, speed } as DataRowType)
@@ -139,7 +141,7 @@ function addRow(row: DataRowRedType) {
 
 function plus1() {
   const length = data.value.length
-  const lastItems = length > 0 ? data.value[length - 1].items : 0
+  const lastItems = length > 0 ? (data.value[length - 1]?.items ?? 0) : 0
   // count-down mode: exit if lastValue <= 0
   if (target.value == 0 && lastItems <= 0) return
   // count-down: -1, count-up: +1
@@ -149,13 +151,15 @@ function plus1() {
 
 function updateRow(index: number, row: DataRowRedType) {
   // Update
-  data.value[index].date = row.date
-  data.value[index].items = row.items
-  // sort data by dates
-  data.value.sort((a, b) => a.date.getTime() - b.date.getTime())
-  calcSpeeds()
-  decideIfToShowDays()
-  updateLocalStorageData()
+  if (data.value[index]) {
+    data.value[index].date = row.date
+    data.value[index].items = row.items
+    // sort data by dates
+    data.value.sort((a, b) => a.date.getTime() - b.date.getTime())
+    calcSpeeds()
+    decideIfToShowDays()
+    updateLocalStorageData()
+  }
 }
 
 function deleteRow(index: number) {
@@ -168,17 +172,21 @@ function deleteRow(index: number) {
   if (index < data.value.length) {
     // recalc speed for the row that now is shifted to index
     if (index == 0) {
-      data.value[index].speed = 0
+      if (data.value[index]) {
+        data.value[index].speed = 0
+      }
     } else {
       const prevRow = data.value[index - 1]
       const row = data.value[index]
       // calc the speed
-      data.value[index].speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+      if (row && prevRow && data.value[index]) {
+        data.value[index]!.speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+      }
     }
   }
   decideIfToShowDays()
   updateLocalStorageData()
-  current.value = data.value.length > 0 ? data.value[data.value.length - 1].items : NaN
+  current.value = data.value.length > 0 ? (data.value[data.value.length - 1]?.items ?? NaN) : NaN
 }
 
 function deleteAllData() {
@@ -190,10 +198,10 @@ function deleteAllData() {
 }
 
 function decideIfToShowDays() {
-  if (data.value.length > 0) {
+  if (data.value.length > 0 && data.value[0] && data.value[data.value.length - 1]) {
     const firstDate = data.value[0].date
-    const lastDate = data.value[data.value.length - 1].date
-    settings.value.showDays = firstDate.getTime() <= lastDate.getTime() - 86400 * 1000
+    const lastDate = data.value[data.value.length - 1]?.date
+    settings.value.showDays = !!lastDate && firstDate.getTime() <= lastDate.getTime() - 86400 * 1000
   } else {
     settings.value.showDays = false
   }
@@ -204,14 +212,18 @@ function calcSpeeds() {
   const length = data.value.length
   for (let i = 0; i < length; i++) {
     if (i == 0) {
-      data.value[i].speed = 0
+      if (data.value[i] !== undefined) {
+        data.value[i]!.speed = 0
+      }
     } else {
       const row = data.value[i]
       const prevRow = data.value[i - 1]
-      data.value[i].speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+      if (row !== undefined && prevRow !== undefined) {
+        data.value[i]!.speed = helperCalcSpeedFromPreviousRow(row, prevRow)
+      }
     }
   }
-  current.value = data.value.length > 0 ? data.value[data.value.length - 1].items : NaN
+  current.value = data.value.length > 0 ? (data.value[data.value.length - 1]?.items ?? NaN) : NaN
 }
 
 function readLocalStorageTarget() {
