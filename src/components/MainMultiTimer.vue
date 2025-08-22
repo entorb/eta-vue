@@ -151,7 +151,7 @@ function addViaInput() {
   const regex = /:(\d{2})/
   const match = input.match(regex)
   if (match) {
-    const seconds = parseInt(match[1], 10)
+    const seconds = parseInt(match[1] ?? '0', 10)
     const minutes = Math.round((seconds / 60) * 100) / 100
     input = input.replace(regex, minutes.toString().replace(/^0/, ''))
   }
@@ -242,11 +242,13 @@ function startTimer() {
 }
 
 function resetRow(index: number) {
-  const time = data.value[index].dateEnd.getTime() - data.value[index].dateStart.getTime()
-  data.value[index].dateStart = new Date()
-  data.value[index].dateEnd = new Date(data.value[index].dateStart.getTime() + time)
-  data.value[index].remainingTime = time / 1000
-  data.value[index].percent = 0
+  const timer = data.value[index]
+  if (!timer) return
+  const time = timer.dateEnd.getTime() - timer.dateStart.getTime()
+  timer.dateStart = new Date()
+  timer.dateEnd = new Date(timer.dateStart.getTime() + time)
+  timer.remainingTime = time / 1000
+  timer.percent = 0
   startTimer()
   updateLocalStorageData()
 }
@@ -306,7 +308,9 @@ function readLocalStorageData() {
   const newData: TimerType[] = []
   const dataReducedLength = dataReduced.length // Cache the length
   for (let i = 0; i < dataReducedLength; i++) {
-    const { name, dateStart, dateEnd } = dataReduced[i]
+    const timer = dataReduced[i]
+    if (!timer) continue
+    const { name, dateStart, dateEnd } = timer
 
     newData.push({ name, dateStart, dateEnd, remainingTime: -1, percent: -1 })
   }
@@ -336,8 +340,9 @@ function parseTimerName(title: string): { name: string; time: number; unit: stri
     unitShort === 's' ? 'sec' : unitShort === 'm' ? 'min' : unitShort === 'h' ? 'hour' : 'day'
   s = s.substring(0, s.length - 1)
 
-  const name = s.split(':')[0]
-  const time = parseFloat(s.split(':')[1])
+  const parts = s.split(':')
+  const name = parts[0] ?? ''
+  const time = parseFloat(parts[1] ?? '0')
   return { name, time, unit }
 }
 
