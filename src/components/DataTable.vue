@@ -144,8 +144,8 @@ function dateToString(datetime: Date): string {
 
 function openEditDialog(index: number): void {
   dialogData.value.id = index
-  dialogData.value.items = String(props.data[index].items)
-  dialogData.value.localDateString = helperDateToIsoString(props.data[index].date)
+  dialogData.value.items = String(props.data[index]?.items ?? '') // fix Object is possibly 'undefined'
+  dialogData.value.localDateString = helperDateToIsoString(props.data[index]?.date ?? new Date())
   showEditDialog.value = true
 }
 
