@@ -1,5 +1,3 @@
-import { fileURLToPath, URL } from 'node:url'
-
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -10,7 +8,9 @@ import Unfonts from 'unplugin-fonts/vite'
 
 import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vitejs.dev/config/
+import { fileURLToPath, URL } from 'node:url'
+
+// https://vite.dev/config/
 export default defineConfig({
   // TM: important when deploying not into the webserver root dir
   // error message "was blocked due to MIME type (“text/html”) mismatch"
@@ -93,5 +93,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
     //   extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
-  }
 })
