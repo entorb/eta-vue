@@ -5,11 +5,8 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // locally hosting roboto font, instead of pointing to google
 import Unfonts from 'unplugin-fonts/vite'
 // import ViteFonts from 'unplugin-fonts/vite'
-
 import { VitePWA } from 'vite-plugin-pwa'
-
 import { fileURLToPath, URL } from 'node:url'
-
 // https://vite.dev/config/
 export default defineConfig({
   // TM: important when deploying not into the webserver root dir
@@ -86,11 +83,11 @@ export default defineConfig({
       }
     })
   ],
-
   // define: { 'process.env': {} },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-    //   extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
+    // extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
+  }
 })
