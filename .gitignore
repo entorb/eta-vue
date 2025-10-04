@@ -2,7 +2,7 @@
 coverage/
 dist/
 node_modules/
-vorlagen/
+example/
 
 .DS_Store
 
@@ -13,9 +13,10 @@ vorlagen/
 # Log files
 npm-debug.log*
 
-# Editor directories and files
+# Cache
 .cspellcache
 .eslintcache
+*.tsbuildinfo
 
 # Cypress
 cypress/screenshots/
