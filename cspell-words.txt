@@ -2,8 +2,10 @@ accesscounts
 autoresize
 Composables
 datetime
+demi
 echarts
 entorb
+esbuild
 firstaccess
 fontsource
 freesound
