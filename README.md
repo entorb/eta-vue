@@ -33,61 +33,46 @@ This project is a complete rewrite of [github.com/entorb/eta](https://github.com
 
 ## Build and Run this Project Locally
 
-Install npm packages: `npm install`
+Install npm packages: `pnpm install`
 
-Run live-updated dev-instance: `npm run dev`
+Run live-updated dev-instance: `pnpm run dev`
 
-Build and run: `npm run run`
+Build and run: `pnpm run run`
 
-Live preview of changes: `npm run dev` (via `vite --host`)
+Live preview of changes: `pnpm run dev` (via `vite --host`)
 
 ## Check code after changes
 
 ### Format and unit tests
 
 ```sh
-npm run check
+pnpm run check
 # this runs: format lint spell test-once
 
 # to run unit test only, generating coverage report in coverage\lcov-report\index.html
-npm run test-once
+pnpm run test-once
 
 # or run this to permanently retest upon file changes
-npm run test
+pnpm run test
 ```
 
 ### Cypress E2E tests
 
 ```sh
-npm run build
-npm run preview
-npm run cy:open
+pnpm run build
+pnpm run preview
+pnpm run cy:open
 ```
 
 Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
 
 ## Update
 
-To update a single package
-
 ```sh
-npm install --update vite
-```
-
-To update all packages and dependencies to their latest version:
-
-```sh
-npm i -g npm-check-updates
-ncu -u
-npm install
-```
-
-To force-cleanup of package cache:
-
-```sh
-rm -r node_modules package-lock.json
-npm cache clean --force
-npm install
+# update single package
+pnpm up vite
+# update all dependencies
+pnpm up
 ```
 
 ## Support tools used for this project
