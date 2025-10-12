@@ -1,41 +1,29 @@
 /**
  * plugins/vuetify.ts
  *
- * Framework documentation: https://vuetifyjs.com`
+ * Framework documentation: https://vuetifyjs.com
  */
 
 import 'vuetify/styles'
 
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
-// import { VDateInput } from 'vuetify/labs/VDateInput'
-// import { VTimePicker } from 'vuetify/labs/VTimePicker'
-
-// TM: do not import all icons, this makes build size too large
-// import '@mdi/font/css/materialdesignicons.css'
-// https://vuetifyjs.com/en/features/icon-fonts/#mdi-icon-search
-// my icons
-import {
-  mdiBikeFast,
-  mdiBullseyeArrow,
-  mdiCheckCircle,
-  mdiClockCheckOutline,
-  mdiCounter,
-  mdiNumericPositive1,
-  mdiPencil,
-  mdiPlay,
-  mdiRepeatVariant,
-  mdiTimerMarkerOutline,
-  mdiTimerOutline,
-  mdiTrashCan
-} from '@mdi/js'
-// mdiContentSave
-// mdiPlus
-// mdiArrowUp, mdiArrowDown, mdiArrowUpDown
+import { customIcons } from '@/utils/icons'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  icons: {
+    defaultSet: 'mdi',
+    aliases: {
+      ...aliases,
+      ...Object.fromEntries(Object.entries(customIcons).map(([key, value]) => [key, value]))
+    },
+    sets: {
+      mdi
+    }
+  },
   theme: {
+    // defaultTheme: 'system',
     themes: {
       light: {
         colors: {
@@ -43,30 +31,6 @@ export default createVuetify({
           secondary: '#5CBBF6'
         }
       }
-    }
-  },
-  icons: {
-    sets: {
-      mdi
-    },
-    defaultSet: 'mdi',
-    aliases: {
-      ...aliases,
-      // arrowDown: mdiArrowDown,
-      // arrowUp: mdiArrowUp,
-      // arrowUpDown: mdiArrowUpDown,
-      edit: mdiPencil,
-      eta: mdiClockCheckOutline,
-      items: mdiCounter,
-      plus1: mdiNumericPositive1,
-      repeat: mdiRepeatVariant,
-      save: mdiCheckCircle,
-      speed: mdiBikeFast,
-      target: mdiBullseyeArrow,
-      timeLastInput: mdiTimerMarkerOutline,
-      timeRunning: mdiTimerOutline,
-      timeStart: mdiPlay,
-      trash: mdiTrashCan
     }
   }
   // components: {
