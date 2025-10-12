@@ -111,7 +111,7 @@ describe('plus1', () => {
     wrapper.vm.setTarget(100)
     wrapper.vm.plus1()
 
-    expect(wrapper.vm.data.length).toBe(2)
+    expect(wrapper.vm.data).toHaveLength(2)
     expect(wrapper.vm.data[1].items).toBe(101)
   })
 
@@ -119,7 +119,7 @@ describe('plus1', () => {
     wrapper.vm.setTarget(0)
     wrapper.vm.plus1()
 
-    expect(wrapper.vm.data.length).toBe(2)
+    expect(wrapper.vm.data).toHaveLength(2)
     expect(wrapper.vm.data[1].items).toBe(99)
   })
 })
@@ -135,27 +135,27 @@ describe('deleteRow', () => {
   })
 
   it('del row 0', () => {
-    expect(wrapper.vm.data.length).toBe(3)
+    expect(wrapper.vm.data).toHaveLength(3)
     wrapper.vm.deleteRow(0)
-    expect(wrapper.vm.data.length).toBe(2)
+    expect(wrapper.vm.data).toHaveLength(2)
     expect(wrapper.vm.data[0].items).toBe(2)
     expect(wrapper.vm.data[1].items).toBe(4)
     expect(wrapper.vm.data[1].speed).toBe(2)
   })
 
   it('del row 1', () => {
-    expect(wrapper.vm.data.length).toBe(3)
+    expect(wrapper.vm.data).toHaveLength(3)
     wrapper.vm.deleteRow(1)
-    expect(wrapper.vm.data.length).toBe(2)
+    expect(wrapper.vm.data).toHaveLength(2)
     expect(wrapper.vm.data[0].items).toBe(1)
     expect(wrapper.vm.data[1].items).toBe(4)
     expect(wrapper.vm.data[1].speed).toBe(1.5)
   })
 
   it('del row 2', () => {
-    expect(wrapper.vm.data.length).toBe(3)
+    expect(wrapper.vm.data).toHaveLength(3)
     wrapper.vm.deleteRow(2)
-    expect(wrapper.vm.data.length).toBe(2)
+    expect(wrapper.vm.data).toHaveLength(2)
     expect(wrapper.vm.data[0].items).toBe(1)
     expect(wrapper.vm.data[1].items).toBe(2)
     expect(wrapper.vm.data[1].speed).toBe(1)
@@ -180,7 +180,7 @@ describe('readLocalStorageData', () => {
     )
 
     wrapper.vm.readLocalStorageData()
-    expect(wrapper.vm.data.length).toBe(3)
+    expect(wrapper.vm.data).toHaveLength(3)
     expect(wrapper.vm.data[0].items).toBe(1)
     expect(wrapper.vm.data[1].items).toBe(2)
     expect(wrapper.vm.data[1].speed).toBe(1)
@@ -200,10 +200,10 @@ describe('deleteAllData', () => {
   })
 
   it('del all', () => {
-    expect(wrapper.vm.data.length).toBe(3)
+    expect(wrapper.vm.data).toHaveLength(3)
     wrapper.vm.deleteAllData()
-    expect(wrapper.vm.data.length).toBe(0)
-    expect(localStorage.getItem('eta_vue_data')).toBe(null)
+    expect(wrapper.vm.data).toHaveLength(0)
+    expect(localStorage.getItem('eta_vue_data')).toBeNull()
     // expect(wrapper.vm.target).toBe(0)
     // expect(localStorage.getItem('eta_vue_target')).toBe(null)
   })

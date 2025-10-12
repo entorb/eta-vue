@@ -15,7 +15,7 @@ describe('Component renders', () => {
   it('renders the edit dialog', () => {
     wrapper.showEditDialog = true
     expect(wrapper.exists()).toBe(true)
-    console.log(wrapper.dialogData)
+    // console.log(wrapper.dialogData)
   })
 })
 

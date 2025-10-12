@@ -1,59 +1,3 @@
-<template>
-  <!-- color="indigo" -->
-  <!-- width="250px"  -->
-  <v-card v-if="data.length >= 2 && showETA && !targetReached" variant="outlined">
-    <!-- class="text-h6 text-md-h5 text-lg-h4" -->
-    <v-card-title class="text-center">
-      <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="30" color="amber">
-        <strong>{{ secToString(secToETA) }}</strong>
-      </v-progress-linear>
-    </v-card-title>
-  </v-card>
-
-  <v-table v-if="data.length >= 2" density="compact" class="align-start">
-    <tbody>
-      <tr v-if="showETA">
-        <td><v-icon icon="$eta" /></td>
-        <td :style="{ fontWeight: 'bold' }">
-          {{ dateToString(eta) }}
-        </td>
-      </tr>
-      <tr>
-        <td><v-icon icon="$items" /></td>
-        <td>
-          <v-progress-linear v-model="percentOfTarget" max="1" height="30" :color="colorItems">
-            <span :style="{ fontWeight: 'bold', fontSize: '1.2em' }">
-              {{ itemsLast }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
-            </span>
-          </v-progress-linear>
-          <v-progress-linear v-model="percentOfTargetEstimated" max="1" height="20" color="amber">
-            {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
-          </v-progress-linear>
-        </td>
-      </tr>
-      <tr v-if="itemsPerSec !== 0.0">
-        <td><v-icon icon="$speed" /></td>
-        <td :style="{ fontWeight: 'bold', color: colorSpeed }">
-          <TooltipSpeed :ips="itemsPerSec" :unit="settings.unitSpeed"></TooltipSpeed>/
-          {{ settings.unitSpeed }}
-        </td>
-      </tr>
-      <tr>
-        <td><v-icon icon="$timeLastInput" /></td>
-        <td width="150" :style="{ fontWeight: 'bold' }">{{ secToString(secSinceLastRow) }}</td>
-      </tr>
-      <tr>
-        <td><v-icon icon="$timeRunning" /></td>
-        <td :style="{ fontWeight: 'bold' }">{{ secToString(secSinceFirstRow) }}</td>
-      </tr>
-      <tr>
-        <td><v-icon icon="$timeStart" /></td>
-        <td :style="{ fontWeight: 'bold' }">{{ dateToString(dateFirst) }}</td>
-      </tr>
-    </tbody>
-  </v-table>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, toRefs } from 'vue'
 
@@ -68,8 +12,6 @@ import type { DataRowType } from '../types'
 import { colorItems, colorSpeed } from '../colors'
 import TooltipSpeed from './TooltipSpeed.vue'
 
-const emits = defineEmits(['items-per-sec'])
-
 // Not used any more, since I want to prevent hashed filenames and allow for caching on client side
 // import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
@@ -78,6 +20,8 @@ const props = defineProps({
   settings: { type: Object, required: true },
   target: { type: Number, default: 0 }
 })
+
+const emits = defineEmits(['items-per-sec'])
 
 const { target } = toRefs(props)
 
@@ -299,3 +243,90 @@ function valueToString(value: number): string {
   return helperValueToString(value)
 }
 </script>
+
+<template>
+  <!-- color="indigo" -->
+  <!-- width="250px"  -->
+  <v-card
+    v-if="data.length >= 2 && showETA && !targetReached"
+    variant="outlined"
+  >
+    <!-- class="text-h6 text-md-h5 text-lg-h4" -->
+    <v-card-title class="text-center">
+      <v-progress-linear
+        v-model="percentOfTargetEstimated"
+        max="1"
+        height="30"
+        color="amber"
+      >
+        <strong>{{ secToString(secToETA) }}</strong>
+      </v-progress-linear>
+    </v-card-title>
+  </v-card>
+
+  <v-table
+    v-if="data.length >= 2"
+    density="compact"
+    class="align-start"
+  >
+    <tbody>
+      <tr v-if="showETA">
+        <td><v-icon icon="$eta" /></td>
+        <td :style="{ fontWeight: 'bold' }">
+          {{ dateToString(eta) }}
+        </td>
+      </tr>
+      <tr>
+        <td><v-icon icon="$items" /></td>
+        <td>
+          <v-progress-linear
+            v-model="percentOfTarget"
+            max="1"
+            height="30"
+            :color="colorItems"
+          >
+            <span :style="{ fontWeight: 'bold', fontSize: '1.2em' }">
+              {{ itemsLast }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
+            </span>
+          </v-progress-linear>
+          <v-progress-linear
+            v-model="percentOfTargetEstimated"
+            max="1"
+            height="20"
+            color="amber"
+          >
+            {{ valueToString(itemsEstimated) }} ({{ (100 * percentOfTargetEstimated).toFixed(1) }}%)
+          </v-progress-linear>
+        </td>
+      </tr>
+      <tr v-if="itemsPerSec !== 0.0">
+        <td><v-icon icon="$speed" /></td>
+        <td :style="{ fontWeight: 'bold', color: colorSpeed }">
+          <TooltipSpeed
+            :ips="itemsPerSec"
+            :unit="settings.unitSpeed"
+          ></TooltipSpeed
+          >/
+          {{ settings.unitSpeed }}
+        </td>
+      </tr>
+      <tr>
+        <td><v-icon icon="$timeLastInput" /></td>
+        <td
+          width="150"
+          :style="{ fontWeight: 'bold' }"
+        >
+          {{ secToString(secSinceLastRow) }}
+        </td>
+      </tr>
+      <tr>
+        <td><v-icon icon="$timeRunning" /></td>
+        <td :style="{ fontWeight: 'bold' }">{{ secToString(secSinceFirstRow) }}</td>
+      </tr>
+      <tr>
+        <td><v-icon icon="$timeStart" /></td>
+        <td :style="{ fontWeight: 'bold' }">{{ dateToString(dateFirst) }}</td>
+      </tr>
+    </tbody>
+  </v-table>
+</template>
