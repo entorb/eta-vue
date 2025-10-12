@@ -1,7 +1,7 @@
 {
-  "type": "module",
   "name": "eta-vue",
   "version": "0.2.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "type-check": "vue-tsc --build",
-    "lint": "eslint . --cache --fix --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-pattern .gitignore",
+    "lint": "eslint . --cache --fix --ignore-pattern .gitignore",
     "format": "prettier --cache --write src/ cypress/ docs/ *.html *.ts *.json *.md",
     "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" \"docs/*\"",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
@@ -29,22 +29,23 @@
     "vuetify": "^3.10.4"
   },
   "devDependencies": {
-    "@eslint/js": "^9.35.0",
     "@mdi/js": "^7.4.47",
     "@tsconfig/node22": "^22.0.2",
-    "@types/jsdom": "^21.1.7",
-    "@types/node": "^24.4.0",
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^24.6.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/coverage-v8": "^3.2.4",
+    "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "cspell": "^9.2.1",
-    "cypress": "^15.3.0",
+    "cypress": "^15.4.0",
     "eslint": "^9.37.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-config-typescript": "^3.0.0",
-    "eslint-plugin-cypress": "^5.1.1",
-    "eslint-plugin-vue": "^10.4.0",
+    "eslint-plugin-cypress": "^5.2.0",
+    "eslint-plugin-vitest": "^0.5.4",
+    "eslint-plugin-vue": "~10.5.0",
     "globals": "^16.4.0",
     "jiti": "^2.6.1",
     "jsdom": "^27.0.0",
@@ -57,6 +58,6 @@
     "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-vuetify": "^2.1.2",
     "vitest": "^3.2.4",
-    "vue-tsc": "^3.1.0"
+    "vue-tsc": "^3.1.1"
   }
 }
