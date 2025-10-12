@@ -37,6 +37,9 @@ export default defineConfig({
       // }
     }
   },
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'vuetify', 'echarts', 'vue-echarts']
+  },
   plugins: [
     Vue({
       template: { transformAssetUrls }
