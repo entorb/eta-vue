@@ -1,21 +1,3 @@
-<template>
-  <v-text-field
-    id="input-items"
-    v-model="inputItems"
-    :label="label"
-    type="text"
-    inputmode="decimal"
-    append-icon="$save"
-    prepend-icon="$items"
-    variant="outlined"
-    :base-color="colorItems"
-    :color="colorItems"
-    @blur="enterItems"
-    @click:append="enterItems"
-    @keyup.enter="enterItems"
-  />
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 // , computed
@@ -23,11 +5,11 @@ import type { DataRowRedType } from '../types'
 import { helperValidateItemsInput } from '../helper'
 import { colorItems } from '../colors'
 
-const emits = defineEmits(['add-row'])
-
 const props = defineProps({
   currentItems: { type: Number, required: true }
 })
+
+const emits = defineEmits(['add-row'])
 
 const inputItems = ref('')
 const label = ref('Value')
@@ -55,3 +37,21 @@ function enterItems() {
 //   return props.target > 0 ? 'Current' : 'To go'
 // })
 </script>
+
+<template>
+  <v-text-field
+    id="input-items"
+    v-model="inputItems"
+    :label="label"
+    type="text"
+    inputmode="decimal"
+    append-icon="$save"
+    prepend-icon="$items"
+    variant="outlined"
+    :base-color="colorItems"
+    :color="colorItems"
+    @blur="enterItems"
+    @click:append="enterItems"
+    @keyup.enter="enterItems"
+  />
+</template>

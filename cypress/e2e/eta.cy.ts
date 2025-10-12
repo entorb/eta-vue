@@ -1,3 +1,5 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
+/* eslint-disable cypress/unsafe-to-chain-command */
 import { getEtaLocalStorageDataFistLastRowItems } from './helper-cy'
 
 describe('start app', () => {

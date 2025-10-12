@@ -1,7 +1,15 @@
+<script setup lang="ts">
+import MainMultiTimer from './components/MainMultiTimer.vue'
+import FooterText from './components/FooterText.vue'
+</script>
+
 <template>
   <v-app>
     <v-main>
-      <v-container fluid fill-height>
+      <v-container
+        fluid
+        fill-height
+      >
         <v-row>
           <v-col cols="12">
             <MainMultiTimer />
@@ -16,8 +24,3 @@
     </v-container>
   </v-app>
 </template>
-
-<script setup lang="ts">
-import MainMultiTimer from './components/MainMultiTimer.vue'
-import FooterText from './components/FooterText.vue'
-</script>

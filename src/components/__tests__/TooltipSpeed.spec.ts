@@ -93,10 +93,7 @@ describe('speedInUnit', () => {
     const speedInUnit = wrapper.vm.speedInUnit
     expect(speedInUnit).toBe(expectedOutput)
   })
-})
-
-describe('speedInUnit', () => {
-  it('ips=0.0123 unit=sec', () => {
+  it('speedInUnit: ips=0.0123 unit=sec', () => {
     const wrapper = shallowMount(TooltipSpeed, {})
     let ips = 1 / 60 // 1/min
     expect(wrapper.vm.minPerItem(ips)).toBe('1.00')

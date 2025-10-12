@@ -52,8 +52,8 @@ describe('timer creation', () => {
     wrapper.vm.inputTime = '20m'
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer20m')
-    expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(1200)
+    expect(wrapper.vm.data[0].name).toBe('Timer20m')
+    expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(1200)
   })
 
   it('addViaInput 2.5', async () => {
@@ -61,25 +61,25 @@ describe('timer creation', () => {
     wrapper.vm.inputTime = '2,5'
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer2.5m')
-    expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(150)
+    expect(wrapper.vm.data[0].name).toBe('Timer2.5m')
+    expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(150)
   })
 
   it('addViaInput 2,5 unnamed', async () => {
     wrapper.vm.inputName = ''
     wrapper.vm.inputTime = '2,5'
     await wrapper.vm.addViaInput()
-    console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer')
-    expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(150)
+    // console.log(wrapper.vm.data)
+    expect(wrapper.vm.data[0].name).toBe('Timer')
+    expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(150)
   })
 
   it('addViaInput 10s', async () => {
     wrapper.vm.inputName = 'Timer10s'
     wrapper.vm.inputTime = '10s'
     await wrapper.vm.addViaInput()
-    expect(wrapper.vm.data[0].name).toEqual('Timer10s')
-    expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(10)
+    expect(wrapper.vm.data[0].name).toBe('Timer10s')
+    expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(10)
     // console.log(wrapper.vm.data)
   })
 
@@ -87,17 +87,17 @@ describe('timer creation', () => {
     wrapper.vm.inputName = 'Timer20m'
     wrapper.vm.inputTime = '20m'
     await wrapper.vm.addViaInput()
-    console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer20m')
-    expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(1200)
+    // console.log(wrapper.vm.data)
+    expect(wrapper.vm.data[0].name).toBe('Timer20m')
+    expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(1200)
   })
 
   it('addViaInput 3h', async () => {
     wrapper.vm.inputName = 'Timer3h'
     wrapper.vm.inputTime = '3h'
     await wrapper.vm.addViaInput()
-    console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer3h')
+    // console.log(wrapper.vm.data)
+    expect(wrapper.vm.data[0].name).toBe('Timer3h')
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(3 * 3600)
   })
 
@@ -105,8 +105,8 @@ describe('timer creation', () => {
     wrapper.vm.inputName = 'Timer2d'
     wrapper.vm.inputTime = '2d'
     await wrapper.vm.addViaInput()
-    console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toEqual('Timer2d')
+    // console.log(wrapper.vm.data)
+    expect(wrapper.vm.data[0].name).toBe('Timer2d')
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(2 * 24 * 3600)
   })
 })

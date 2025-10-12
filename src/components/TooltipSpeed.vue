@@ -1,14 +1,3 @@
-<template>
-  {{ speedInUnit }}
-  <v-tooltip activator="parent">
-    {{ ipsInUnit('sec') }} / sec<br />
-    {{ ipsInUnit('min') }} / min<br />
-    {{ minPerItem(props.ips) }} min/item<br />
-    {{ ipsInUnit('hour') }} / hour<br />
-    {{ ipsInUnit('day') }} / day
-  </v-tooltip>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { helperValueToString } from '../helper'
@@ -50,3 +39,14 @@ watch(
   { immediate: true }
 )
 </script>
+
+<template>
+  {{ speedInUnit }}
+  <v-tooltip activator="parent">
+    {{ ipsInUnit('sec') }} / sec<br />
+    {{ ipsInUnit('min') }} / min<br />
+    {{ minPerItem(props.ips) }} min/item<br />
+    {{ ipsInUnit('hour') }} / hour<br />
+    {{ ipsInUnit('day') }} / day
+  </v-tooltip>
+</template>
