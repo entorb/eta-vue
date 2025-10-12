@@ -127,6 +127,9 @@ export const helperRunningOnProd = () => {
 }
 
 export const helperRunningOnMobile = () => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false
+  }
   const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
   return mobileMediaQuery.matches
 }

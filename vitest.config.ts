@@ -15,8 +15,7 @@ export default mergeConfig(
           inline: ['vuetify', 'echarts', 'vue-echarts']
         }
       },
-      setupFiles: ['./vitest.setup.ts'],
-      exclude: [...configDefaults.exclude, 'vorlagen/**'],
+      exclude: [...configDefaults.exclude, 'e2e/**'],
       root: fileURLToPath(new URL('./', import.meta.url))
     }
   })
