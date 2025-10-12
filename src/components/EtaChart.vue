@@ -1,7 +1,3 @@
-<template>
-  <v-chart class="chart" :option="option" autoresize />
-</template>
-
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 
@@ -103,6 +99,8 @@ const option = ref<EChartsOption>({
         label: { show: false },
         silent: true,
         animation: true,
+        // TODO
+        // eslint-disable-next-line vue/no-ref-object-reactivity-loss
         data: [{ yAxis: props.ips * speedInverter * unitFactor.value }]
       }
     }
@@ -160,11 +158,18 @@ function updateChart() {
     option.value.series[1].markLine.data = [{ yAxis: props.ips * speedFactor }]
   }
   if (props.data.length > 0) {
-    // eslint-disable-next-line
     option.value.yAxis = (option.value.yAxis || []) as [{}, {}]
   }
 }
 </script>
+
+<template>
+  <VChart
+    class="chart"
+    :option="option"
+    autoresize
+  />
+</template>
 
 <style scoped>
 .chart {

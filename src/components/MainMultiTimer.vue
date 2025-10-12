@@ -1,95 +1,3 @@
-<template>
-  <v-container>
-    <v-row>
-      <v-col cols="7" md="3">
-        <v-text-field
-          id="input-name"
-          v-model="inputName"
-          label="Name of Timer"
-          type="text"
-          variant="outlined"
-        />
-      </v-col>
-      <v-col cols="5" md="3">
-        <v-text-field
-          id="input-time"
-          v-model="inputTime"
-          label="Time"
-          type="text"
-          inputmode="decimal"
-          variant="outlined"
-          append-icon="$save"
-          @blur="addViaInput"
-          @click:append="addViaInput"
-          @keyup.enter="addViaInput"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <v-chip
-          v-for="title in recentTimerNames"
-          :key="title"
-          closable
-          @click="addFromRecentTimer(title)"
-          @click:close="removeFromRecentTimer(title)"
-        >
-          {{ title }}
-        </v-chip>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <v-table
-          v-if="data.length >= 1"
-          ref="tableRef"
-          fixed-header
-          density="compact"
-          class="align-start"
-        >
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col" v-if="!isMobile">End</th>
-              <th scope="col" width="150px">Time</th>
-              <th scope="col" :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn id="btn-resetAll" icon="$repeat" icon-color="red" flat @click="resetAll" />
-              </th>
-              <th scope="col" :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn id="btn-deleteAll" icon="$trash" icon-color="red" flat @click="deleteAll" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(row, index) in data" :key="row.name">
-              <td>{{ row.name }}</td>
-              <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
-              <td style="white-space: nowrap">
-                <v-progress-linear v-model="row.percent" max="1" height="20" color="amber">
-                  <strong>{{ helperSecondsToString(row.remainingTime) }}</strong>
-                </v-progress-linear>
-                <!-- ({{ (100 * row.percent).toFixed(1) }}%) -->
-              </td>
-              <td :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn icon="$repeat" size="small" flat @click="resetRow(index)" />
-              </td>
-              <td :class="{ 'text-center': true, 'small-width': true }">
-                <v-btn
-                  :id="'btn-del-row-' + index"
-                  icon="$trash"
-                  size="small"
-                  flat
-                  @click="deleteRow(index)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import {
@@ -359,6 +267,144 @@ function addFromRecentTimer(title: string) {
   add(name, time, unit)
 }
 </script>
+
+<template>
+  <v-container>
+    <v-row>
+      <v-col
+        cols="7"
+        md="3"
+      >
+        <v-text-field
+          id="input-name"
+          v-model="inputName"
+          label="Name of Timer"
+          type="text"
+          variant="outlined"
+        />
+      </v-col>
+      <v-col
+        cols="5"
+        md="3"
+      >
+        <v-text-field
+          id="input-time"
+          v-model="inputTime"
+          label="Time"
+          type="text"
+          inputmode="decimal"
+          variant="outlined"
+          append-icon="$save"
+          @blur="addViaInput"
+          @click:append="addViaInput"
+          @keyup.enter="addViaInput"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-chip
+          v-for="title in recentTimerNames"
+          :key="title"
+          closable
+          @click="addFromRecentTimer(title)"
+          @click:close="removeFromRecentTimer(title)"
+        >
+          {{ title }}
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-table
+          v-if="data.length >= 1"
+          fixed-header
+          density="compact"
+          class="align-start"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th
+                scope="col"
+                v-if="!isMobile"
+              >
+                End
+              </th>
+              <th
+                scope="col"
+                width="150px"
+              >
+                Time
+              </th>
+              <th
+                scope="col"
+                class="text-center small-width"
+              >
+                <v-btn
+                  id="btn-resetAll"
+                  icon="$repeat"
+                  icon-color="red"
+                  flat
+                  @click="resetAll"
+                />
+              </th>
+              <th
+                scope="col"
+                class="text-center small-width"
+              >
+                <v-btn
+                  id="btn-deleteAll"
+                  icon="$trash"
+                  icon-color="red"
+                  flat
+                  @click="deleteAll"
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(row, index) in data"
+              :key="row.name"
+            >
+              <td>{{ row.name }}</td>
+              <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
+              <td style="white-space: nowrap">
+                <v-progress-linear
+                  v-model="row.percent"
+                  max="1"
+                  height="20"
+                  color="amber"
+                >
+                  <strong>{{ helperSecondsToString(row.remainingTime) }}</strong>
+                </v-progress-linear>
+                <!-- ({{ (100 * row.percent).toFixed(1) }}%) -->
+              </td>
+              <td class="text-center small-width">
+                <v-btn
+                  icon="$repeat"
+                  size="small"
+                  flat
+                  @click="resetRow(index)"
+                />
+              </td>
+              <td class="text-center small-width">
+                <v-btn
+                  :id="'btn-del-row-' + index"
+                  icon="$trash"
+                  size="small"
+                  flat
+                  @click="deleteRow(index)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
 
 <style>
 .small-width {

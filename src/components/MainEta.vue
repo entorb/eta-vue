@@ -1,52 +1,3 @@
-<template>
-  <v-container>
-    <v-row v-if="data.length < 2">
-      <v-col cols="12" md="12">
-        1. set <v-icon icon="$target" /> (target can be 0)<br />
-        2. periodically update <v-icon icon="$items" /> (current value) when it has changed
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="5" md="3">
-        <InputTarget :target="target" @set-target="setTarget" />
-      </v-col>
-      <v-col cols="6" md="3">
-        <InputItems :target="target" :currentItems="current" @add-row="addRow" />
-      </v-col>
-    </v-row>
-    <v-row v-if="data.length >= 1">
-      <v-col cols="4" md="2" offset="2" offsetMd="0">
-        <v-btn id="btn-del-all" icon="$trash" color="red" @click="deleteAllData" />
-      </v-col>
-      <v-col cols="4" md="2" offset="1" offsetMd="3">
-        <v-btn id="btn-plus-1" icon="$plus1" color="blue-lighten-2" @click="plus1" />
-      </v-col>
-    </v-row>
-    <v-row v-if="data.length >= 1">
-      <v-col v-if="data.length >= 2" cols="12" md="3">
-        <StatsTable
-          :data="data"
-          :settings="settings"
-          :target="target"
-          @items-per-sec="forwardIpS"
-        />
-      </v-col>
-      <v-col cols="12" md="4">
-        <DataTable
-          :data="data"
-          :settings="settings"
-          @delete-all-data="deleteAllData"
-          @delete-row="deleteRow"
-          @update-row="updateRow"
-        />
-      </v-col>
-      <v-col cols="12" md="5" v-if="data.length >= 2">
-        <EtaChart :data="data" :settings="settings" :target="target" :ips="itemsPerSec" />
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue'
 
@@ -260,3 +211,104 @@ function updateLocalStorageData() {
   localStorage.setItem('eta_vue_data', JSON.stringify(dataReduced))
 }
 </script>
+
+<template>
+  <v-container>
+    <v-row v-if="data.length < 2">
+      <v-col
+        cols="12"
+        md="12"
+      >
+        1. set <v-icon icon="$target" /> (target can be 0)<br />
+        2. periodically update <v-icon icon="$items" /> (current value) when it has changed
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        cols="5"
+        md="3"
+      >
+        <InputTarget
+          :target="target"
+          @set-target="setTarget"
+        />
+      </v-col>
+      <v-col
+        cols="6"
+        md="3"
+      >
+        <InputItems
+          :target="target"
+          :current-items="current"
+          @add-row="addRow"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-if="data.length >= 1">
+      <v-col
+        cols="4"
+        md="2"
+        offset="2"
+        offset-md="0"
+      >
+        <v-btn
+          id="btn-del-all"
+          icon="$trash"
+          color="red"
+          @click="deleteAllData"
+        />
+      </v-col>
+      <v-col
+        cols="4"
+        md="2"
+        offset="1"
+        offset-md="3"
+      >
+        <v-btn
+          id="btn-plus-1"
+          icon="$plus1"
+          color="blue-lighten-2"
+          @click="plus1"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-if="data.length >= 1">
+      <v-col
+        v-if="data.length >= 2"
+        cols="12"
+        md="3"
+      >
+        <StatsTable
+          :data="data"
+          :settings="settings"
+          :target="target"
+          @items-per-sec="forwardIpS"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <DataTable
+          :data="data"
+          :settings="settings"
+          @delete-all-data="deleteAllData"
+          @delete-row="deleteRow"
+          @update-row="updateRow"
+        />
+      </v-col>
+      <v-col
+        cols="12"
+        md="5"
+        v-if="data.length >= 2"
+      >
+        <EtaChart
+          :data="data"
+          :settings="settings"
+          :target="target"
+          :ips="itemsPerSec"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
+</template>

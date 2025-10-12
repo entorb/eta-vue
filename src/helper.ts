@@ -90,7 +90,7 @@ export const helperClearName = (name: string): string => {
 
 export const helperStatsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
   try {
-    const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=read'
+    const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=read`
     const response = await fetch(url)
     if (response.ok) {
       const respData = await response.json()
@@ -107,7 +107,7 @@ export const helperStatsDataRead = async (origin: string): Promise<StatsDataType
 
 export const helperStatsDataWrite = async (origin: string) => {
   try {
-    const url = 'https://entorb.net/web-stats-json.php?origin=' + origin + '&action=write'
+    const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=write`
     const response = await fetch(url)
     if (!response.ok) {
       console.error('Failed to update stats data')
