@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
 
 export default defineConfig([
-  { ignores: ['*.d.ts', '**/coverage', '**/dist', '**/deprecated'] },
+  { ignores: ['coverage', 'dist', 'node_modules', '**/*.d.ts'] },
   { files: ['**/*.{js,mjs,cjs,ts,vue}'] },
   { files: ['**/*.{js,mjs,cjs,ts,vue}'], languageOptions: { globals: globals.browser } },
   { files: ['**/*.{js,mjs,cjs,ts,vue}'], plugins: { js }, extends: ['js/recommended'] },

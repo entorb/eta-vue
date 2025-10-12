@@ -1,11 +1,11 @@
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import Vue from '@vitejs/plugin-vue'
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // locally hosting roboto font, instead of pointing to google
 import Unfonts from 'unplugin-fonts/vite'
 // import ViteFonts from 'unplugin-fonts/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,7 +14,12 @@ export default defineConfig({
   // (X-Content-Type-Options: nosniff)
   base: '/eta/',
   build: {
+    assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 600,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    sourcemap: false,
+    target: 'esnext',
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),
@@ -32,13 +37,12 @@ export default defineConfig({
       // }
     }
   },
-  preview: { port: 4173 },
   plugins: [
-    vue({
+    Vue({
       template: { transformAssetUrls }
     }),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
-    vuetify({
+    Vuetify({
       autoImport: true
     }),
     Unfonts({
@@ -83,11 +87,13 @@ export default defineConfig({
       }
     })
   ],
-  // define: { 'process.env': {} },
+  define: { 'process.env': {} },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-    // extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
-  }
+    },
+    extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue']
+  },
+  preview: { port: 4173, strictPort: true },
+  server: { port: 5173, strictPort: true }
 })

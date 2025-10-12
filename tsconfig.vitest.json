@@ -1,24 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
-  "include": [
-    "src/App.vue",
-    "src/AppEta.vue",
-    "src/AppMultiTimer.vue",
-    "src/components/FooterText.vue",
-    "src/components/MainEta.vue",
-    "src/components/MainMultiTimer.vue",
-    "src/components/DataTable.vue",
-    "src/components/TooltipSpeed.vue",
-    "src/components/StatsTable.vue",
-    "src/components/InputItems.vue",
-    "src/components/InputTarget.vue",
-    "src/components/EtaChart.vue",
-    "src/helper.ts",
-    "src/colors.ts",
-    "src/helperLinReg.ts",
-    "src/types.ts"
-  ],
+  "include": ["env.d.ts", "src/**/*"],
   "compilerOptions": {
     "composite": true,
     "lib": [],
