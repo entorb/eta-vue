@@ -1,0 +1,11 @@
+coverage/
+dist/
+example/
+node_modules/
+
+.DS_Store
+
+.cspellcache
+.eslintcache
+*.tsbuildinfo
+sonar-report.xml
