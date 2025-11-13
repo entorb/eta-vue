@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # important for unit tests
+      - name: Set timezone to DE
+        run: sudo timedatectl set-timezone Europe/Berlin
+
       - name: Checkout repository
         uses: actions/checkout@v5
 
@@ -28,6 +32,9 @@ jobs:
           node-version: 24
           cache: 'pnpm'
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Update Vite, etc.
         run: pnpm up vite cspell eslint prettier vue-tsc
 
@@ -40,8 +47,8 @@ jobs:
             git config --local user.name "GitHub Action"
             git config --local user.email "action@github.com"
             git add pnpm-lock.yaml
-            git commit -m "Update pnpm-lock.yaml" || true
+            git commit -m "Lock" || true
             git add package.json
-            git commit -m "Update Vite, etc." || true
+            git commit -m "Auto-Update Vite, etc." || true
             git push
           fi
