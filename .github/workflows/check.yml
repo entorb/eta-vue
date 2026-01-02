@@ -63,8 +63,9 @@ jobs:
       - name: Run Cypress
         uses: cypress-io/github-action@v6
         with:
-          build: pnpx vite build
-          start: pnpx vite preview
+          # build: pnpx vite build
+          # start: pnpx vite preview
+          start: pnpm run dev
 
       # manual run SonarQube to obtain coverage report
       # requires https://sonarcloud.io/project/analysis_method?id=entorb_meeting-meter -> False
