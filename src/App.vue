@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+
 import FooterText from './components/FooterText.vue'
 
 const tab = ref<string | null>(null)
