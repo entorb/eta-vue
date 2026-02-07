@@ -140,7 +140,7 @@ function updateStats() {
   }
 
   // for invalid speed or target, the ETA is set 0
-  if (itemsPerSec.value == 0 || itemsTotal.value <= itemsDone.value) {
+  if (itemsPerSec.value === 0 || itemsTotal.value <= itemsDone.value) {
     eta.value = new Date(0)
   } else {
     const t = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
@@ -186,7 +186,7 @@ function timer_triggered_function() {
   let estItemsCurrent = itemsLast.value + itemsPerSec.value * secSinceLastRow.value
 
   // handle overestimation
-  if (props.target == 0 && estItemsCurrent < 0) {
+  if (props.target === 0 && estItemsCurrent < 0) {
     estItemsCurrent = 0 // Down: limit to 0
   } else if (props.target > 0 && estItemsCurrent > props.target) {
     estItemsCurrent = props.target // Up: limit to target
@@ -200,7 +200,7 @@ function timer_triggered_function() {
     targetReached = true
     percentOfTargetEstimated.value = 1 // 100%
     // prevent play sound on first run
-    if (secToETA.value != 0) {
+    if (secToETA.value !== 0) {
       helperPlaySoundTimerDone()
     }
     stopTimer()
