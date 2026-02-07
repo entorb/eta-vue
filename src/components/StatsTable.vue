@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, toRefs } from 'vue'
 
+import { colorItems, colorSpeed } from '../colors'
 import {
   helperDateToString,
   helperSecondsToString,
@@ -9,19 +10,25 @@ import {
 } from '../helper'
 import { helperLinReg } from '../helperLinReg'
 import type { DataRowType } from '../types'
-import { colorItems, colorSpeed } from '../colors'
+
 import TooltipSpeed from './TooltipSpeed.vue'
 
 // Not used any more, since I want to prevent hashed filenames and allow for caching on client side
 // import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
 
-const props = defineProps({
-  data: { type: Array<DataRowType>, required: true },
-  settings: { type: Object, required: true },
-  target: { type: Number, default: 0 }
+interface Props {
+  data: DataRowType[]
+  settings: { showDays: boolean; unitSpeed: string }
+  target?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  target: 0
 })
 
-const emits = defineEmits(['items-per-sec'])
+const emit = defineEmits<{
+  itemsPerSec: [slope: number]
+}>()
 
 const { target } = toRefs(props)
 
@@ -31,9 +38,9 @@ watch(target, () => {
 })
 
 watch(
-  props.data,
+  () => props.data,
   () => {
-    if (props.data.length == 0) {
+    if (props.data.length === 0) {
       resetStats()
     }
     targetReached = false
@@ -125,7 +132,7 @@ function updateStats() {
 
   const { slope } = helperLinReg(props.data, true)
   itemsPerSec.value = slope
-  emits('items-per-sec', slope)
+  emit('itemsPerSec', slope)
 
   percentOfTarget.value = itemsDone.value / itemsTotal.value
   if (itemsDone.value >= itemsTotal.value) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MainMultiTimer from './components/MainMultiTimer.vue'
 import FooterText from './components/FooterText.vue'
+import MainMultiTimer from './components/MainMultiTimer.vue'
 </script>
 
 <template>
