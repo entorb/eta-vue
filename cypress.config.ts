@@ -7,6 +7,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:5173',
     setupNodeEvents() {
       // implement node event listeners here
-    }
+    },
+    allowCypressEnv: false
   }
 })
