@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+
 import { helperRunningOnProd, helperStatsDataRead } from '../helper'
 import type { StatsDataType } from '../types'
 
@@ -64,6 +65,7 @@ function tab2origin(tab: string): string {
         class="text-disabled"
         href="https://entorb.net/contact.php?origin=eta"
         target="_blank"
+        rel="noopener noreferrer"
         >Feedback</a
       >
       is highly appreciated. Complete source code and project documentation are at
@@ -71,6 +73,7 @@ function tab2origin(tab: string): string {
         class="text-disabled"
         href="https://github.com/entorb/eta-vue/"
         target="_blank"
+        rel="noopener noreferrer"
         >GitHub.com/entorb/etc-vue/</a
       >.
     </p>

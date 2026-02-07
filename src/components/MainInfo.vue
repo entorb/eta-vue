@@ -33,6 +33,7 @@ function clearLocalStorage() {
           <a
             href="https://en.wikipedia.org/wiki/Weighted_least_squares"
             target="_blank"
+            rel="noopener noreferrer"
             >weighted linear regression</a
           >
           to empathize the latest data points.
@@ -42,6 +43,7 @@ function clearLocalStorage() {
           <a
             href="https://www.w3schools.com/jsref/jsref_max_value.asp"
             target="_blank"
+            rel="noopener noreferrer"
             >1.79e+308</a
           >.
         </p>
@@ -60,6 +62,7 @@ function clearLocalStorage() {
           <a
             href="https://en.wikipedia.org/wiki/Progressive_web_app"
             target="_blank"
+            rel="noopener noreferrer"
             >PWA</a
           >
           technology is used to enable app installation.
@@ -70,6 +73,7 @@ function clearLocalStorage() {
           <a
             href="https://entorb.net/eta/"
             target="_blank"
+            rel="noopener noreferrer"
             >ETA</a
           >
           in Edge or Chrome -> Tap Install
@@ -80,6 +84,7 @@ function clearLocalStorage() {
           <a
             href="https://entorb.net/eta/"
             target="_blank"
+            rel="noopener noreferrer"
             >ETA</a
           >
           in Safari -> click share button at button of page -> choose "Add to Home Screen"
@@ -90,6 +95,7 @@ function clearLocalStorage() {
           <a
             href="https://entorb.net/eta/"
             target="_blank"
+            rel="noopener noreferrer"
             >ETA</a
           >
           in Safari -> Menu -> File -> Add to Dock
@@ -100,6 +106,7 @@ function clearLocalStorage() {
           <a
             href="https://entorb.net/eta/"
             target="_blank"
+            rel="noopener noreferrer"
             >ETA</a
           >
           in Edge or Chrome -> Address bar, right side -> Install button
@@ -129,6 +136,7 @@ function clearLocalStorage() {
           <a
             href="https://entorb.net/eta-v1/"
             target="_blank"
+            rel="noopener noreferrer"
             >entorb.net/eta-v1/</a
           >.
         </p>
