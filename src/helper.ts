@@ -94,27 +94,20 @@ export const helperStatsDataRead = async (origin: string): Promise<StatsDataType
     const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=read`
     const response = await fetch(url)
     if (response.ok) {
-      const respData = await response.json()
-      return respData
+      return await response.json()
     }
-      console.error('Failed to fetch stats data')
-      return
-
-  } catch (error) {
-    console.error('Error:', error)
-    return
+    return undefined
+  } catch {
+    return undefined
   }
 }
 
 export const helperStatsDataWrite = async (origin: string) => {
   try {
     const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=write`
-    const response = await fetch(url)
-    if (!response.ok) {
-      console.error('Failed to update stats data')
-    }
-  } catch (error) {
-    console.error('Error:', error)
+    await fetch(url)
+  } catch {
+    // Silently fail - stats are not critical
   }
 }
 

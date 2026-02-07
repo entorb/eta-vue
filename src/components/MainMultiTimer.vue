@@ -110,7 +110,7 @@ function updateRemainingTime() {
     const remaining = timer.remainingTime
     // is the current timer still running?
     // upon reading from local storage, value is set to -1
-    if (remaining != 0) {
+    if (remaining !== 0) {
       const now = new Date().getTime()
       const target = timer.dateEnd.getTime()
       const start = timer.dateStart.getTime()
@@ -121,11 +121,11 @@ function updateRemainingTime() {
       } else {
         timer.remainingTime = 0
         timer.percent = 1
-        if (remaining != -1) helperPlaySoundTimerDone()
+        if (remaining !== -1) helperPlaySoundTimerDone()
       }
     }
   }
-  if (countTimersRunning == 0) {
+  if (countTimersRunning === 0) {
     stopTimer()
   }
   // sort data by remaining time
@@ -187,7 +187,7 @@ function deleteAll() {
 }
 
 function updateLocalStorageData() {
-  if (data.value.length == 0) {
+  if (data.value.length === 0) {
     localStorage.removeItem('eta_vue_mt_data')
   } else {
     const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
@@ -347,6 +347,7 @@ function addFromRecentTimer(title: string) {
                   icon="$repeat"
                   icon-color="red"
                   flat
+                  aria-label="Reset all timers"
                   @click="resetAll"
                 />
               </th>
@@ -359,6 +360,7 @@ function addFromRecentTimer(title: string) {
                   icon="$trash"
                   icon-color="red"
                   flat
+                  aria-label="Delete all timers"
                   @click="deleteAll"
                 />
               </th>
@@ -387,6 +389,7 @@ function addFromRecentTimer(title: string) {
                   icon="$repeat"
                   size="small"
                   flat
+                  aria-label="Reset timer"
                   @click="resetRow(index)"
                 />
               </td>
@@ -396,6 +399,7 @@ function addFromRecentTimer(title: string) {
                   icon="$trash"
                   size="small"
                   flat
+                  aria-label="Delete timer"
                   @click="deleteRow(index)"
                 />
               </td>
