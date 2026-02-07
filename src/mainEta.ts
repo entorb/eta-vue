@@ -5,13 +5,14 @@
  */
 
 // Components
-import App from './AppEta.vue'
 
 // Composables
 import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+
+import App from './AppEta.vue'
 
 const app = createApp(App)
 

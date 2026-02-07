@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue'
 
-const props = defineProps({
-  target: { type: Number, default: 0 }
+interface Props {
+  target?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  target: 0
 })
 
-const emits = defineEmits(['set-target'])
+const emit = defineEmits<{
+  setTarget: [target: number]
+}>()
 
 const { target } = toRefs(props)
 watch(target, () => {
@@ -23,7 +29,7 @@ function enterTarget() {
     return
   }
   if (targetNew !== props.target) {
-    emits('set-target', targetNew)
+    emit('setTarget', targetNew)
   }
 }
 </script>

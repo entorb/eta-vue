@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+
 // , computed
-import type { DataRowRedType } from '../types'
-import { helperValidateItemsInput } from '../helper'
 import { colorItems } from '../colors'
+import { helperValidateItemsInput } from '../helper'
+import type { DataRowRedType } from '../types'
 
-const props = defineProps({
-  currentItems: { type: Number, required: true }
-})
+interface Props {
+  currentItems: number
+}
 
-const emits = defineEmits(['add-row'])
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  addRow: [row: DataRowRedType]
+}>()
 
 const inputItems = ref('')
 const label = ref('Value')
@@ -29,7 +34,7 @@ function enterItems() {
   const date = new Date()
   const newRow: DataRowRedType = { date: date, items: parseFloat(itemsStr.replace(',', '.')) }
   // Emit an event to add the row to the data
-  emits('add-row', newRow)
+  emit('addRow', newRow)
   inputItems.value = ''
 }
 

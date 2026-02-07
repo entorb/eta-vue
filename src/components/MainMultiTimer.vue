@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+
 import {
   helperClearName,
   helperDateToString,
@@ -326,8 +327,8 @@ function addFromRecentTimer(title: string) {
             <tr>
               <th scope="col">Name</th>
               <th
-                scope="col"
                 v-if="!isMobile"
+                scope="col"
               >
                 End
               </th>

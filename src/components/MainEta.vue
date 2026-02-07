@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue'
 
-import InputItems from './InputItems.vue'
-import InputTarget from './InputTarget.vue'
-import DataTable from './DataTable.vue'
-import StatsTable from './StatsTable.vue'
-// Lazy loading of EtaChart to speed up initial loading
-const EtaChart = defineAsyncComponent(() => import('@/components/EtaChart.vue'))
-
-import type { UnitType, DataRowType, DataRowRedType } from '../types'
-// import { colorItems } from '../colors'
-
 import {
   helperCalcSpeedFromPreviousRow,
   helperRunningOnProd,
   helperStatsDataWrite
 } from '../helper'
+import type { UnitType, DataRowType, DataRowRedType } from '../types'
+
+import DataTable from './DataTable.vue'
+import InputItems from './InputItems.vue'
+import InputTarget from './InputTarget.vue'
+import StatsTable from './StatsTable.vue'
+
+// import { colorItems } from '../colors'
+
+// Lazy loading of EtaChart to speed up initial loading
+const EtaChart = defineAsyncComponent(() => import('@/components/EtaChart.vue'))
 
 // target:
 // = 0 -> count-down mode
@@ -292,15 +293,14 @@ function updateLocalStorageData() {
         <DataTable
           :data="data"
           :settings="settings"
-          @delete-all-data="deleteAllData"
           @delete-row="deleteRow"
           @update-row="updateRow"
         />
       </v-col>
       <v-col
+        v-if="data.length >= 2"
         cols="12"
         md="5"
-        v-if="data.length >= 2"
       >
         <EtaChart
           :data="data"
