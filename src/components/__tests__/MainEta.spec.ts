@@ -1,19 +1,20 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import MainEta from '../MainEta.vue'
+import { useEtaData } from '../../composables/useEtaData'
 
-function initializeWrapper(wrapper) {
+function initializeComposable(composable) {
   localStorage.clear()
-  wrapper.vm.data = []
-  wrapper.vm.target = undefined
-  wrapper.vm.settings = {}
+  composable.data.value = []
+  composable.target.value = 0
+  composable.settings.value = { showDays: false, unitSpeed: 'min' }
 }
 
 describe('Component renders', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
+    localStorage.clear()
   })
   it('renders', () => {
     expect(wrapper.exists()).toBe(true)
@@ -21,17 +22,17 @@ describe('Component renders', () => {
 })
 
 describe('setTarget', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
+    composable = useEtaData()
+    initializeComposable(composable)
   })
 
   it('target = 10', () => {
     const value = 10
-    wrapper.vm.setTarget(value)
+    composable.setTarget(value)
 
-    expect(wrapper.vm.target).toBe(value)
+    expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
     expect(parseFloat(stored as string)).toBe(value)
@@ -39,9 +40,9 @@ describe('setTarget', () => {
 
   it('target = 0', () => {
     const value = 0
-    wrapper.vm.setTarget(value)
+    composable.setTarget(value)
 
-    expect(wrapper.vm.target).toBe(value)
+    expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
     expect(parseFloat(stored as string)).toBe(value)
@@ -49,10 +50,10 @@ describe('setTarget', () => {
 
   it('target -1 -> unchanged', () => {
     const value = 10
-    wrapper.vm.setTarget(value)
-    wrapper.vm.setTarget(-1)
+    composable.setTarget(value)
+    composable.setTarget(-1)
 
-    expect(wrapper.vm.target).toBe(value)
+    expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
     expect(parseFloat(stored as string)).toBe(value)
@@ -60,113 +61,113 @@ describe('setTarget', () => {
 })
 
 describe('setUnitOfSpeed', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
+    composable = useEtaData()
+    initializeComposable(composable)
   })
   it('sec, min, hour, day', () => {
-    wrapper.vm.setUnitOfSpeed('sec')
-    expect(wrapper.vm.settings.unitSpeed).toBe('sec')
-    wrapper.vm.setUnitOfSpeed('min')
-    expect(wrapper.vm.settings.unitSpeed).toBe('min')
-    wrapper.vm.setUnitOfSpeed('hour')
-    expect(wrapper.vm.settings.unitSpeed).toBe('hour')
-    wrapper.vm.setUnitOfSpeed('day')
-    expect(wrapper.vm.settings.unitSpeed).toBe('day')
+    composable.updateItemsPerSec(10)
+    expect(composable.settings.value.unitSpeed).toBe('sec')
+    composable.updateItemsPerSec(0.5)
+    expect(composable.settings.value.unitSpeed).toBe('min')
+    composable.updateItemsPerSec(0.0001)
+    expect(composable.settings.value.unitSpeed).toBe('hour')
+    composable.updateItemsPerSec(0.00001)
+    expect(composable.settings.value.unitSpeed).toBe('day')
   })
 })
 
 describe('addRow', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('1x addRow', () => {
-    expect(wrapper.vm.data[0].date).toStrictEqual(new Date('2023-10-17T12:00:00'))
-    expect(wrapper.vm.data[0].items).toBe(100)
-    expect(wrapper.vm.data[0].speed).toBe(0)
+    expect(composable.data.value[0].date).toStrictEqual(new Date('2023-10-17T12:00:00'))
+    expect(composable.data.value[0].items).toBe(100)
+    expect(composable.data.value[0].speed).toBe(0)
   })
 
   it('2x addRow -> speed', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:13'), items: 113 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:13'), items: 113 })
 
-    expect(wrapper.vm.data[0].speed).toBe(0)
-    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(composable.data.value[0].speed).toBe(0)
+    expect(composable.data.value[1].speed).toBe(1)
   })
 })
 
 describe('plus1', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('target > 0', () => {
-    wrapper.vm.setTarget(100)
-    wrapper.vm.plus1()
+    composable.setTarget(100)
+    composable.incrementByOne()
 
-    expect(wrapper.vm.data).toHaveLength(2)
-    expect(wrapper.vm.data[1].items).toBe(101)
+    expect(composable.data.value).toHaveLength(2)
+    expect(composable.data.value[1].items).toBe(101)
   })
 
   it('target == 0', () => {
-    wrapper.vm.setTarget(0)
-    wrapper.vm.plus1()
+    composable.setTarget(0)
+    composable.incrementByOne()
 
-    expect(wrapper.vm.data).toHaveLength(2)
-    expect(wrapper.vm.data[1].items).toBe(99)
+    expect(composable.data.value).toHaveLength(2)
+    expect(composable.data.value[1].items).toBe(99)
   })
 })
 
 describe('deleteRow', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
   })
 
   it('del row 0', () => {
-    expect(wrapper.vm.data).toHaveLength(3)
-    wrapper.vm.deleteRow(0)
-    expect(wrapper.vm.data).toHaveLength(2)
-    expect(wrapper.vm.data[0].items).toBe(2)
-    expect(wrapper.vm.data[1].items).toBe(4)
-    expect(wrapper.vm.data[1].speed).toBe(2)
+    expect(composable.data.value).toHaveLength(3)
+    composable.deleteRow(0)
+    expect(composable.data.value).toHaveLength(2)
+    expect(composable.data.value[0].items).toBe(2)
+    expect(composable.data.value[1].items).toBe(4)
+    expect(composable.data.value[1].speed).toBe(2)
   })
 
   it('del row 1', () => {
-    expect(wrapper.vm.data).toHaveLength(3)
-    wrapper.vm.deleteRow(1)
-    expect(wrapper.vm.data).toHaveLength(2)
-    expect(wrapper.vm.data[0].items).toBe(1)
-    expect(wrapper.vm.data[1].items).toBe(4)
-    expect(wrapper.vm.data[1].speed).toBe(1.5)
+    expect(composable.data.value).toHaveLength(3)
+    composable.deleteRow(1)
+    expect(composable.data.value).toHaveLength(2)
+    expect(composable.data.value[0].items).toBe(1)
+    expect(composable.data.value[1].items).toBe(4)
+    expect(composable.data.value[1].speed).toBe(1.5)
   })
 
   it('del row 2', () => {
-    expect(wrapper.vm.data).toHaveLength(3)
-    wrapper.vm.deleteRow(2)
-    expect(wrapper.vm.data).toHaveLength(2)
-    expect(wrapper.vm.data[0].items).toBe(1)
-    expect(wrapper.vm.data[1].items).toBe(2)
-    expect(wrapper.vm.data[1].speed).toBe(1)
+    expect(composable.data.value).toHaveLength(3)
+    composable.deleteRow(2)
+    expect(composable.data.value).toHaveLength(2)
+    expect(composable.data.value[0].items).toBe(1)
+    expect(composable.data.value[1].items).toBe(2)
+    expect(composable.data.value[1].speed).toBe(1)
   })
 })
 
 describe('readLocalStorageData', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
+    composable = useEtaData()
+    initializeComposable(composable)
   })
 
   it('3 rows', () => {
@@ -179,112 +180,112 @@ describe('readLocalStorageData', () => {
       ])
     )
 
-    wrapper.vm.readLocalStorageData()
-    expect(wrapper.vm.data).toHaveLength(3)
-    expect(wrapper.vm.data[0].items).toBe(1)
-    expect(wrapper.vm.data[1].items).toBe(2)
-    expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].items).toBe(4)
-    expect(wrapper.vm.data[2].speed).toBe(2)
+    composable.loadFromStorage()
+    expect(composable.data.value).toHaveLength(3)
+    expect(composable.data.value[0].items).toBe(1)
+    expect(composable.data.value[1].items).toBe(2)
+    expect(composable.data.value[1].speed).toBe(1)
+    expect(composable.data.value[2].items).toBe(4)
+    expect(composable.data.value[2].speed).toBe(2)
   })
 })
 
 describe('deleteAllData', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
   })
 
   it('del all', () => {
-    expect(wrapper.vm.data).toHaveLength(3)
-    wrapper.vm.deleteAllData()
-    expect(wrapper.vm.data).toHaveLength(0)
+    expect(composable.data.value).toHaveLength(3)
+    composable.deleteAll()
+    expect(composable.data.value).toHaveLength(0)
     expect(localStorage.getItem('eta_vue_data')).toBeNull()
-    // expect(wrapper.vm.target).toBe(0)
-    // expect(localStorage.getItem('eta_vue_target')).toBe(null)
+    expect(composable.target.value).toBe(0)
+    expect(localStorage.getItem('eta_vue_target')).toBeNull()
   })
 })
 
 describe('decideIfToShowDays', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:00'), items: 100 })
   })
 
   it('<24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-17T16:00:00'), items: 113 })
+    composable.addRow({ date: new Date('2023-10-17T16:00:00'), items: 113 })
 
-    expect(wrapper.vm.settings.showDays).toBe(false)
+    expect(composable.settings.value.showDays).toBe(false)
   })
 
   it('>=24h', () => {
-    wrapper.vm.addRow({ date: new Date('2023-10-18T12:00:00'), items: 113 })
+    composable.addRow({ date: new Date('2023-10-18T12:00:00'), items: 113 })
 
-    expect(wrapper.vm.settings.showDays).toBe(true)
+    expect(composable.settings.value.showDays).toBe(true)
   })
 })
 
 describe('calcSpeeds', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
   })
 
   it('works', () => {
-    expect(wrapper.vm.data[0].speed).toBe(0)
-    expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].speed).toBe(2)
+    expect(composable.data.value[0].speed).toBe(0)
+    expect(composable.data.value[1].speed).toBe(1)
+    expect(composable.data.value[2].speed).toBe(2)
     // modify
-    wrapper.vm.data[1].speed = 12.3
-    expect(wrapper.vm.data[1].speed).toBe(12.3)
-    // calcSpeeds()
-    wrapper.vm.calcSpeeds()
-    expect(wrapper.vm.data[0].speed).toBe(0)
-    expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].speed).toBe(2)
+    composable.data.value[1].speed = 12.3
+    expect(composable.data.value[1].speed).toBe(12.3)
+    // recalculate speeds by updating a row
+    composable.updateRow(1, { date: new Date('2023-10-17T12:00:02'), items: 2 })
+    expect(composable.data.value[0].speed).toBe(0)
+    expect(composable.data.value[1].speed).toBe(1)
+    expect(composable.data.value[2].speed).toBe(2)
   })
 })
 
 describe('updateRow', () => {
-  let wrapper
+  let composable
   beforeEach(() => {
-    wrapper = shallowMount(MainEta)
-    initializeWrapper(wrapper)
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
-    wrapper.vm.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
+    composable = useEtaData()
+    initializeComposable(composable)
+    composable.addRow({ date: new Date('2023-10-17T12:00:01'), items: 1 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:02'), items: 2 })
+    composable.addRow({ date: new Date('2023-10-17T12:00:03'), items: 4 })
   })
 
   it('update items', () => {
-    expect(wrapper.vm.data[0].speed).toBe(0)
-    expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].speed).toBe(2)
-    wrapper.vm.updateRow(1, { date: new Date('2023-10-17T12:00:02'), items: 3 })
-    expect(wrapper.vm.data[0].speed).toBe(0)
-    expect(wrapper.vm.data[1].speed).toBe(2)
-    expect(wrapper.vm.data[2].speed).toBe(1)
-    expect(wrapper.vm.data[1].items).toBe(3)
+    expect(composable.data.value[0].speed).toBe(0)
+    expect(composable.data.value[1].speed).toBe(1)
+    expect(composable.data.value[2].speed).toBe(2)
+    composable.updateRow(1, { date: new Date('2023-10-17T12:00:02'), items: 3 })
+    expect(composable.data.value[0].speed).toBe(0)
+    expect(composable.data.value[1].speed).toBe(2)
+    expect(composable.data.value[2].speed).toBe(1)
+    expect(composable.data.value[1].items).toBe(3)
   })
 
   it('update date', () => {
-    expect(wrapper.vm.data[0].items).toBe(1)
-    expect(wrapper.vm.data[1].items).toBe(2)
-    expect(wrapper.vm.data[2].items).toBe(4)
-    wrapper.vm.updateRow(1, { date: new Date('2023-10-17T12:00:00'), items: 0 })
-    expect(wrapper.vm.data[0].items).toBe(0)
-    expect(wrapper.vm.data[1].items).toBe(1)
-    expect(wrapper.vm.data[1].speed).toBe(1)
-    expect(wrapper.vm.data[2].items).toBe(4)
-    expect(wrapper.vm.data[2].speed).toBe(1.5)
+    expect(composable.data.value[0].items).toBe(1)
+    expect(composable.data.value[1].items).toBe(2)
+    expect(composable.data.value[2].items).toBe(4)
+    composable.updateRow(1, { date: new Date('2023-10-17T12:00:00'), items: 0 })
+    expect(composable.data.value[0].items).toBe(0)
+    expect(composable.data.value[1].items).toBe(1)
+    expect(composable.data.value[1].speed).toBe(1)
+    expect(composable.data.value[2].items).toBe(4)
+    expect(composable.data.value[2].speed).toBe(1.5)
   })
 })
