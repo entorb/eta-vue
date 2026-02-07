@@ -5,13 +5,14 @@
  */
 
 // Components
-import App from './AppMultiTimer.vue'
 
 // Composables
 import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+
+import App from './AppMultiTimer.vue'
 
 const app = createApp(App)
 

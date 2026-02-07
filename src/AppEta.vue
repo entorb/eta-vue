@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MainEta from './components/MainEta.vue'
 import FooterText from './components/FooterText.vue'
+import MainEta from './components/MainEta.vue'
 </script>
 
 <template>

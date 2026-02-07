@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import TooltipSpeed from './TooltipSpeed.vue'
+
+import { colorItems, colorSpeed } from '../colors'
 import { helperDateToString, helperDateToIsoString, helperValidateItemsInput } from '../helper'
 import type { DataRowType, DataRowRedType } from '../types'
-import { colorItems, colorSpeed } from '../colors'
+
+import TooltipSpeed from './TooltipSpeed.vue'
 
 type myHeader = {
   value: string
@@ -12,12 +14,17 @@ type myHeader = {
   align: 'center'
 }
 
-const props = defineProps({
-  data: { type: Array<DataRowType>, required: true },
-  settings: { type: Object, required: true }
-})
+interface Props {
+  data: DataRowType[]
+  settings: { showDays: boolean; unitSpeed: string }
+}
 
-const emit = defineEmits(['delete-all-data', 'delete-row', 'update-row'])
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  deleteRow: [index: number]
+  updateRow: [index: number, row: DataRowRedType]
+}>()
 
 const headers: myHeader[] = [
   { value: 'date', icon: '$timeLastInput', width: '50px', align: 'center' },
@@ -53,7 +60,7 @@ function save(): void {
   }
   showEditDialog.value = false
   const row: DataRowRedType = { date: d, items: Number(itemsStr) }
-  emit('update-row', dialogData.value.id, row)
+  emit('updateRow', dialogData.value.id, row)
 }
 
 // Generates a unique key for a given data row.
@@ -137,7 +144,7 @@ function save(): void {
             icon="$trash"
             size="small"
             variant="text"
-            @click="$emit('delete-row', index)"
+            @click="emit('deleteRow', index)"
           />
         </td>
       </tr>
@@ -152,14 +159,14 @@ function save(): void {
       <v-card-text>
         <!-- using browser datetime-local input, step="1" for display of seconds -->
         <v-text-field
+          v-model="dialogData.localDateString"
           type="datetime-local"
           step="1"
-          v-model="dialogData.localDateString"
         />
         <!-- copied from inputItems -->
         <v-text-field
-          v-model="dialogData.items"
           id="edit-items"
+          v-model="dialogData.items"
           type="text"
           inputmode="decimal"
           prepend-icon="$items"

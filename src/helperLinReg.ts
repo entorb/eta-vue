@@ -9,22 +9,21 @@ export const helperLinReg = (
     return { slope: 0, intercept: 0 }
   }
   const { seconds: X, items: Y } = calculateXAndY(data)
-  if (n == 2) {
+  if (n === 2) {
     if (X[0] === undefined || X[1] === undefined || Y[0] === undefined || Y[1] === undefined) {
       return { slope: 0, intercept: 0 }
     }
     const dX = X[1] - X[0]
     const dY = Y[1] - Y[0]
-    if (dX == 0) {
+    if (dX === 0) {
       return { slope: 0, intercept: 0 }
     }
     return { slope: dY / dX, intercept: Y[0] - (dY / dX) * X[0] }
   }
   if (weighted) {
     return calculateWeightedLinearRegression(X, Y)
-  } else {
-    return calculateLinearRegression(X, Y)
   }
+  return calculateLinearRegression(X, Y)
 }
 
 // this converts Date to Timestamp in sec and subtracts the first timestamp from all others

@@ -1,12 +1,13 @@
+import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'path'
+
 import Vue from '@vitejs/plugin-vue'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // locally hosting roboto font, instead of pointing to google
 import Unfonts from 'unplugin-fonts/vite'
 // import ViteFonts from 'unplugin-fonts/vite'
-import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import { VitePWA } from 'vite-plugin-pwa'
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // https://vite.dev/config/
 export default defineConfig({
   // TM: important when deploying not into the webserver root dir

@@ -35,15 +35,17 @@ export const helperSecondsToString = (totalSeconds: number): string => {
 
   if (days > 0) {
     return `${days}d ${hours}h ${minutes}m`
-  } else if (hours > 0) {
-    return `${hours}h ${minutes}m`
-  } else if (minutes >= 15) {
-    return `${minutes}m`
-  } else if (minutes > 0) {
-    return `${minutes}m ${seconds}s`
-  } else {
-    return `${seconds}s`
   }
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`
+  }
+  if (minutes >= 15) {
+    return `${minutes}m`
+  }
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`
+  }
+  return `${seconds}s`
 }
 
 // validate input of items
@@ -56,9 +58,8 @@ export const helperValidateItemsInput = (inputStr: string): boolean => {
 export const helperValueToString = (value: number): string => {
   if (value < 100) {
     return value.toPrecision(3)
-  } else {
-    return value.toFixed(0)
   }
+  return value.toFixed(0)
 }
 
 export const helperCalcSpeedFromPreviousRow = (
@@ -95,10 +96,10 @@ export const helperStatsDataRead = async (origin: string): Promise<StatsDataType
     if (response.ok) {
       const respData = await response.json()
       return respData
-    } else {
+    }
       console.error('Failed to fetch stats data')
       return
-    }
+
   } catch (error) {
     console.error('Error:', error)
     return
@@ -119,11 +120,7 @@ export const helperStatsDataWrite = async (origin: string) => {
 
 export const helperRunningOnProd = () => {
   const currentURL = window.location.href
-  if (currentURL.startsWith('https://entorb.net/')) {
-    return true
-  } else {
-    return false
-  }
+  return currentURL.startsWith('https://entorb.net/')
 }
 
 export const helperRunningOnMobile = () => {

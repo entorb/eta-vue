@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+
 import { helperValueToString } from '../helper'
 import type { UnitType } from '../types'
 
-const props = defineProps({
-  // items per second
-  ips: {
-    type: Number,
-    required: true
-  },
-  unit: {
-    type: String,
-    default: 'min'
-  }
+interface Props {
+  ips: number
+  unit?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  unit: 'min'
 })
 
 const speedInUnit = ref('')
