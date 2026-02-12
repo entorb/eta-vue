@@ -46,14 +46,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run type check
-        run: pnpm run type-check
-
       - name: Run code formatter
         run: pnpm run format
 
       - name: Run linter
         run: pnpm run lint
+
+      - name: Run type check
+        run: pnpm run types
+
       - name: Run spell checker
         run: pnpm run spell
 
