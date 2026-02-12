@@ -55,7 +55,7 @@ let targetReached = false
 // let timerInterval = null as NodeJS.Timeout | null
 let timerInterval: number | null = null
 
-// TODO: Leftover from simple mode: these are not computed, because only available if target is set
+// Note: Leftover from simple mode - these are not computed, because only available if target is set
 // calc in updateStats()
 // not displayed
 const dateFirst = ref(new Date(0))
@@ -87,8 +87,7 @@ onMounted(() => {
 // })
 
 function dateToString(datetime: Date): string {
-  // decide if we need to show days
-  // TODO: move to App settings
+  // Note: showDays setting is currently hardcoded here, could be moved to App settings in future
   return helperDateToString(datetime, props.settings.showDays)
 }
 
