@@ -134,16 +134,20 @@ function save(): void {
         <td>
           <v-btn
             :id="'btn-edit-row-' + index"
+            type="button"
             size="small"
             variant="text"
             icon="$edit"
+            aria-label="Edit row"
             @click="openEditDialog(index)"
           />
           <v-btn
             :id="'btn-del-row-' + index"
+            type="button"
             icon="$trash"
             size="small"
             variant="text"
+            aria-label="Delete row"
             @click="emit('deleteRow', index)"
           />
         </td>
@@ -179,7 +183,9 @@ function save(): void {
       <v-card-actions>
         <v-btn
           id="btn-dialog-save"
+          type="button"
           icon="$save"
+          aria-label="Save"
           @click="save()"
         />
       </v-card-actions>
