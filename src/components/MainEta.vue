@@ -85,6 +85,7 @@ function handleAddRow(row: { date: Date; items: number }) {
       >
         <v-btn
           id="btn-del-all"
+          type="button"
           icon="$trash"
           color="red"
           aria-label="Delete all data"
@@ -99,6 +100,7 @@ function handleAddRow(row: { date: Date; items: number }) {
       >
         <v-btn
           id="btn-plus-1"
+          type="button"
           icon="$plus1"
           color="blue-lighten-2"
           aria-label="Add one"

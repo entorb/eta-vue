@@ -18,7 +18,7 @@ watch(target, () => {
   inputTarget.value = target.value.toString()
 })
 
-// TODO
+// Known issue: ref object reactivity loss - needed for proper initialization
 // eslint-disable-next-line vue/no-ref-object-reactivity-loss
 const inputTarget = ref(target.value.toString())
 

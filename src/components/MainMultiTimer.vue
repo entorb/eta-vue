@@ -344,6 +344,7 @@ function addFromRecentTimer(title: string) {
               >
                 <v-btn
                   id="btn-resetAll"
+                  type="button"
                   icon="$repeat"
                   icon-color="red"
                   flat
@@ -357,6 +358,7 @@ function addFromRecentTimer(title: string) {
               >
                 <v-btn
                   id="btn-deleteAll"
+                  type="button"
                   icon="$trash"
                   icon-color="red"
                   flat
@@ -386,6 +388,7 @@ function addFromRecentTimer(title: string) {
               </td>
               <td class="text-center small-width">
                 <v-btn
+                  type="button"
                   icon="$repeat"
                   size="small"
                   flat
@@ -396,6 +399,7 @@ function addFromRecentTimer(title: string) {
               <td class="text-center small-width">
                 <v-btn
                   :id="'btn-del-row-' + index"
+                  type="button"
                   icon="$trash"
                   size="small"
                   flat
