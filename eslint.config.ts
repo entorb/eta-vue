@@ -302,7 +302,7 @@ export default [
       'vue/no-undef-components': [
         'warn',
         {
-          ignorePatterns: ['^q-', '^router-']
+          ignorePatterns: ['^q-', '^router-', '^v-']
         }
       ],
       'vue/no-undef-properties': 'off', // Disabled - causes false positives with auto-imports
