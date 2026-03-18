@@ -1,6 +1,5 @@
+import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
-import { resolve } from 'path'
-
 import Vue from '@vitejs/plugin-vue'
 // locally hosting roboto font, instead of pointing to google
 import Unfonts from 'unplugin-fonts/vite'

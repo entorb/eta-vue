@@ -34,8 +34,7 @@ function clearLocalStorage() {
             href="https://en.wikipedia.org/wiki/Weighted_least_squares"
             target="_blank"
             rel="noopener noreferrer"
-            >weighted linear regression</a
-          >
+          >weighted linear regression</a>
           to empathize the latest data points.
         </p>
         <p style="padding-top: 10px">
@@ -44,8 +43,7 @@ function clearLocalStorage() {
             href="https://www.w3schools.com/jsref/jsref_max_value.asp"
             target="_blank"
             rel="noopener noreferrer"
-            >1.79e+308</a
-          >.
+          >1.79e+308</a>.
         </p>
       </v-col>
     </v-row>
@@ -63,8 +61,7 @@ function clearLocalStorage() {
             href="https://en.wikipedia.org/wiki/Progressive_web_app"
             target="_blank"
             rel="noopener noreferrer"
-            >PWA</a
-          >
+          >PWA</a>
           technology is used to enable app installation.
         </p>
         <p>
@@ -74,8 +71,7 @@ function clearLocalStorage() {
             href="https://entorb.net/eta/"
             target="_blank"
             rel="noopener noreferrer"
-            >ETA</a
-          >
+          >ETA</a>
           in Edge or Chrome -> Tap Install
         </p>
         <p>
@@ -85,8 +81,7 @@ function clearLocalStorage() {
             href="https://entorb.net/eta/"
             target="_blank"
             rel="noopener noreferrer"
-            >ETA</a
-          >
+          >ETA</a>
           in Safari -> click share button at button of page -> choose "Add to Home Screen"
         </p>
         <p>
@@ -96,8 +91,7 @@ function clearLocalStorage() {
             href="https://entorb.net/eta/"
             target="_blank"
             rel="noopener noreferrer"
-            >ETA</a
-          >
+          >ETA</a>
           in Safari -> Menu -> File -> Add to Dock
         </p>
         <p>
@@ -107,8 +101,7 @@ function clearLocalStorage() {
             href="https://entorb.net/eta/"
             target="_blank"
             rel="noopener noreferrer"
-            >ETA</a
-          >
+          >ETA</a>
           in Edge or Chrome -> Address bar, right side -> Install button
         </p>
       </v-col>
@@ -122,8 +115,7 @@ function clearLocalStorage() {
           <a
             href="javascript:void(0)"
             @click="clearLocalStorage"
-            >here</a
-          >
+          >here</a>
           to delete this data. Only anonymous usage statistics are gathered on the server.
         </p>
       </v-col>
@@ -137,8 +129,7 @@ function clearLocalStorage() {
             href="https://entorb.net/eta-v1/"
             target="_blank"
             rel="noopener noreferrer"
-            >entorb.net/eta-v1/</a
-          >.
+          >entorb.net/eta-v1/</a>.
         </p>
       </v-col>
     </v-row>

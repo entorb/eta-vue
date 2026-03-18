@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { helperRunningOnProd, helperStatsDataRead } from '../helper'
@@ -24,15 +24,15 @@ const showStats = computed(() => origin.value !== '')
 const statsLabel = computed(() => (origin.value === 'eta' ? 'etas' : 'timers'))
 
 onMounted(() => {
-  fetchAccessStats()
+  void fetchAccessStats()
 })
 
 watch(route, () => {
-  fetchAccessStats()
+  void fetchAccessStats()
 })
 
 async function fetchAccessStats() {
-  if (!helperRunningOnProd() || !origin.value) {
+  if (!(helperRunningOnProd() && origin.value)) {
     return
   }
 
@@ -59,16 +59,14 @@ async function fetchAccessStats() {
         href="https://entorb.net/contact.php?origin=eta"
         target="_blank"
         rel="noopener noreferrer"
-        >Feedback</a
-      >
+      >Feedback</a>
       is highly appreciated. Complete source code and project documentation are at
       <a
         class="text-disabled"
         href="https://github.com/entorb/eta-vue/"
         target="_blank"
         rel="noopener noreferrer"
-        >GitHub.com/entorb/etc-vue/</a
-      >.
+      >GitHub.com/entorb/etc-vue/</a>.
     </p>
   </div>
 </template>

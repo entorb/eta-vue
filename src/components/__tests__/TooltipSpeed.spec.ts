@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest'
 import TooltipSpeed from '../TooltipSpeed.vue'
 
 describe('Component renders', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(TooltipSpeed, {
       props: { unit: 'sec', ips: 0.0123 }
@@ -35,19 +35,19 @@ describe('speedInUnit', () => {
   })
   it('ips=123456 unit=sec', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 123456 }
+      props: { unit: 'sec', ips: 123_456 }
     })
     expect(wrapper.vm.speedInUnit).toBe('123456')
   })
   it('ips=123456789 unit=sec', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 123456789 }
+      props: { unit: 'sec', ips: 123_456_789 }
     })
     expect(wrapper.vm.speedInUnit).toBe('123456789')
   })
   it('ips=1234567890123456 unit=sec', () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 1234567890123456 }
+      props: { unit: 'sec', ips: 1_234_567_890_123_456 }
     })
     expect(wrapper.vm.speedInUnit).toBe('1234567890123456')
   })

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
   helperCalcSpeedFromPreviousRow,
   helperClearName,
@@ -38,7 +38,7 @@ describe('helperDateToIsoString', () => {
 
 describe('helperSecondsToString', () => {
   it('>1day', () => {
-    const totalSeconds = 100000
+    const totalSeconds = 100_000
     const formattedDate = helperSecondsToString(totalSeconds)
     expect(formattedDate).toBe('1d 3h 46m')
   })
@@ -79,7 +79,7 @@ describe('helperValueToString', () => {
   it('various values', () => {
     expect(helperValueToString(1)).toBe('1.00')
     expect(helperValueToString(100)).toBe('100')
-    expect(helperValueToString(10000)).toBe('10000')
+    expect(helperValueToString(10_000)).toBe('10000')
     expect(helperValueToString(0.1)).toBe('0.100')
     expect(helperValueToString(0.123)).toBe('0.123')
   })

@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
-import MainEta from '../MainEta.vue'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { useEtaData } from '../../composables/useEtaData'
+import MainEta from '../MainEta.vue'
 
-function initializeComposable(composable) {
+function initializeComposable(composable: ReturnType<typeof useEtaData>) {
   localStorage.clear()
   composable.data.value = []
   composable.target.value = 0
@@ -11,7 +11,7 @@ function initializeComposable(composable) {
 }
 
 describe('Component renders', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainEta)
     localStorage.clear()
@@ -22,7 +22,7 @@ describe('Component renders', () => {
 })
 
 describe('setTarget', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -35,7 +35,7 @@ describe('setTarget', () => {
     expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored as string)).toBe(value)
+    expect(Number.parseFloat(stored as string)).toBe(value)
   })
 
   it('target = 0', () => {
@@ -45,7 +45,7 @@ describe('setTarget', () => {
     expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored as string)).toBe(value)
+    expect(Number.parseFloat(stored as string)).toBe(value)
   })
 
   it('target -1 -> unchanged', () => {
@@ -56,12 +56,12 @@ describe('setTarget', () => {
     expect(composable.target.value).toBe(value)
     const stored = localStorage.getItem('eta_vue_target')
     expect(stored).toBe(value.toString())
-    expect(parseFloat(stored as string)).toBe(value)
+    expect(Number.parseFloat(stored as string)).toBe(value)
   })
 })
 
 describe('setUnitOfSpeed', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -73,13 +73,13 @@ describe('setUnitOfSpeed', () => {
     expect(composable.settings.value.unitSpeed).toBe('min')
     composable.updateItemsPerSec(0.0001)
     expect(composable.settings.value.unitSpeed).toBe('hour')
-    composable.updateItemsPerSec(0.00001)
+    composable.updateItemsPerSec(0.000_01)
     expect(composable.settings.value.unitSpeed).toBe('day')
   })
 })
 
 describe('addRow', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -101,7 +101,7 @@ describe('addRow', () => {
 })
 
 describe('plus1', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -126,7 +126,7 @@ describe('plus1', () => {
 })
 
 describe('deleteRow', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -164,7 +164,7 @@ describe('deleteRow', () => {
 })
 
 describe('readLocalStorageData', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -191,7 +191,7 @@ describe('readLocalStorageData', () => {
 })
 
 describe('deleteAllData', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -211,7 +211,7 @@ describe('deleteAllData', () => {
 })
 
 describe('decideIfToShowDays', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -232,7 +232,7 @@ describe('decideIfToShowDays', () => {
 })
 
 describe('calcSpeeds', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
@@ -257,7 +257,7 @@ describe('calcSpeeds', () => {
 })
 
 describe('updateRow', () => {
-  let composable
+  let composable: ReturnType<typeof useEtaData>
   beforeEach(() => {
     composable = useEtaData()
     initializeComposable(composable)
