@@ -1,7 +1,7 @@
 // LinReg on time series data
 export const helperLinReg = (
   data: Array<{ date: Date; items: number }>,
-  weighted: boolean = false
+  weighted = false
 ): { slope: number; intercept: number } => {
   // handling of bad data -> return slope = 0
   const n = data.length

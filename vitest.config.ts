@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 
-import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config'
 
 import viteConfig from './vite.config'
 
@@ -12,6 +12,12 @@ export default mergeConfig(
         reporter: 'lcov'
       },
       environment: 'jsdom',
+      environmentOptions: {
+        jsdom: {
+          url: 'http://localhost/'
+        }
+      },
+      setupFiles: ['./vitest.setup.ts'],
       server: {
         deps: {
           inline: ['vuetify', 'echarts', 'vue-echarts']

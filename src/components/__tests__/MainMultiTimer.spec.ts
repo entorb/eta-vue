@@ -1,15 +1,15 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest'
 import MainMultiTimer from '../MainMultiTimer.vue'
 
-function initializeWrapper(wrapper) {
+function initializeWrapper(wrapper: ReturnType<typeof shallowMount>) {
   localStorage.clear()
   wrapper.vm.data.value = []
   wrapper.vm.recentTimerNames.value = []
 }
 
 describe('Component renders', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainMultiTimer)
     initializeWrapper(wrapper)
@@ -20,7 +20,7 @@ describe('Component renders', () => {
 })
 
 describe('timer naming', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainMultiTimer)
     initializeWrapper(wrapper)
@@ -40,7 +40,7 @@ describe('timer naming', () => {
 })
 
 describe('timer creation', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(async () => {
     wrapper = shallowMount(MainMultiTimer)
     initializeWrapper(wrapper)

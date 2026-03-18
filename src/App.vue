@@ -18,9 +18,15 @@ tab.value = route.path
         v-model="tab"
         align-tabs="start"
       >
-        <v-tab to="/eta/eta"> Remaining </v-tab>
-        <v-tab to="/eta/multitimer"> Multi-Timer </v-tab>
-        <v-tab to="/eta/info"> Info </v-tab>
+        <v-tab to="/eta/eta">
+          Remaining
+        </v-tab>
+        <v-tab to="/eta/multitimer">
+          Multi-Timer
+        </v-tab>
+        <v-tab to="/eta/info">
+          Info
+        </v-tab>
       </v-tabs>
     </v-container>
     <v-main>

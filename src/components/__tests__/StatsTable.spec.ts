@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest' // vi
 import { shallowMount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest' // vi
 import StatsTable from '../StatsTable.vue'
+
 // import { DataRowType } from '../../types'
 
 describe('Component renders', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(StatsTable, {
       props: { data: [], settings: { showDays: false, unitSpeed: 'min' } }
@@ -16,7 +17,7 @@ describe('Component renders', () => {
 })
 
 describe('target=100', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(StatsTable, {
       props: {
@@ -65,7 +66,7 @@ describe('target=100', () => {
 })
 
 describe('target=0', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(StatsTable, {
       props: {
@@ -113,7 +114,7 @@ describe('target=0', () => {
 })
 
 describe('target=50 reached', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
 
   it('50/50', () => {
     wrapper = shallowMount(StatsTable, {
