@@ -23,8 +23,8 @@ watch(target, () => {
 const inputTarget = ref(target.value.toString())
 
 function enterTarget() {
-  const targetNew = parseFloat(inputTarget.value.replace(',', '.'))
-  if (isNaN(targetNew) || targetNew < 0) {
+  const targetNew = Number.parseFloat(inputTarget.value.replace(',', '.'))
+  if (Number.isNaN(targetNew) || targetNew < 0) {
     inputTarget.value = ''
     return
   }

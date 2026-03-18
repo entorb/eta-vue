@@ -1,11 +1,11 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { helperCalcSpeedFromPreviousRow } from '../helper'
-import type { DataRowType, DataRowRedType, UnitType } from '../types'
+import type { DataRowRedType, DataRowType, UnitType } from '../types'
 
 const STORAGE_KEY_DATA = 'eta_vue_data'
 const STORAGE_KEY_TARGET = 'eta_vue_target'
-const DAY_IN_MS = 86400 * 1000
+const DAY_IN_MS = 86_400 * 1000
 
 export function useEtaData() {
   const target = ref(0)
@@ -15,7 +15,7 @@ export function useEtaData() {
 
   const current = computed(() => {
     const lastRow = data.value[data.value.length - 1]
-    return lastRow?.items ?? NaN
+    return lastRow?.items ?? Number.NaN
   })
 
   const hasData = computed(() => data.value.length > 0)
@@ -24,7 +24,7 @@ export function useEtaData() {
   function loadFromStorage() {
     const storedTarget = localStorage.getItem(STORAGE_KEY_TARGET)
     if (storedTarget) {
-      target.value = parseFloat(storedTarget)
+      target.value = Number.parseFloat(storedTarget)
     }
 
     const storedData = localStorage.getItem(STORAGE_KEY_DATA)
@@ -81,23 +81,24 @@ export function useEtaData() {
     if (index < 0 || index >= data.value.length) return
 
     data.value.splice(index, 1)
-
-    if (index < data.value.length) {
-      const item = data.value[index]
-      if (item) {
-        if (index === 0) {
-          item.speed = 0
-        } else {
-          const prevRow = data.value[index - 1]
-          if (prevRow) {
-            item.speed = helperCalcSpeedFromPreviousRow(item, prevRow)
-          }
-        }
-      }
-    }
-
+    recalculateSpeedAt(index)
     updateShowDays()
     saveToStorage()
+  }
+
+  function recalculateSpeedAt(index: number) {
+    const item = data.value[index]
+    if (!item) return
+
+    if (index === 0) {
+      item.speed = 0
+      return
+    }
+
+    const prevRow = data.value[index - 1]
+    if (prevRow) {
+      item.speed = helperCalcSpeedFromPreviousRow(item, prevRow)
+    }
   }
 
   function deleteAll() {
