@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest'
 import DataTable from '../DataTable.vue'
 
 describe('Component renders', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(DataTable, {
       props: { data: [], settings: { showDays: false, unitSpeed: 'min' } }
@@ -20,7 +20,7 @@ describe('Component renders', () => {
 })
 
 describe('Edit dialog', () => {
-  let wrapper
+  let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(DataTable, {
       props: {

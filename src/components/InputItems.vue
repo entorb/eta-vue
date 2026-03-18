@@ -22,7 +22,7 @@ const label = ref('Value')
 watch(
   () => props.currentItems,
   newVal => {
-    label.value = isNaN(newVal) ? 'Value' : String(newVal)
+    label.value = Number.isNaN(newVal) ? 'Value' : String(newVal)
   }
 )
 
@@ -32,7 +32,10 @@ function enterItems() {
     return
   }
   const date = new Date()
-  const newRow: DataRowRedType = { date: date, items: parseFloat(itemsStr.replace(',', '.')) }
+  const newRow: DataRowRedType = {
+    date: date,
+    items: Number.parseFloat(itemsStr.replace(',', '.'))
+  }
   // Emit an event to add the row to the data
   emit('addRow', newRow)
   inputItems.value = ''

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, toRefs } from 'vue'
+import { computed, onMounted, ref, toRefs, watch } from 'vue'
 
 import { colorItems, colorSpeed } from '../colors'
 import {
   helperDateToString,
+  helperPlaySoundTimerDone,
   helperSecondsToString,
-  helperValueToString,
-  helperPlaySoundTimerDone
+  helperValueToString
 } from '../helper'
 import { helperLinReg } from '../helperLinReg'
 import type { DataRowType } from '../types'
@@ -148,10 +148,10 @@ function updateStats() {
     eta.value = new Date(dateLast.value.getTime() + timeLastRowToETA * 1000)
   }
 
-  if (!targetReached) {
-    startTimer()
-  } else {
+  if (targetReached) {
     stopTimer()
+  } else {
+    startTimer()
   }
 }
 
@@ -169,7 +169,7 @@ function timer_triggered_function() {
     return
   }
 
-  const nowTS = new Date().getTime()
+  const nowTS = Date.now()
   // 1. timeSinceFirstRow and timeSinceLastRow
   if (targetReached) {
     secSinceFirstRow.value = Math.round(
@@ -227,20 +227,20 @@ function startTimer() {
   if (targetReached) {
     return
   }
-  let sleep: number = 1
+  let sleep = 1
   // dynamically decide on the sleep time
   if (secToETA.value > 15 * 60 && secSinceLastRow.value > 15 * 60) {
     sleep = 30
   }
 
-  timerInterval = window.setInterval(() => {
+  timerInterval = globalThis.setInterval(() => {
     timer_triggered_function()
   }, sleep * 1000)
 }
 
 function stopTimer() {
   if (timerInterval !== null) {
-    window.clearInterval(timerInterval)
+    globalThis.clearInterval(timerInterval)
     timerInterval = null
   }
 }
@@ -311,8 +311,7 @@ function valueToString(value: number): string {
           <TooltipSpeed
             :ips="itemsPerSec"
             :unit="settings.unitSpeed"
-          ></TooltipSpeed
-          >/
+          />/
           {{ settings.unitSpeed }}
         </td>
       </tr>
@@ -327,11 +326,15 @@ function valueToString(value: number): string {
       </tr>
       <tr>
         <td><v-icon icon="$timeRunning" /></td>
-        <td :style="{ fontWeight: 'bold' }">{{ secToString(secSinceFirstRow) }}</td>
+        <td :style="{ fontWeight: 'bold' }">
+          {{ secToString(secSinceFirstRow) }}
+        </td>
       </tr>
       <tr>
         <td><v-icon icon="$timeStart" /></td>
-        <td :style="{ fontWeight: 'bold' }">{{ dateToString(dateFirst) }}</td>
+        <td :style="{ fontWeight: 'bold' }">
+          {{ dateToString(dateFirst) }}
+        </td>
       </tr>
     </tbody>
   </v-table>

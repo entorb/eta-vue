@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import {
   helperClearName,
@@ -60,13 +60,13 @@ function addViaInput() {
   const regex = /:(\d{2})/
   const match = input.match(regex)
   if (match) {
-    const seconds = parseInt(match[1] ?? '0', 10)
+    const seconds = Number.parseInt(match[1] ?? '0', 10)
     const minutes = Math.round((seconds / 60) * 100) / 100
     input = input.replace(regex, minutes.toString().replace(/^0/, ''))
   }
 
-  const time = parseFloat(input.replace(',', '.'))
-  if (isNaN(time)) {
+  const time = Number.parseFloat(input.replace(',', '.'))
+  if (Number.isNaN(time)) {
     inputTime.value = ''
     return
   }
@@ -84,10 +84,12 @@ function addViaInput() {
   }
 }
 
+const unitMap: Record<string, number> = { sec: 1, min: 60, hour: 3600, day: 86_400 }
+
 function add(name: string, time: number, unit: string) {
-  const factor = unit === 'sec' ? 1 : unit === 'min' ? 60 : unit === 'hour' ? 3600 : 86400
+  const factor = unitMap[unit] ?? 60
   const dateStart = new Date()
-  const dateEnd = new Date(new Date().getTime() + time * 1000 * factor)
+  const dateEnd = new Date(Date.now() + time * 1000 * factor)
 
   data.value.push({
     name,
@@ -99,7 +101,7 @@ function add(name: string, time: number, unit: string) {
 
   updateLocalStorageData()
   if (helperRunningOnProd()) {
-    helperStatsDataWrite('eta-mt')
+    void helperStatsDataWrite('eta-mt')
   }
   startTimer()
 }
@@ -111,7 +113,7 @@ function updateRemainingTime() {
     // is the current timer still running?
     // upon reading from local storage, value is set to -1
     if (remaining !== 0) {
-      const now = new Date().getTime()
+      const now = Date.now()
       const target = timer.dateEnd.getTime()
       const start = timer.dateStart.getTime()
       if (now < target) {
@@ -134,7 +136,7 @@ function updateRemainingTime() {
 
 function stopTimer() {
   if (timerInterval !== null) {
-    window.clearInterval(timerInterval)
+    globalThis.clearInterval(timerInterval)
     timerInterval = null
   }
 }
@@ -145,7 +147,7 @@ function startTimer() {
   const sleep: number = 1
   updateRemainingTime()
 
-  timerInterval = window.setInterval(() => {
+  timerInterval = globalThis.setInterval(() => {
     updateRemainingTime()
   }, sleep * 1000)
 }
@@ -239,19 +241,19 @@ function readLocalStorageRecentTimers() {
 }
 
 function genTimerName(name: string, time: number, unit: string): string {
-  return helperClearName(name) + ':' + time.toString() + unit.charAt(0)
+  return `${helperClearName(name)}:${time.toString()}${unit.charAt(0)}`
 }
 
 function parseTimerName(title: string): { name: string; time: number; unit: string } {
   let s = title
   const unitShort = s.charAt(s.length - 1)
-  const unit =
-    unitShort === 's' ? 'sec' : unitShort === 'm' ? 'min' : unitShort === 'h' ? 'hour' : 'day'
-  s = s.substring(0, s.length - 1)
+  const shortToUnit: Record<string, string> = { s: 'sec', m: 'min', h: 'hour' }
+  const unit = shortToUnit[unitShort] ?? 'day'
+  s = s.slice(0, s.length - 1)
 
   const parts = s.split(':')
   const name = parts[0] ?? ''
-  const time = parseFloat(parts[1] ?? '0')
+  const time = Number.parseFloat(parts[1] ?? '0')
   return { name, time, unit }
 }
 
@@ -325,7 +327,9 @@ function addFromRecentTimer(title: string) {
         >
           <thead>
             <tr>
-              <th scope="col">Name</th>
+              <th scope="col">
+                Name
+              </th>
               <th
                 v-if="!isMobile"
                 scope="col"
@@ -374,7 +378,9 @@ function addFromRecentTimer(title: string) {
               :key="row.name"
             >
               <td>{{ row.name }}</td>
-              <td v-if="!isMobile">{{ helperDateToString(row.dateEnd, showDays) }}</td>
+              <td v-if="!isMobile">
+                {{ helperDateToString(row.dateEnd, showDays) }}
+              </td>
               <td style="white-space: nowrap">
                 <v-progress-linear
                   v-model="row.percent"

@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 
 import { colorItems, colorSpeed } from '../colors'
-import { helperDateToString, helperDateToIsoString, helperValidateItemsInput } from '../helper'
-import type { DataRowType, DataRowRedType } from '../types'
+import { helperDateToIsoString, helperDateToString, helperValidateItemsInput } from '../helper'
+import type { DataRowRedType, DataRowType } from '../types'
 
 import TooltipSpeed from './TooltipSpeed.vue'
 
@@ -128,7 +128,7 @@ function save(): void {
             <TooltipSpeed
               :ips="item.speed"
               :unit="settings.unitSpeed"
-            ></TooltipSpeed>
+            />
           </span>
         </td>
         <td>

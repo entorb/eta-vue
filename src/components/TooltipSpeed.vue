@@ -20,7 +20,7 @@ const ipsInUnit = (unit: UnitType): string => {
     sec: 1,
     min: 60,
     hour: 3600,
-    day: 86400
+    day: 86_400
   }[unit]
   return helperValueToString(Math.abs(props.ips * factor))
 }
