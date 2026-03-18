@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, onMounted } from 'vue'
 
 import { useEtaData } from '../composables/useEtaData'
 import { helperRunningOnProd, helperStatsDataWrite } from '../helper'
@@ -37,7 +37,7 @@ function handleAddRow(row: { date: Date; items: number }) {
   addRow(row)
 
   if (helperRunningOnProd() && data.value.length === 3) {
-    helperStatsDataWrite('eta')
+    void helperStatsDataWrite('eta')
   }
 }
 </script>

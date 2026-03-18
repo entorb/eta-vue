@@ -1,6 +1,6 @@
 import type { DataRowRedType, StatsDataType } from './types'
 
-export const helperDateToString = (datetime: Date, showDays: boolean = false): string => {
+export const helperDateToString = (datetime: Date, showDays = false): string => {
   const options: Intl.DateTimeFormatOptions = {
     hour12: undefined,
     hour: '2-digit',
@@ -27,11 +27,11 @@ export const helperDateToIsoString = (date: Date): string => {
 }
 
 export const helperSecondsToString = (totalSeconds: number): string => {
-  totalSeconds = Math.round(totalSeconds)
-  const days = Math.floor(totalSeconds / 86400)
-  const hours = Math.floor((totalSeconds % 86400) / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = totalSeconds % 60
+  const rounded = Math.round(totalSeconds)
+  const days = Math.floor(rounded / 86_400)
+  const hours = Math.floor((rounded % 86_400) / 3600)
+  const minutes = Math.floor((rounded % 3600) / 60)
+  const seconds = rounded % 60
 
   if (days > 0) {
     return `${days}d ${hours}h ${minutes}m`
@@ -50,8 +50,8 @@ export const helperSecondsToString = (totalSeconds: number): string => {
 
 // validate input of items
 export const helperValidateItemsInput = (inputStr: string): boolean => {
-  const items = parseFloat(inputStr.replace(',', '.'))
-  return !isNaN(items)
+  const items = Number.parseFloat(inputStr.replace(',', '.'))
+  return !Number.isNaN(items)
 }
 
 // used at StatsTable and TooltipSpeed
@@ -112,14 +112,14 @@ export const helperStatsDataWrite = async (origin: string) => {
 }
 
 export const helperRunningOnProd = () => {
-  const currentURL = window.location.href
+  const currentURL = globalThis.location.href
   return currentURL.startsWith('https://entorb.net/')
 }
 
 export const helperRunningOnMobile = () => {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+  if (typeof globalThis === 'undefined' || typeof globalThis.matchMedia !== 'function') {
     return false
   }
-  const mobileMediaQuery = window.matchMedia('(max-width: 768px)')
+  const mobileMediaQuery = globalThis.matchMedia('(max-width: 768px)')
   return mobileMediaQuery.matches
 }
