@@ -1,5 +1,7 @@
 import type { DataRowRedType, StatsDataType } from './types'
 
+const PROD_HOSTNAME = 'entorb.net'
+
 export const helperDateToString = (datetime: Date, showDays = false): string => {
   const options: Intl.DateTimeFormatOptions = {
     hour12: undefined,
@@ -103,6 +105,13 @@ export const helperStatsDataRead = async (origin: string): Promise<StatsDataType
 }
 
 export const helperStatsDataWrite = async (origin: string) => {
+  // Skip stats writes outside production to prevent dev/Cypress from spoiling stats
+  try {
+    if (globalThis.location.hostname !== PROD_HOSTNAME) return
+  } catch {
+    return
+  }
+
   try {
     const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=write`
     await fetch(url)
