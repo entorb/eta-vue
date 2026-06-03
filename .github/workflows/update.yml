@@ -30,7 +30,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --config.minimumReleaseAge=0
 
       - name: Update Vite, etc.
         run: pnpm up vite cspell eslint vue-tsc @biomejs/biome
