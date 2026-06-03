@@ -40,7 +40,7 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --config.minimumReleaseAge=0
 
       # - name: Run formatter
       #   run: pnpm run format
