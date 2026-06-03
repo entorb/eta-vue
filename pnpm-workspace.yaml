@@ -2,19 +2,20 @@ allowBuilds:
   cypress: true
   esbuild: true
   vue-demi: true
+minimumReleaseAge: 20160 # 2 weeks (in minutes)
 minimumReleaseAgeExclude:
-  - ws@8.20.1
-  - uuid@11.1.1
-  - js-cookie@3.0.6
+  - '@biomejs/biome'
+  - '@biomejs/cli-darwin-arm64'
+  - '@biomejs/cli-darwin-x64'
+  - '@biomejs/cli-linux-arm64-musl'
+  - '@biomejs/cli-linux-arm64'
+  - '@biomejs/cli-linux-x64-musl'
+  - '@biomejs/cli-linux-x64'
+  - '@biomejs/cli-win32-arm64'
+  - '@biomejs/cli-win32-x64'
   - qs@6.15.2
   - tmp@0.2.6
-  - vitest@4.1.0
 onlyBuiltDependencies:
   - cypress
   - esbuild
   - vue-demi
-overrides:
-  minimatch@>=10.0.0 <10.2.1: '>=10.2.1'
-  minimatch@>=10.0.0 <10.2.3: '>=10.2.3'
-  serialize-javascript@<7.0.5: '>=7.0.5'
-  serialize-javascript@<=7.0.2: '>=7.0.3'

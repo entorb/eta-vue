@@ -1,5 +1,6 @@
 accesscounts
 autoresize
+biomejs
 Composables
 datetime
 demi
