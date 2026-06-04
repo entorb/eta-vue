@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "check": "run-p format lint types spell test",
+    "check": "run-p format lint types spell test knip",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "dev": "vite",
@@ -17,11 +17,10 @@
     "spell": "cspell --cache --quiet \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" \"docs/*\"",
     "test-cov": "vitest --watch=false --coverage",
     "test": "vitest --watch=false",
-    "types": "vue-tsc --build"
+    "types": "vue-tsc --build",
+    "knip": "knip"
   },
   "dependencies": {
-    "@fontsource/roboto": "^5.2.10",
-    "@mdi/font": "^7.4.47",
     "echarts": "^6.1.0",
     "vue": "^3.5.34",
     "vue-echarts": "^8.0.1",
@@ -52,6 +51,7 @@
     "globals": "^17.6.0",
     "jiti": "^2.7.0",
     "jsdom": "^29.1.1",
+    "knip": "^6.14.1",
     "npm-run-all2": "^9.0.0",
     "typescript": "~6.0.3",
     "unplugin-fonts": "^2.0.0",

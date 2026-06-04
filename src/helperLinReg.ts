@@ -40,7 +40,7 @@ export const calculateXAndY = (
   return { seconds: X, items: Y }
 }
 
-export const calculateLinearRegression = (
+const calculateLinearRegression = (
   X: number[],
   Y: number[]
 ): { slope: number; intercept: number } => {
@@ -73,7 +73,7 @@ export const calculateLinearRegression = (
   return { slope, intercept }
 }
 
-export const calculateWeightedLinearRegression = (
+const calculateWeightedLinearRegression = (
   X: number[],
   Y: number[]
 ): { slope: number; intercept: number } => {
