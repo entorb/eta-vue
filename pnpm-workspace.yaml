@@ -15,7 +15,13 @@ minimumReleaseAgeExclude:
   - '@biomejs/cli-win32-x64'
   - qs@6.15.2
   - tmp@0.2.6
+  - shell-quote@1.8.4
+  - cypress@15.17.0
 onlyBuiltDependencies:
   - cypress
   - esbuild
   - vue-demi
+overrides:
+  qs@>=6.11.1 <=6.15.1: ^6.15.2
+  glob@>=10.0.0 <12.0.0: ^13.0.0
+  source-map@>=0.8.0-beta.0 <0.9.0: ^0.7.4
