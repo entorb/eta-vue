@@ -2,34 +2,31 @@
 
 Modern Vue 3 + TypeScript 2025 best practices. ESLint and Prettier handle formatting - this guide covers architectural decisions.
 
-## Store Architecture (Pinia)
+## State Management (Composables)
 
-**Direct mutations, not setters:**
+**Direct mutations on returned refs:**
 
 ```typescript
 // ✅ DO
-store.inputText = 'new value'
+composable.target = 10
 
 // ❌ DON'T
-function setInputText(text: string) {
-  inputText.value = text
+function setTarget(value: number) {
+  target.value = value
 }
 ```
 
 **Return minimal interface:**
 
 ```typescript
-export const useTextStore = defineStore('text', () => {
-  const inputText = ref('')
-  const outputText = ref('')
+export function useEtaData() {
+  const target = ref(0)
+  const data = ref<DataRowType[]>([])
 
-  function clearOutput() {
-    outputText.value = ''
-    error.value = null
-  }
+  function loadFromStorage() { /* ... */ }
 
-  return { inputText, outputText, clearOutput }
-})
+  return { target, data, loadFromStorage }
+}
 ```
 
 ## Error Handling
