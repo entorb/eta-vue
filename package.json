@@ -10,7 +10,7 @@
     "cy:run": "cypress run",
     "dev": "vite",
     "format": "biome check --write .",
-    "lint": "eslint . --cache --fix --ignore-pattern .gitignore",
+    "lint": "eslint . --cache --fix --ignore-pattern .gitignore --max-warnings 0",
     "preview": "vite preview",
     "run": "run-s build preview",
     "spell-store": "cspell --cache --quiet --words-only --unique \"src/**/*.{txt,md,html,js,ts,vue,json,yml,py}\" > cspell-unknown-words.txt",
