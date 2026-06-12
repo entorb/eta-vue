@@ -1,5 +1,0 @@
-{
-  "*.{js,ts,vue,json,yml,css,html,md}": "biome check --write --no-errors-on-unmatched",
-  "src/**/*.{js,ts,vue}": "pnpm run lint",
-  "*": "pnpm run spell"
-}
