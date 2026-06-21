@@ -11,6 +11,7 @@ firstaccess
 fontsource
 freesound
 iconsets
+lineare
 lintstagedrc
 materialdesignicons
 Matomo
@@ -29,6 +30,8 @@ Torben
 TYPELESS
 undefinded
 unplugin
+unweighted
 Vite
 vitest
 vuetify
+weighted

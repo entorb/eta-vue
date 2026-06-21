@@ -108,7 +108,7 @@ async function handleLogin() {
 
 **Keep functions simple:**
 
-- Cognitive complexity < 20
+- Cognitive complexity < 15
 - Extract repeated strings (4+ occurrences) to constants
 - Types use PascalCase, no "I" prefix
 
@@ -126,14 +126,26 @@ async function handleLogin() {
 4. **Views are dumb** - logic in stores/composables
 5. **One way to do it** - consistency over preference
 
+## Lint traps
+
+Common `pnpm check` failures and their fixes:
+
+| Rule | Trigger | Fix |
+| ---- | ------- | --- |
+| `vue/no-boolean-default` | `withDefaults(props, { boolProp: true })` | Omit from `withDefaults`, use `?? true` at call site |
+| `noNonNullAssertion` (biome) | `foo!.bar` | `foo?.bar ?? fallback` |
+| `noExcessiveCognitiveComplexity` (biome) | function score > 15 | Extract helpers, reduce nesting, simplify ternaries |
+| `Object is possibly 'undefined'` (TS) | Accessing `arr[i]` after guard | `arr[i]?.prop ?? fallback` |
+
 ## Checklist
 
 - [ ] Direct store mutations, no setters
 - [ ] No console.error/warn in catch
-- [ ] Use `??` and `?.` operators
+- [ ] Use `??` and `?.` operators (never `!` assertions)
 - [ ] Error messages user-facing (German)
 - [ ] Composables focused (one responsibility)
 - [ ] Views minimal, logic extracted
 - [ ] Buttons have `type` attribute
 - [ ] Icon buttons have `aria-label`
-- [ ] Run `pnpm check` before commit
+- [ ] Run `pnpm check`
+- [ ] Boolean props: never default to `true`, use `?? true` at call site
