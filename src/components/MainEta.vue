@@ -26,7 +26,8 @@ const {
   deleteRow,
   deleteAll,
   incrementByOne,
-  updateItemsPerSec
+  updateItemsPerSec,
+  saveSettings
 } = useEtaData()
 
 onMounted(() => {
@@ -77,35 +78,33 @@ function handleAddRow(row: { date: Date; items: number }) {
     </v-row>
 
     <v-row v-if="hasData">
-      <v-col
-        cols="4"
-        md="2"
-        offset="2"
-        offset-md="0"
-      >
-        <v-btn
-          id="btn-del-all"
-          type="button"
-          icon="$trash"
-          color="red"
-          aria-label="Delete all data"
-          @click="deleteAll"
-        />
-      </v-col>
-      <v-col
-        cols="4"
-        md="2"
-        offset="1"
-        offset-md="3"
-      >
-        <v-btn
-          id="btn-plus-1"
-          type="button"
-          icon="$plus1"
-          color="blue-lighten-2"
-          aria-label="Add one"
-          @click="incrementByOne"
-        />
+      <v-col cols="12">
+        <div class="d-flex align-center justify-center ga-4 flex-wrap">
+          <v-btn
+            id="btn-plus-1"
+            type="button"
+            icon="$plus1"
+            color="blue-lighten-2"
+            aria-label="Add one"
+            @click="incrementByOne"
+          />
+          <v-btn
+            id="btn-weighted"
+            type="button"
+            icon="$weight"
+            :color="settings.weightedReg ? 'primary' : 'grey-lighten-1'"
+            aria-label="Toggle weighted regression"
+            @click="settings.weightedReg = !settings.weightedReg; saveSettings()"
+          />
+          <v-btn
+            id="btn-del-all"
+            type="button"
+            icon="$trash"
+            color="red"
+            aria-label="Delete all data"
+            @click="deleteAll"
+          />
+        </div>
       </v-col>
     </v-row>
 
