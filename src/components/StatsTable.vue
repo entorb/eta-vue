@@ -18,7 +18,7 @@ import TooltipSpeed from './TooltipSpeed.vue'
 
 interface Props {
   data: DataRowType[]
-  settings: { showDays: boolean; unitSpeed: string }
+  settings: { showDays: boolean; unitSpeed: string; weightedReg?: boolean }
   target?: number
 }
 
@@ -47,6 +47,14 @@ watch(
     updateStats()
   },
   { deep: true }
+)
+
+watch(
+  () => props.settings.weightedReg,
+  () => {
+    targetReached = false
+    updateStats()
+  }
 )
 
 const showETA = computed(() => eta.value.getTime() > 0)
@@ -112,24 +120,34 @@ function resetStats() {
   secToETA.value = 0
 }
 
-function updateStats() {
-  // triggered by watcher if data changed
-  if (props.data.length < 2) {
+function updateRowBoundaries() {
+  if (!(props.data[0] && props.data[props.data.length - 1])) return
+  dateFirst.value = props.data[0]?.date ?? new Date(0)
+  itemsFirst.value = props.data[0]?.items ?? 0
+  dateLast.value = props.data[props.data.length - 1]?.date ?? new Date(0)
+  itemsLast.value = props.data[props.data.length - 1]?.items ?? 0
+}
+
+function updateETA() {
+  if (itemsPerSec.value === 0 || itemsTotal.value <= itemsDone.value) {
+    eta.value = new Date(0)
     return
   }
+  const t = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
+  const timeLastRowToETA = props.target > 0 ? t : -t
+  eta.value = new Date(dateLast.value.getTime() + timeLastRowToETA * 1000)
+}
 
-  // read first and last row
-  if (props.data[0] && props.data[props.data.length - 1]) {
-    dateFirst.value = props.data[0].date
-    itemsFirst.value = props.data[0].items
-    dateLast.value = props.data[props.data.length - 1]?.date ?? new Date(0)
-    itemsLast.value = props.data[props.data.length - 1]?.items ?? 0
-  }
-  // calc done and total items
-  itemsDone.value = props.target > 0 ? itemsLast.value : itemsFirst.value - itemsLast.value
-  itemsTotal.value = props.target > 0 ? props.target : itemsFirst.value
+function updateStats() {
+  if (props.data.length < 2) return
 
-  const { slope } = helperLinReg(props.data, true)
+  updateRowBoundaries()
+
+  const countDown = props.target === 0
+  itemsDone.value = countDown ? itemsFirst.value - itemsLast.value : itemsLast.value
+  itemsTotal.value = countDown ? itemsFirst.value : props.target
+
+  const { slope } = helperLinReg(props.data, props.settings.weightedReg ?? true)
   itemsPerSec.value = slope
   emit('itemsPerSec', slope)
 
@@ -138,21 +156,10 @@ function updateStats() {
     targetReached = true
   }
 
-  // for invalid speed or target, the ETA is set 0
-  if (itemsPerSec.value === 0 || itemsTotal.value <= itemsDone.value) {
-    eta.value = new Date(0)
-  } else {
-    const t = (itemsTotal.value - itemsDone.value) / itemsPerSec.value
-    // mode 'Down' has neg slope
-    const timeLastRowToETA = props.target > 0 ? t : -t
-    eta.value = new Date(dateLast.value.getTime() + timeLastRowToETA * 1000)
-  }
+  updateETA()
 
-  if (targetReached) {
-    stopTimer()
-  } else {
-    startTimer()
-  }
+  if (targetReached) stopTimer()
+  else startTimer()
 }
 
 function timer_triggered_function() {
