@@ -5,12 +5,13 @@ import type { DataRowRedType, DataRowType, UnitType } from '../types'
 
 const STORAGE_KEY_DATA = 'eta_vue_data'
 const STORAGE_KEY_TARGET = 'eta_vue_target'
+const STORAGE_KEY_SETTINGS = 'eta_vue_settings'
 const DAY_IN_MS = 86_400 * 1000
 
 export function useEtaData() {
   const target = ref(0)
   const data = ref<DataRowType[]>([])
-  const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType })
+  const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType, weightedReg: false })
   const itemsPerSec = ref(0)
 
   const current = computed(() => {
@@ -39,6 +40,14 @@ export function useEtaData() {
     }
 
     updateShowDays()
+
+    const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS)
+    if (storedSettings) {
+      const parsed = JSON.parse(storedSettings)
+      if (typeof parsed.weightedReg === 'boolean') {
+        settings.value.weightedReg = parsed.weightedReg
+      }
+    }
   }
 
   function saveToStorage() {
@@ -106,6 +115,14 @@ export function useEtaData() {
     target.value = 0
     localStorage.removeItem(STORAGE_KEY_DATA)
     localStorage.removeItem(STORAGE_KEY_TARGET)
+    localStorage.removeItem(STORAGE_KEY_SETTINGS)
+  }
+
+  function saveSettings() {
+    localStorage.setItem(
+      STORAGE_KEY_SETTINGS,
+      JSON.stringify({ weightedReg: settings.value.weightedReg })
+    )
   }
 
   function incrementByOne() {
@@ -180,6 +197,7 @@ export function useEtaData() {
     deleteRow,
     deleteAll,
     incrementByOne,
-    updateItemsPerSec
+    updateItemsPerSec,
+    saveSettings
   }
 }
