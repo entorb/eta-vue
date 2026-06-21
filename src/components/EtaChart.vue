@@ -168,5 +168,6 @@ function updateChart() {
 <style scoped>
 .chart {
   height: 400px;
+  max-height: 60vh;
 }
 </style>
