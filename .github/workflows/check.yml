@@ -37,7 +37,7 @@ jobs:
           node-version: 24
           cache: "pnpm"
 
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@v3
 
       - name: Install dependencies
         run: pnpm install
@@ -68,7 +68,7 @@ jobs:
         run: pnpm knip
 
       - name: Run Cypress
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           # build: pnpx vite build
           # start: pnpx vite preview
