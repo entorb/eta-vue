@@ -11,7 +11,7 @@ rm -rf node_modules pnpm-lock.yaml
 
 echo === update packages ===
 pnpm up -L
-# pnpm exec biome migrate --write
+pnpm exec biome migrate --write
 npx update-browserslist-db@latest
 
 if ! pnpm audit; then
@@ -49,7 +49,7 @@ if [ -n "$(git status --porcelain)" ]; then
   git diff --staged --quiet -- pnpm-lock.yaml || git commit -m "Update Lock"
 
   # biome.json
-  git add package.json pnpm-workspace.yaml
+  git add package.json pnpm-workspace.yaml biome.json
   git commit -m "package update and pnpm audit findings"
   git push
 fi
