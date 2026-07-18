@@ -10,7 +10,7 @@ echo === delete old node_modules and lock ===
 rm -rf node_modules pnpm-lock.yaml
 
 echo === update packages ===
-pnpm up -L
+pnpm up --latest
 pnpm exec biome migrate --write
 npx update-browserslist-db@latest
 
@@ -50,7 +50,7 @@ if [ -n "$(git status --porcelain)" ]; then
 
   # biome.json
   git add package.json pnpm-workspace.yaml biome.json
-  git commit -m "package update and pnpm audit findings"
+  git commit -m "Update packages and pnpm audit findings"
   git push
 fi
 
