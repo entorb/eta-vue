@@ -47,6 +47,9 @@ export function useEtaData() {
       if (typeof parsed.weightedReg === 'boolean') {
         settings.value.weightedReg = parsed.weightedReg
       }
+      if (typeof parsed.unitSpeed === 'string') {
+        settings.value.unitSpeed = parsed.unitSpeed as UnitType
+      }
     }
   }
 
@@ -121,7 +124,10 @@ export function useEtaData() {
   function saveSettings() {
     localStorage.setItem(
       STORAGE_KEY_SETTINGS,
-      JSON.stringify({ weightedReg: settings.value.weightedReg })
+      JSON.stringify({
+        weightedReg: settings.value.weightedReg,
+        unitSpeed: settings.value.unitSpeed
+      })
     )
   }
 
@@ -198,6 +204,7 @@ export function useEtaData() {
     deleteAll,
     incrementByOne,
     updateItemsPerSec,
-    saveSettings
+    saveSettings,
+    setUnitOfSpeed
   }
 }
