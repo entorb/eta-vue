@@ -27,7 +27,8 @@ const {
   deleteAll,
   incrementByOne,
   updateItemsPerSec,
-  saveSettings
+  saveSettings,
+  setUnitOfSpeed
 } = useEtaData()
 
 onMounted(() => {
@@ -88,13 +89,34 @@ function handleAddRow(row: { date: Date; items: number }) {
             aria-label="Add one"
             @click="incrementByOne"
           />
-          <v-btn
-            id="btn-weighted"
-            type="button"
-            icon="$weight"
-            :color="settings.weightedReg ? 'primary' : 'grey-lighten-1'"
-            aria-label="Toggle weighted regression"
-            @click="settings.weightedReg = !settings.weightedReg; saveSettings()"
+          <v-tooltip text="Weighted Lin. Regression">
+            <template #activator="{ props }">
+              <v-btn
+                id="btn-weighted"
+                v-bind="props"
+                type="button"
+                icon="$weight"
+                :color="settings.weightedReg ? 'primary' : 'grey-lighten-1'"
+                aria-label="Toggle weighted regression"
+                @click="settings.weightedReg = !settings.weightedReg; saveSettings()"
+              />
+            </template>
+          </v-tooltip>
+          <v-select
+            id="select-unit-speed"
+            :model-value="settings.unitSpeed"
+            :items="[
+              { title: 'per sec', value: 'sec' },
+              { title: 'per min', value: 'min' },
+              { title: 'per hour', value: 'hour' },
+              { title: 'per day', value: 'day' }
+            ]"
+            density="compact"
+            variant="outlined"
+            hide-details
+            style="max-width: 120px"
+            aria-label="Unit of speed"
+            @update:model-value="setUnitOfSpeed($event); saveSettings()"
           />
           <v-btn
             id="btn-del-all"
