@@ -29,7 +29,13 @@ function clearLocalStorage() {
           has changed by 1. -->
         </p>
         <p style="padding-top: 10px">
-          In all modes the average progress speed is derived using
+          The average progress speed is derived either using
+          <a
+            href="https://en.wikipedia.org/wiki/Linear_regression "
+            target="_blank"
+            rel="noopener noreferrer"
+          >linear regression</a>
+          or
           <a
             href="https://en.wikipedia.org/wiki/Weighted_least_squares"
             target="_blank"

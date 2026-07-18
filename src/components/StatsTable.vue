@@ -255,6 +255,14 @@ function stopTimer() {
 function valueToString(value: number): string {
   return helperValueToString(value)
 }
+
+const speedAlt = computed(() => {
+  const ips = itemsPerSec.value
+  if (ips === 0) return null
+  if (ips >= 1000) return { value: (1000 / (ips * 60)).toFixed(2), unit: 'min/1000 items' }
+  if (ips < 1) return { value: (1 / (ips * 60)).toFixed(1), unit: 'min/item' }
+  return null
+})
 </script>
 
 <template>
@@ -320,6 +328,10 @@ function valueToString(value: number): string {
             :unit="settings.unitSpeed"
           />/
           {{ settings.unitSpeed }}
+          <template v-if="speedAlt">
+            <br />
+            {{ speedAlt.value }} {{ speedAlt.unit }}
+          </template>
         </td>
       </tr>
       <tr>
