@@ -90,17 +90,17 @@ Currently only supported by Chrome/Chromium/Edge, not by Safari and Firefox
 Great how-to:
 <https://wildermuth.com/2023/02/09/vite-plugin-for-progressive-web-apps/>
 
-1. add Vite PWA plugin
+A. add Vite PWA plugin
 
 ```sh
 npm i vite-plugin-pwa -D
 ```
 
-2. add pwa to [vite.config.ts](https://github.com/entorb/eta-vue/blob/main/vite.config.ts)
+B. add pwa to [vite.config.ts](https://github.com/entorb/eta-vue/blob/main/vite.config.ts)
    `import { VitePWA } from "vite-plugin-pwa";`
    and data for the manifest file (e.g. the required logo(s))
 
-3. place a logo in the public dir (e.g. `144.png`)
+C. place a logo in the public dir (e.g. `144.png`)
 
 done.
 
