@@ -10,3 +10,4 @@ node_modules/
 *.tsbuildinfo
 sonar-report.xml
 *.png
+cspell-words-missing.txt
