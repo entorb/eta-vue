@@ -22,9 +22,9 @@ export default defineConfig({
     target: 'esnext',
     rollupOptions: {
       input: {
-        index: resolve(__dirname, 'index.html'),
-        eta: resolve(__dirname, 'index1.html'),
-        multitimer: resolve(__dirname, 'index2.html')
+        index: resolve(import.meta.dirname, 'index.html'),
+        eta: resolve(import.meta.dirname, 'index1.html'),
+        multitimer: resolve(import.meta.dirname, 'index2.html')
       }
       // !!! this prevents lazy loading via defineAsyncComponent !!!
       // output: {
