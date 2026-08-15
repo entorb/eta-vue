@@ -3,5 +3,6 @@
   "tags": ["-lintignore"],
   "entry": ["scripts/*.sh"],
   "project": ["src/**/*.ts", "src/**/*.vue"],
-  "ignore": ["src/mainEta.ts", "src/mainMultiTimer.ts"]
+  "ignore": ["src/mainEta.ts", "src/mainMultiTimer.ts"],
+  "ignoreDependencies": ["@typescript/native"]
 }
