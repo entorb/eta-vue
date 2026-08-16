@@ -37,25 +37,6 @@ Install npm packages: `pnpm install`
 
 Run live-updated dev-instance: `pnpm run dev`
 
-Build and run: `pnpm run run`
-
-Live preview of changes: `pnpm run dev` (via `vite --host`)
-
-## Check code after changes
-
-### Format and unit tests
-
-```sh
-pnpm run check
-# this runs: format lint spell test-once
-
-# to run unit test only, generating coverage report in coverage\lcov-report\index.html
-pnpm run test-once
-
-# or run this to permanently retest upon file changes
-pnpm run test
-```
-
 ### Cypress E2E tests
 
 ```sh
@@ -65,40 +46,6 @@ pnpm run cy:open
 ```
 
 Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
-
-## Update
-
-```sh
-# update single package
-pnpm up vite
-# update all dependencies
-pnpm up
-```
-
-## Support tools used for this project
-
-- [Prettier](https://prettier.io) code formatter
-- [ESLint](https://eslint.org) code linter
-- [CSpell](https://cspell.org) code spell checker
-- [Vitest](https://vitest.dev) unit tests
-- [Cypress](https://www.cypress.io) E2E tests
-- [Matomo](https://matomo.org) visitor stats (locally hosted instance)
-- [SonarQube](https://sonarcloud.io/project/overview?id=entorb_eta-vue)
-
-see [docs/tools.md](https://github.com/entorb/eta-vue/blob/main/docs/tools.md)
-
-## known issues
-
-eslint throws
-
-```sh
-[MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of eslint.config.js is not specified and it doesn't parse as CommonJS.
-Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
-To eliminate this warning, add "type": "module" to /Users/torben/GitHub/eta-vue/package.json.
-(Use `node --trace-warnings ...` to show where the warning was created)
-```
-
-but setting `"type": "module"` in `package.json` prevents Cypress to start.
 
 ## Credits
 

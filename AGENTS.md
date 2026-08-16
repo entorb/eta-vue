@@ -1,6 +1,11 @@
 # Vue App - Copilot Coding Guidelines
 
-Modern Vue 3 + TypeScript 2025 best practices. ESLint and Prettier handle formatting - this guide covers architectural decisions.
+in Vue 3, Vuetify
+
+## Code checks after changes
+
+- After each completed task run `scripts/chk_format.sh` and fix issues
+- After each completed feature run `./scripts/run_checks.sh` and fix issues
 
 ## State Management (Composables)
 
@@ -128,7 +133,7 @@ async function handleLogin() {
 
 ## Lint traps
 
-Common `pnpm check` failures and their fixes:
+Common code check failures and their fixes:
 
 | Rule | Trigger | Fix |
 | ---- | ------- | --- |
@@ -147,5 +152,4 @@ Common `pnpm check` failures and their fixes:
 - [ ] Views minimal, logic extracted
 - [ ] Buttons have `type` attribute
 - [ ] Icon buttons have `aria-label`
-- [ ] Run `pnpm check`
 - [ ] Boolean props: never default to `true`, use `?? true` at call site
