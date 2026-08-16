@@ -5,23 +5,14 @@
     "ignoreUnknown": true,
     "includes": [
       "**",
-      "!**/.cache",
-      "!**/.cspellcache",
-      "!**/.eslintcache",
-      "!**/.vite",
       "!**/*.d.ts",
-      "!**/*.tsbuildinfo",
-      "!**/coverage",
-      "!**/cypress/downloads",
-      "!**/cypress/screenshots",
-      "!**/cypress/videos",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/packages.json",
-      "!**/pnpm-lock.yaml",
-      "!**/public",
-      "!**/scripts",
-      "!**/sonar-report.xml"
+      "!cypress/downloads",
+      "!cypress/screenshots",
+      "!cypress/videos",
+      "!package.json",
+      "!pnpm-lock.yaml",
+      "!public",
+      "!scripts"
     ]
   },
   "formatter": {

@@ -3,20 +3,16 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "build": "vite build",
-    "check": "run-p format lint types test knip",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "dev": "vite",
-    "format": "biome format --write . && biome check --write .",
-    "lint": "eslint . --cache --fix",
     "preview": "vite preview",
-    "run": "run-s build preview",
-    "test-cov": "vitest --watch=false --coverage",
-    "test": "vitest --watch=false",
-    "types": "vue-tsc --build",
-    "knip": "knip"
+    "run": "vite build && vite preview"
   },
   "dependencies": {
     "echarts": "^6.1.0",
@@ -55,7 +51,6 @@
     "jiti": "^2.7.0",
     "jsdom": "^30.0.1",
     "knip": "^6.32.1",
-    "npm-run-all2": "^9.0.3",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "unplugin-fonts": "^2.0.0",
     "vite": "^8.2.1",
