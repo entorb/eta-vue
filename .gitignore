@@ -1,0 +1,11 @@
+*.png
+*.tsbuildinfo
+.cspellcache
+.DS_Store
+.eslintcache
+/coverage/
+/dist/
+/node_modules/
+/tmp/
+cspell-words-missing.txt
+sonar-report.xml
