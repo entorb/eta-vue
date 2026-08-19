@@ -25,7 +25,7 @@ sh ./scripts/run_checks.sh
 echo === Cypress ===
 # start dev server in background, bypassing pnpm wrapper to remove warning upon killing process
 # pnpm run dev
-./node_modules/.bin/vite > /dev/null 2>&1 &
+./node_modules/.bin/vite >/dev/null 2>&1 &
 PID_VITE=$!
 
 # wait for dev server to be ready (port 5173 is Vite's default)
@@ -38,7 +38,6 @@ echo "Dev server ready (PID $PID_VITE)"
 # run Cypress and capture its exit code immediately
 pnpm run cy:run || EXIT_CODE=$?
 EXIT_CODE=${EXIT_CODE:-0}
-
 
 if [ -n "$(git status --porcelain)" ]; then
   echo === git push ===

@@ -29,6 +29,7 @@ recalc
 Reparsing
 roboto
 rumdl
+shfmt
 SonarCloud
 sonarjs
 SonarQube
