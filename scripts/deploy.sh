@@ -9,7 +9,7 @@ set -e
 rm -f .DS_Store
 rm -f */.DS_Store
 
-pnpm run check
+./scripts/run_checks.sh
 pnpm run build
 rsync -rhv --delete --no-perms --ignore-times dist/ entorb@entorb.net:html/eta/
 
