@@ -1,13 +1,13 @@
-import { describe, expect, it } from 'vitest'
-import { calculateXAndY, helperLinReg } from '../helperLinReg'
+import { describe, expect, it } from "vitest"
+import { calculateXAndY, helperLinReg } from "../helperLinReg"
 
-describe('calculateXAndY', () => {
-  it('converts Date to Timestamp and subtracts the first timestamp', () => {
+describe("calculateXAndY", () => {
+  it("converts Date to Timestamp and subtracts the first timestamp", () => {
     const data = [
-      { date: new Date('2023-01-01 01:01:01'), items: 10 },
-      { date: new Date('2023-01-01 01:01:02'), items: 20 },
-      { date: new Date('2023-01-01 01:01:03'), items: 30 },
-      { date: new Date('2023-01-01 01:01:04'), items: 44 }
+      { date: new Date("2023-01-01 01:01:01"), items: 10 },
+      { date: new Date("2023-01-01 01:01:02"), items: 20 },
+      { date: new Date("2023-01-01 01:01:03"), items: 30 },
+      { date: new Date("2023-01-01 01:01:04"), items: 44 },
     ]
 
     const result = calculateXAndY(data)
@@ -17,9 +17,9 @@ describe('calculateXAndY', () => {
   })
 })
 
-describe('helperLinReg', () => {
-  it('calculates the slope and intercept bad data of only 1 row', () => {
-    const data = [{ date: new Date('2023-01-01 01:01:01'), items: 10 }]
+describe("helperLinReg", () => {
+  it("calculates the slope and intercept bad data of only 1 row", () => {
+    const data = [{ date: new Date("2023-01-01 01:01:01"), items: 10 }]
 
     const result = helperLinReg(data, false)
 
@@ -27,10 +27,10 @@ describe('helperLinReg', () => {
     expect(result.intercept).toBe(0)
   })
 
-  it('calculates the slope and intercept poor data of only 2 rows', () => {
+  it("calculates the slope and intercept poor data of only 2 rows", () => {
     const data = [
-      { date: new Date('2023-01-01 01:01:01'), items: 10 },
-      { date: new Date('2023-01-01 01:01:02'), items: 40 }
+      { date: new Date("2023-01-01 01:01:01"), items: 10 },
+      { date: new Date("2023-01-01 01:01:02"), items: 40 },
     ]
 
     const result = helperLinReg(data, false)
@@ -39,12 +39,12 @@ describe('helperLinReg', () => {
     expect(result.intercept).toBe(10)
   })
 
-  it('calculates the slope and intercept for data without weighting', () => {
+  it("calculates the slope and intercept for data without weighting", () => {
     const data = [
-      { date: new Date('2023-01-01 01:01:01'), items: 10 },
-      { date: new Date('2023-01-01 01:01:02'), items: 20 },
-      { date: new Date('2023-01-01 01:01:03'), items: 30 },
-      { date: new Date('2023-01-01 01:01:04'), items: 44 }
+      { date: new Date("2023-01-01 01:01:01"), items: 10 },
+      { date: new Date("2023-01-01 01:01:02"), items: 20 },
+      { date: new Date("2023-01-01 01:01:03"), items: 30 },
+      { date: new Date("2023-01-01 01:01:04"), items: 44 },
     ]
 
     const result = helperLinReg(data, false)
@@ -53,12 +53,12 @@ describe('helperLinReg', () => {
     expect(result.intercept).toBeCloseTo(9.2, 1)
   })
 
-  it('calculates the slope and intercept for weighted data', () => {
+  it("calculates the slope and intercept for weighted data", () => {
     const data = [
-      { date: new Date('2023-01-01 01:01:01'), items: 10 },
-      { date: new Date('2023-01-01 01:01:02'), items: 20 },
-      { date: new Date('2023-01-01 01:01:03'), items: 30 },
-      { date: new Date('2023-01-01 01:01:04'), items: 44 }
+      { date: new Date("2023-01-01 01:01:01"), items: 10 },
+      { date: new Date("2023-01-01 01:01:02"), items: 20 },
+      { date: new Date("2023-01-01 01:01:03"), items: 30 },
+      { date: new Date("2023-01-01 01:01:04"), items: 44 },
     ]
 
     const result = helperLinReg(data, true)
@@ -67,10 +67,10 @@ describe('helperLinReg', () => {
     expect(result.intercept).toBeCloseTo(8.4, 1)
   })
 
-  it('handles data with only 2 points', () => {
+  it("handles data with only 2 points", () => {
     const data = [
-      { date: new Date('2023-10-17T00:00:00Z'), items: 1 },
-      { date: new Date('2023-10-17T00:00:00Z'), items: 2 }
+      { date: new Date("2023-10-17T00:00:00Z"), items: 1 },
+      { date: new Date("2023-10-17T00:00:00Z"), items: 2 },
     ]
 
     const result = helperLinReg(data)

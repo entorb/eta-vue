@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue"
 
 // , computed
-import { colorItems } from '../colors'
-import { helperValidateItemsInput } from '../helper'
-import type { DataRowRedType } from '../types'
+import { colorItems } from "../colors"
+import { helperValidateItemsInput } from "../helper"
+import type { DataRowRedType } from "../types"
 
 interface Props {
   currentItems: number
@@ -16,14 +16,14 @@ const emit = defineEmits<{
   addRow: [row: DataRowRedType]
 }>()
 
-const inputItems = ref('')
-const label = ref('Value')
+const inputItems = ref("")
+const label = ref("Value")
 
 watch(
   () => props.currentItems,
-  newVal => {
-    label.value = Number.isNaN(newVal) ? 'Value' : String(newVal)
-  }
+  (newVal) => {
+    label.value = Number.isNaN(newVal) ? "Value" : String(newVal)
+  },
 )
 
 function enterItems() {
@@ -34,11 +34,11 @@ function enterItems() {
   const date = new Date()
   const newRow: DataRowRedType = {
     date: date,
-    items: Number.parseFloat(itemsStr.replace(',', '.'))
+    items: Number.parseFloat(itemsStr.replace(",", ".")),
   }
   // Emit an event to add the row to the data
-  emit('addRow', newRow)
-  inputItems.value = ''
+  emit("addRow", newRow)
+  inputItems.value = ""
 }
 
 // const inputItemsLabel = computed(() => {

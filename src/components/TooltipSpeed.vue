@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue"
 
-import { helperValueToString } from '../helper'
-import type { UnitType } from '../types'
+import { helperValueToString } from "../helper"
+import type { UnitType } from "../types"
 
 interface Props {
   ips: number
@@ -10,17 +10,17 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  unit: 'min'
+  unit: "min",
 })
 
-const speedInUnit = ref('')
+const speedInUnit = ref("")
 
 const ipsInUnit = (unit: UnitType): string => {
   const factor = {
     sec: 1,
     min: 60,
     hour: 3600,
-    day: 86_400
+    day: 86_400,
   }[unit]
   return helperValueToString(Math.abs(props.ips * factor))
 }
@@ -34,7 +34,7 @@ watch(
   () => {
     speedInUnit.value = ipsInUnit(props.unit as UnitType)
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 

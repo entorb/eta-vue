@@ -7,15 +7,15 @@
 // Components
 
 // Composables
-import { createApp } from 'vue'
+import { createApp } from "vue"
 
 // Plugins
-import { registerPlugins } from '@/plugins'
+import { registerPlugins } from "@/plugins"
 
-import App from './AppEta.vue'
+import App from "./AppEta.vue"
 
 const app = createApp(App)
 
 registerPlugins(app)
 
-app.mount('#app')
+app.mount("#app")

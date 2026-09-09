@@ -1,23 +1,23 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable cypress/unsafe-to-chain-command */
-import { getEtaLocalStorageDataFistLastRowItems } from './helper-cy'
+import { getEtaLocalStorageDataFistLastRowItems } from "./helper-cy"
 
-describe('start app', () => {
+describe("start app", () => {
   beforeEach(() => {
-    cy.visit('eta/')
+    cy.visit("eta/")
   })
 
-  it('Up', () => {
-    cy.get('#input-target').clear().type('20{enter}')
+  it("Up", () => {
+    cy.get("#input-target").clear().type("20{enter}")
     cy.should(() => {
-      expect(localStorage.getItem('eta_vue_target')).to.eq('20')
+      expect(localStorage.getItem("eta_vue_target")).to.eq("20")
     })
 
-    cy.get('#input-items').type('1{enter}')
+    cy.get("#input-items").type("1{enter}")
     // 1
 
-    cy.get('#input-items')
-      .type('12{enter}')
+    cy.get("#input-items")
+      .type("12{enter}")
       .should(() => {
         const { first, last } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(1)
@@ -25,7 +25,7 @@ describe('start app', () => {
       })
     // 1,12
 
-    cy.get('#btn-plus-1').click()
+    cy.get("#btn-plus-1").click()
     cy.should(() => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(1)
@@ -33,7 +33,7 @@ describe('start app', () => {
     })
     // 1,12,13
 
-    cy.get('#btn-del-row-0').click()
+    cy.get("#btn-del-row-0").click()
     cy.should(() => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(12)
@@ -42,27 +42,27 @@ describe('start app', () => {
     // 12,13
   })
 
-  it('Down', () => {
-    cy.get('#input-target').clear().type('0{enter}')
+  it("Down", () => {
+    cy.get("#input-target").clear().type("0{enter}")
     // stored into local storage only after entering of items
 
-    cy.get('#input-items').type('99{enter}')
-    cy.get('#input-items').type('66{enter}')
+    cy.get("#input-items").type("99{enter}")
+    cy.get("#input-items").type("66{enter}")
     cy.should(() => {
-      expect(localStorage.getItem('eta_vue_target')).to.eq('0')
+      expect(localStorage.getItem("eta_vue_target")).to.eq("0")
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(99)
       expect(last).to.eq(66)
     })
 
-    cy.get('#btn-plus-1').click()
+    cy.get("#btn-plus-1").click()
     cy.should(() => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(99)
       expect(last).to.eq(66 - 1)
     })
 
-    cy.get('#btn-del-row-2').click()
+    cy.get("#btn-del-row-2").click()
     cy.should(() => {
       const { first, last } = getEtaLocalStorageDataFistLastRowItems()
       expect(first).to.eq(99)
@@ -70,29 +70,29 @@ describe('start app', () => {
     })
   })
 
-  it('Edit Dialog', () => {
-    cy.get('#input-target').clear().type('100{enter}')
+  it("Edit Dialog", () => {
+    cy.get("#input-target").clear().type("100{enter}")
 
-    cy.get('#input-items').type('1{enter}')
+    cy.get("#input-items").type("1{enter}")
     cy.wait(1000)
     // 1
 
-    cy.get('#btn-plus-1').click()
+    cy.get("#btn-plus-1").click()
     cy.wait(1000)
     // 1,2
 
-    cy.get('#input-items').type('4{enter}')
+    cy.get("#input-items").type("4{enter}")
     cy.wait(1000)
     // 1,2,4
 
-    cy.get('#btn-edit-row-0').click()
-    cy.get('#edit-items').should('have.value', '1')
-    cy.get('#edit-items').clear().type('0{enter}')
+    cy.get("#btn-edit-row-0").click()
+    cy.get("#edit-items").should("have.value", "1")
+    cy.get("#edit-items").clear().type("0{enter}")
     // 0,2,4
 
-    cy.get('#btn-edit-row-2').click()
-    cy.get('#edit-items').should('have.value', '4')
-    cy.get('#edit-items').clear().type('5{enter}')
+    cy.get("#btn-edit-row-2").click()
+    cy.get("#edit-items").should("have.value", "4")
+    cy.get("#edit-items").clear().type("5{enter}")
     // 0,2,5
 
     cy.should(() => {
@@ -102,15 +102,15 @@ describe('start app', () => {
     })
   })
 
-  it('Decimal input', () => {
-    cy.get('#input-target').clear().type('12,1{enter}')
+  it("Decimal input", () => {
+    cy.get("#input-target").clear().type("12,1{enter}")
     cy.should(() => {
-      expect(localStorage.getItem('eta_vue_target')).to.eq('12.1')
+      expect(localStorage.getItem("eta_vue_target")).to.eq("12.1")
     })
 
-    cy.get('#input-items').type('0.1{enter}')
-    cy.get('#input-items')
-      .type('0,2{enter}')
+    cy.get("#input-items").type("0.1{enter}")
+    cy.get("#input-items")
+      .type("0,2{enter}")
       .should(() => {
         const { first, last } = getEtaLocalStorageDataFistLastRowItems()
         expect(first).to.eq(0.1)

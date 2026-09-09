@@ -1,9 +1,9 @@
 <script setup lang="ts">
 function clearLocalStorage() {
-  localStorage.removeItem('eta_vue_data')
-  localStorage.removeItem('eta_vue_target')
-  localStorage.removeItem('eta_vue_mt_data')
-  localStorage.removeItem('eta_vue_mt_recent')
+  localStorage.removeItem("eta_vue_data")
+  localStorage.removeItem("eta_vue_target")
+  localStorage.removeItem("eta_vue_mt_data")
+  localStorage.removeItem("eta_vue_mt_recent")
 }
 </script>
 

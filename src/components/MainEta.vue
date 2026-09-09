@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted } from 'vue'
+import { defineAsyncComponent, onMounted } from "vue"
 
-import { useEtaData } from '../composables/useEtaData'
-import { helperRunningOnProd, helperStatsDataWrite } from '../helper'
+import { useEtaData } from "../composables/useEtaData"
+import { helperRunningOnProd, helperStatsDataWrite } from "../helper"
 
-import DataTable from './DataTable.vue'
-import InputItems from './InputItems.vue'
-import InputTarget from './InputTarget.vue'
-import StatsTable from './StatsTable.vue'
+import DataTable from "./DataTable.vue"
+import InputItems from "./InputItems.vue"
+import InputTarget from "./InputTarget.vue"
+import StatsTable from "./StatsTable.vue"
 
-const EtaChart = defineAsyncComponent(() => import('@/components/EtaChart.vue'))
+const EtaChart = defineAsyncComponent(() => import("@/components/EtaChart.vue"))
 
 const {
   target,
@@ -28,7 +28,7 @@ const {
   incrementByOne,
   updateItemsPerSec,
   saveSettings,
-  setUnitOfSpeed
+  setUnitOfSpeed,
 } = useEtaData()
 
 onMounted(() => {
@@ -39,7 +39,7 @@ function handleAddRow(row: { date: Date; items: number }) {
   addRow(row)
 
   if (helperRunningOnProd() && data.value.length === 3) {
-    void helperStatsDataWrite('eta')
+    void helperStatsDataWrite("eta")
   }
 }
 </script>

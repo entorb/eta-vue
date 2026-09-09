@@ -1,24 +1,24 @@
-import type { DataRowRedType, StatsDataType } from './types'
+import type { DataRowRedType, StatsDataType } from "./types"
 
-const PROD_HOSTNAME = 'entorb.net'
+const PROD_HOSTNAME = "entorb.net"
 
 export const helperDateToString = (datetime: Date, showDays = false): string => {
   const options: Intl.DateTimeFormatOptions = {
     hour12: undefined,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   }
   if (showDays) {
     options.second = undefined
-    options.day = '2-digit'
-    options.month = '2-digit'
+    options.day = "2-digit"
+    options.month = "2-digit"
   }
-  return datetime.toLocaleString('de-DE', options)
+  return datetime.toLocaleString("de-DE", options)
 }
 
 export const helperDateToIsoString = (date: Date): string => {
-  const pad = (n: number) => n.toString().padStart(2, '0')
+  const pad = (n: number) => n.toString().padStart(2, "0")
   const year = date.getFullYear()
   const month = pad(date.getMonth() + 1)
   const day = pad(date.getDate())
@@ -52,7 +52,7 @@ export const helperSecondsToString = (totalSeconds: number): string => {
 
 // validate input of items
 export const helperValidateItemsInput = (inputStr: string): boolean => {
-  const items = Number.parseFloat(inputStr.replace(',', '.'))
+  const items = Number.parseFloat(inputStr.replace(",", "."))
   return !Number.isNaN(items)
 }
 
@@ -66,7 +66,7 @@ export const helperValueToString = (value: number): string => {
 
 export const helperCalcSpeedFromPreviousRow = (
   row: DataRowRedType,
-  prevRow: DataRowRedType
+  prevRow: DataRowRedType,
 ): number => {
   const deltaT = (row.date.getTime() - prevRow.date.getTime()) / 1000
   const deltaItems = row.items - prevRow.items
@@ -77,7 +77,7 @@ export const helperCalcSpeedFromPreviousRow = (
 export const helperPlaySoundTimerDone = () => {
   // playSound(notificationSound)
   // hardcoded to file in public dir instead of assets, since the latter results in hashed filenames (bad for caching upon app update)
-  playSound('audio/481151__matrixxx__cow-bells-01.mp3')
+  playSound("audio/481151__matrixxx__cow-bells-01.mp3")
 }
 
 /* c8 ignore next 4 */
@@ -88,7 +88,7 @@ function playSound(url: string) {
 
 // for multi-timer recent timers
 export const helperClearName = (name: string): string => {
-  return name.replace(/[/|\\:"'{}[\]()]+/g, '').trim()
+  return name.replace(/[/|\\:"'{}[\]()]+/g, "").trim()
 }
 
 export const helperStatsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
@@ -122,13 +122,13 @@ export const helperStatsDataWrite = async (origin: string) => {
 
 export const helperRunningOnProd = () => {
   const currentURL = globalThis.location.href
-  return currentURL.startsWith('https://entorb.net/')
+  return currentURL.startsWith("https://entorb.net/")
 }
 
 export const helperRunningOnMobile = () => {
-  if (typeof globalThis === 'undefined' || typeof globalThis.matchMedia !== 'function') {
+  if (typeof globalThis === "undefined" || typeof globalThis.matchMedia !== "function") {
     return false
   }
-  const mobileMediaQuery = globalThis.matchMedia('(max-width: 768px)')
+  const mobileMediaQuery = globalThis.matchMedia("(max-width: 768px)")
   return mobileMediaQuery.matches
 }

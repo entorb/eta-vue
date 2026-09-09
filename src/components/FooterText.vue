@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, ref, watch } from "vue"
+import { useRoute } from "vue-router"
 
-import { helperRunningOnProd, helperStatsDataRead } from '../helper'
-import type { StatsDataType } from '../types'
+import { helperRunningOnProd, helperStatsDataRead } from "../helper"
+import type { StatsDataType } from "../types"
 
 const route = useRoute()
 
 const statsData = ref<StatsDataType>({
   accesscounts: 0,
   accesscounts7: 0,
-  firstaccess: '2000-01-01'
+  firstaccess: "2000-01-01",
 })
 
 const origin = computed(() => {
   const path = route.path
-  if (path === '/eta/' || path === '/eta/eta') return 'eta'
-  if (path === '/eta/multitimer') return 'eta-mt'
-  return ''
+  if (path === "/eta/" || path === "/eta/eta") return "eta"
+  if (path === "/eta/multitimer") return "eta-mt"
+  return ""
 })
 
-const showStats = computed(() => origin.value !== '')
-const statsLabel = computed(() => (origin.value === 'eta' ? 'etas' : 'timers'))
+const showStats = computed(() => origin.value !== "")
+const statsLabel = computed(() => (origin.value === "eta" ? "etas" : "timers"))
 
 onMounted(() => {
   void fetchAccessStats()

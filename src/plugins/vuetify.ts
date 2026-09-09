@@ -4,36 +4,36 @@
  * Framework documentation: https://vuetifyjs.com
  */
 
-import 'vuetify/styles'
+import "vuetify/styles"
 
-import { createVuetify } from 'vuetify'
-import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
+import { createVuetify } from "vuetify"
+import { aliases, mdi } from "vuetify/iconsets/mdi-svg"
 
-import { customIcons } from '@/utils/icons'
+import { customIcons } from "@/utils/icons"
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   icons: {
-    defaultSet: 'mdi',
+    defaultSet: "mdi",
     aliases: {
       ...aliases,
-      ...Object.fromEntries(Object.entries(customIcons).map(([key, value]) => [key, value]))
+      ...Object.fromEntries(Object.entries(customIcons).map(([key, value]) => [key, value])),
     },
     sets: {
-      mdi
-    }
+      mdi,
+    },
   },
   theme: {
     // defaultTheme: 'system',
     themes: {
       light: {
         colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6'
-        }
-      }
-    }
-  }
+          primary: "#1867C0",
+          secondary: "#5CBBF6",
+        },
+      },
+    },
+  },
   // components: {
   //   VDateInput,
   //   VTimePicker

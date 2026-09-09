@@ -1,30 +1,30 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath } from "node:url"
 
-import { configDefaults, defineConfig, mergeConfig } from 'vitest/config'
+import { configDefaults, defineConfig, mergeConfig } from "vitest/config"
 
-import viteConfig from './vite.config.ts'
+import viteConfig from "./vite.config.ts"
 
 export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
       coverage: {
-        reporter: 'lcov'
+        reporter: "lcov",
       },
-      environment: 'jsdom',
+      environment: "jsdom",
       environmentOptions: {
         jsdom: {
-          url: 'http://localhost/'
-        }
+          url: "http://localhost/",
+        },
       },
-      setupFiles: ['./vitest.setup.ts'],
+      setupFiles: ["./vitest.setup.ts"],
       server: {
         deps: {
-          inline: ['vuetify', 'echarts', 'vue-echarts']
-        }
+          inline: ["vuetify", "echarts", "vue-echarts"],
+        },
       },
-      exclude: [...configDefaults.exclude, 'e2e/**'],
-      root: fileURLToPath(new URL('./', import.meta.url))
-    }
-  })
+      exclude: [...configDefaults.exclude, "e2e/**"],
+      root: fileURLToPath(new URL("./", import.meta.url)),
+    },
+  }),
 )

@@ -1,13 +1,13 @@
-import { shallowMount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
-import MainInfo from '../MainInfo.vue'
+import { shallowMount } from "@vue/test-utils"
+import { beforeEach, describe, expect, it } from "vitest"
+import MainInfo from "../MainInfo.vue"
 
-describe('Component renders', () => {
+describe("Component renders", () => {
   let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainInfo)
   })
-  it('renders', () => {
+  it("renders", () => {
     expect(wrapper.exists()).toBe(true)
   })
 })

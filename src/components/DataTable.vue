@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 
-import { colorItems, colorSpeed } from '../colors'
-import { helperDateToIsoString, helperDateToString, helperValidateItemsInput } from '../helper'
-import type { DataRowRedType, DataRowType } from '../types'
+import { colorItems, colorSpeed } from "../colors"
+import { helperDateToIsoString, helperDateToString, helperValidateItemsInput } from "../helper"
+import type { DataRowRedType, DataRowType } from "../types"
 
-import TooltipSpeed from './TooltipSpeed.vue'
+import TooltipSpeed from "./TooltipSpeed.vue"
 
 type myHeader = {
   value: string
   icon: string | null
   width: string
-  align: 'center'
+  align: "center"
 }
 
 interface Props {
@@ -27,18 +27,18 @@ const emit = defineEmits<{
 }>()
 
 const headers: myHeader[] = [
-  { value: 'date', icon: '$timeLastInput', width: '50px', align: 'center' },
-  { value: 'items', icon: '$items', width: '50px', align: 'center' },
-  { value: 'speed', icon: '$speed', width: '50px', align: 'center' },
-  { value: 'actions', icon: '', width: '50px', align: 'center' }
+  { value: "date", icon: "$timeLastInput", width: "50px", align: "center" },
+  { value: "items", icon: "$items", width: "50px", align: "center" },
+  { value: "speed", icon: "$speed", width: "50px", align: "center" },
+  { value: "actions", icon: "", width: "50px", align: "center" },
 ]
 
 // v-dialog
 const showEditDialog = ref(false)
 const dialogData = ref({
   id: 0,
-  items: '0',
-  localDateString: helperDateToIsoString(new Date())
+  items: "0",
+  localDateString: helperDateToIsoString(new Date()),
 })
 
 function dateToString(datetime: Date): string {
@@ -47,7 +47,7 @@ function dateToString(datetime: Date): string {
 
 function openEditDialog(index: number): void {
   dialogData.value.id = index
-  dialogData.value.items = String(props.data[index]?.items ?? '') // fix Object is possibly 'undefined'
+  dialogData.value.items = String(props.data[index]?.items ?? "") // fix Object is possibly 'undefined'
   dialogData.value.localDateString = helperDateToIsoString(props.data[index]?.date ?? new Date())
   showEditDialog.value = true
 }
@@ -60,7 +60,7 @@ function save(): void {
   }
   showEditDialog.value = false
   const row: DataRowRedType = { date: d, items: Number(itemsStr) }
-  emit('updateRow', dialogData.value.id, row)
+  emit("updateRow", dialogData.value.id, row)
 }
 
 // Generates a unique key for a given data row.

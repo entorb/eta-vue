@@ -1,107 +1,107 @@
-import { shallowMount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
-import TooltipSpeed from '../TooltipSpeed.vue'
+import { shallowMount } from "@vue/test-utils"
+import { beforeEach, describe, expect, it } from "vitest"
+import TooltipSpeed from "../TooltipSpeed.vue"
 
-describe('Component renders', () => {
+describe("Component renders", () => {
   let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 0.0123 }
+      props: { unit: "sec", ips: 0.0123 },
     })
   })
-  it('renders', () => {
+  it("renders", () => {
     expect(wrapper.exists()).toBe(true)
   })
 })
 
-describe('speedInUnit', () => {
-  it('ips=0.0123 unit=sec', () => {
+describe("speedInUnit", () => {
+  it("ips=0.0123 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 0.0123 }
+      props: { unit: "sec", ips: 0.0123 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('0.0123')
+    expect(wrapper.vm.speedInUnit).toBe("0.0123")
   })
-  it('ips=12.3 unit=sec', () => {
+  it("ips=12.3 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 12.3 }
+      props: { unit: "sec", ips: 12.3 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('12.3')
+    expect(wrapper.vm.speedInUnit).toBe("12.3")
   })
-  it('ips=123 unit=sec', () => {
+  it("ips=123 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 123 }
+      props: { unit: "sec", ips: 123 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('123')
+    expect(wrapper.vm.speedInUnit).toBe("123")
   })
-  it('ips=123456 unit=sec', () => {
+  it("ips=123456 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 123_456 }
+      props: { unit: "sec", ips: 123_456 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('123456')
+    expect(wrapper.vm.speedInUnit).toBe("123456")
   })
-  it('ips=123456789 unit=sec', () => {
+  it("ips=123456789 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 123_456_789 }
+      props: { unit: "sec", ips: 123_456_789 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('123456789')
+    expect(wrapper.vm.speedInUnit).toBe("123456789")
   })
-  it('ips=1234567890123456 unit=sec', () => {
+  it("ips=1234567890123456 unit=sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 1_234_567_890_123_456 }
+      props: { unit: "sec", ips: 1_234_567_890_123_456 },
     })
-    expect(wrapper.vm.speedInUnit).toBe('1234567890123456')
-  })
-
-  it('10/s == 600 min', () => {
-    const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'min', ips: 10 }
-    })
-    const expectedOutput = '600'
-    const speedInUnit = wrapper.vm.speedInUnit
-    expect(speedInUnit).toBe(expectedOutput)
+    expect(wrapper.vm.speedInUnit).toBe("1234567890123456")
   })
 
-  it('12.3 in sec', () => {
+  it("10/s == 600 min", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'sec', ips: 12.3 }
+      props: { unit: "min", ips: 10 },
     })
-    const expectedOutput = '12.3'
+    const expectedOutput = "600"
     const speedInUnit = wrapper.vm.speedInUnit
     expect(speedInUnit).toBe(expectedOutput)
   })
-  it('12.3 in min', () => {
+
+  it("12.3 in sec", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'min', ips: 12.3 / 60 }
+      props: { unit: "sec", ips: 12.3 },
     })
-    const expectedOutput = '12.3'
+    const expectedOutput = "12.3"
     const speedInUnit = wrapper.vm.speedInUnit
     expect(speedInUnit).toBe(expectedOutput)
   })
-  it('12.3 in hour', () => {
+  it("12.3 in min", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'hour', ips: 12.3 / 3600 }
+      props: { unit: "min", ips: 12.3 / 60 },
     })
-    const expectedOutput = '12.3'
+    const expectedOutput = "12.3"
     const speedInUnit = wrapper.vm.speedInUnit
     expect(speedInUnit).toBe(expectedOutput)
   })
-  it('12.3 in day', () => {
+  it("12.3 in hour", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'day', ips: 12.3 / 3600 / 24 }
+      props: { unit: "hour", ips: 12.3 / 3600 },
     })
-    const expectedOutput = '12.3'
+    const expectedOutput = "12.3"
     const speedInUnit = wrapper.vm.speedInUnit
     expect(speedInUnit).toBe(expectedOutput)
   })
-  it('speedInUnit: ips=0.0123 unit=sec', () => {
+  it("12.3 in day", () => {
     const wrapper = shallowMount(TooltipSpeed, {
-      props: { unit: 'day', ips: 12.3 / 3600 / 24 }
+      props: { unit: "day", ips: 12.3 / 3600 / 24 },
+    })
+    const expectedOutput = "12.3"
+    const speedInUnit = wrapper.vm.speedInUnit
+    expect(speedInUnit).toBe(expectedOutput)
+  })
+  it("speedInUnit: ips=0.0123 unit=sec", () => {
+    const wrapper = shallowMount(TooltipSpeed, {
+      props: { unit: "day", ips: 12.3 / 3600 / 24 },
     })
     let ips = 1 / 60 // 1/min
-    expect(wrapper.vm.minPerItem(ips)).toBe('1.00')
+    expect(wrapper.vm.minPerItem(ips)).toBe("1.00")
     ips = 1 / 120 // 2/min
-    expect(wrapper.vm.minPerItem(ips)).toBe('2.00')
+    expect(wrapper.vm.minPerItem(ips)).toBe("2.00")
     ips = 1 // 1/sec
-    expect(wrapper.vm.minPerItem(ips)).toBe('0.0167')
+    expect(wrapper.vm.minPerItem(ips)).toBe("0.0167")
   })
 })

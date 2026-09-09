@@ -1,6 +1,6 @@
-import { shallowMount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
-import MainMultiTimer from '../MainMultiTimer.vue'
+import { shallowMount } from "@vue/test-utils"
+import { beforeEach, describe, expect, it } from "vitest"
+import MainMultiTimer from "../MainMultiTimer.vue"
 
 function initializeWrapper(wrapper: ReturnType<typeof shallowMount>) {
   localStorage.clear()
@@ -8,38 +8,38 @@ function initializeWrapper(wrapper: ReturnType<typeof shallowMount>) {
   wrapper.vm.recentTimerNames.value = []
 }
 
-describe('Component renders', () => {
+describe("Component renders", () => {
   let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainMultiTimer)
     initializeWrapper(wrapper)
   })
-  it('renders', () => {
+  it("renders", () => {
     expect(wrapper.exists()).toBe(true)
   })
 })
 
-describe('timer naming', () => {
+describe("timer naming", () => {
   let wrapper: ReturnType<typeof shallowMount>
   beforeEach(() => {
     wrapper = shallowMount(MainMultiTimer)
     initializeWrapper(wrapper)
   })
 
-  it('genTimerName abc:123h', () => {
-    expect(wrapper.vm.genTimerName(' a:b"c ', 123, 'hour')).toBe('abc:123h')
+  it("genTimerName abc:123h", () => {
+    expect(wrapper.vm.genTimerName(' a:b"c ', 123, "hour")).toBe("abc:123h")
   })
 
-  it('parseTimerName abc:123h', () => {
-    expect(wrapper.vm.parseTimerName('abc:123h')).toStrictEqual({
-      name: 'abc',
+  it("parseTimerName abc:123h", () => {
+    expect(wrapper.vm.parseTimerName("abc:123h")).toStrictEqual({
+      name: "abc",
       time: 123,
-      unit: 'hour'
+      unit: "hour",
     })
   })
 })
 
-describe('timer creation', () => {
+describe("timer creation", () => {
   let wrapper: ReturnType<typeof shallowMount>
   beforeEach(async () => {
     wrapper = shallowMount(MainMultiTimer)
@@ -47,66 +47,66 @@ describe('timer creation', () => {
     await wrapper.vm.deleteAll()
   })
 
-  it('addViaInput 20', async () => {
-    wrapper.vm.inputName = 'Timer20m'
-    wrapper.vm.inputTime = '20m'
+  it("addViaInput 20", async () => {
+    wrapper.vm.inputName = "Timer20m"
+    wrapper.vm.inputTime = "20m"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer20m')
+    expect(wrapper.vm.data[0].name).toBe("Timer20m")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(1200)
   })
 
-  it('addViaInput 2.5', async () => {
-    wrapper.vm.inputName = 'Timer2.5m'
-    wrapper.vm.inputTime = '2,5'
+  it("addViaInput 2.5", async () => {
+    wrapper.vm.inputName = "Timer2.5m"
+    wrapper.vm.inputTime = "2,5"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer2.5m')
+    expect(wrapper.vm.data[0].name).toBe("Timer2.5m")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(150)
   })
 
-  it('addViaInput 2,5 unnamed', async () => {
-    wrapper.vm.inputName = ''
-    wrapper.vm.inputTime = '2,5'
+  it("addViaInput 2,5 unnamed", async () => {
+    wrapper.vm.inputName = ""
+    wrapper.vm.inputTime = "2,5"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer')
+    expect(wrapper.vm.data[0].name).toBe("Timer")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(150)
   })
 
-  it('addViaInput 10s', async () => {
-    wrapper.vm.inputName = 'Timer10s'
-    wrapper.vm.inputTime = '10s'
+  it("addViaInput 10s", async () => {
+    wrapper.vm.inputName = "Timer10s"
+    wrapper.vm.inputTime = "10s"
     await wrapper.vm.addViaInput()
-    expect(wrapper.vm.data[0].name).toBe('Timer10s')
+    expect(wrapper.vm.data[0].name).toBe("Timer10s")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(10)
     // console.log(wrapper.vm.data)
   })
 
-  it('addViaInput 20m', async () => {
-    wrapper.vm.inputName = 'Timer20m'
-    wrapper.vm.inputTime = '20m'
+  it("addViaInput 20m", async () => {
+    wrapper.vm.inputName = "Timer20m"
+    wrapper.vm.inputTime = "20m"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer20m')
+    expect(wrapper.vm.data[0].name).toBe("Timer20m")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toBe(1200)
   })
 
-  it('addViaInput 3h', async () => {
-    wrapper.vm.inputName = 'Timer3h'
-    wrapper.vm.inputTime = '3h'
+  it("addViaInput 3h", async () => {
+    wrapper.vm.inputName = "Timer3h"
+    wrapper.vm.inputTime = "3h"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer3h')
+    expect(wrapper.vm.data[0].name).toBe("Timer3h")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(3 * 3600)
   })
 
-  it('addViaInput 2d', async () => {
-    wrapper.vm.inputName = 'Timer2d'
-    wrapper.vm.inputTime = '2d'
+  it("addViaInput 2d", async () => {
+    wrapper.vm.inputName = "Timer2d"
+    wrapper.vm.inputTime = "2d"
     await wrapper.vm.addViaInput()
     // console.log(wrapper.vm.data)
-    expect(wrapper.vm.data[0].name).toBe('Timer2d')
+    expect(wrapper.vm.data[0].name).toBe("Timer2d")
     expect(Math.round(wrapper.vm.data[0].remainingTime)).toEqual(2 * 24 * 3600)
   })
 })

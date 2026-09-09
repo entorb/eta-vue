@@ -1,17 +1,17 @@
-import { computed, ref } from 'vue'
+import { computed, ref } from "vue"
 
-import { helperCalcSpeedFromPreviousRow } from '../helper'
-import type { DataRowRedType, DataRowType, UnitType } from '../types'
+import { helperCalcSpeedFromPreviousRow } from "../helper"
+import type { DataRowRedType, DataRowType, UnitType } from "../types"
 
-const STORAGE_KEY_DATA = 'eta_vue_data'
-const STORAGE_KEY_TARGET = 'eta_vue_target'
-const STORAGE_KEY_SETTINGS = 'eta_vue_settings'
+const STORAGE_KEY_DATA = "eta_vue_data"
+const STORAGE_KEY_TARGET = "eta_vue_target"
+const STORAGE_KEY_SETTINGS = "eta_vue_settings"
 const DAY_IN_MS = 86_400 * 1000
 
 export function useEtaData() {
   const target = ref(0)
   const data = ref<DataRowType[]>([])
-  const settings = ref({ showDays: true, unitSpeed: 'min' as UnitType, weightedReg: false })
+  const settings = ref({ showDays: true, unitSpeed: "min" as UnitType, weightedReg: false })
   const itemsPerSec = ref(0)
 
   const current = computed(() => {
@@ -34,7 +34,7 @@ export function useEtaData() {
       data.value = parsed.map(({ date, items }: DataRowRedType) => ({
         date: new Date(date),
         items,
-        speed: 0
+        speed: 0,
       }))
       recalculateSpeeds()
     }
@@ -44,10 +44,10 @@ export function useEtaData() {
     const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS)
     if (storedSettings) {
       const parsed = JSON.parse(storedSettings)
-      if (typeof parsed.weightedReg === 'boolean') {
+      if (typeof parsed.weightedReg === "boolean") {
         settings.value.weightedReg = parsed.weightedReg
       }
-      if (typeof parsed.unitSpeed === 'string') {
+      if (typeof parsed.unitSpeed === "string") {
         settings.value.unitSpeed = parsed.unitSpeed as UnitType
       }
     }
@@ -126,8 +126,8 @@ export function useEtaData() {
       STORAGE_KEY_SETTINGS,
       JSON.stringify({
         weightedReg: settings.value.weightedReg,
-        unitSpeed: settings.value.unitSpeed
-      })
+        unitSpeed: settings.value.unitSpeed,
+      }),
     )
   }
 
@@ -175,13 +175,13 @@ export function useEtaData() {
     const absIps = Math.abs(ips)
 
     if (absIps < 1 / 24 / 3600) {
-      setUnitOfSpeed('day')
+      setUnitOfSpeed("day")
     } else if (absIps < 1 / 3600) {
-      setUnitOfSpeed('hour')
+      setUnitOfSpeed("hour")
     } else if (absIps < 1) {
-      setUnitOfSpeed('min')
+      setUnitOfSpeed("min")
     } else {
-      setUnitOfSpeed('sec')
+      setUnitOfSpeed("sec")
     }
   }
 
@@ -205,6 +205,6 @@ export function useEtaData() {
     incrementByOne,
     updateItemsPerSec,
     saveSettings,
-    setUnitOfSpeed
+    setUnitOfSpeed,
   }
 }

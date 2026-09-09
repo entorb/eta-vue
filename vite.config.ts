@@ -1,31 +1,31 @@
-import { resolve } from 'node:path'
-import { fileURLToPath, URL } from 'node:url'
-import Vue from '@vitejs/plugin-vue'
+import { resolve } from "node:path"
+import { fileURLToPath, URL } from "node:url"
+import Vue from "@vitejs/plugin-vue"
 // locally hosting roboto font, instead of pointing to google
-import Unfonts from 'unplugin-fonts/vite'
+import Unfonts from "unplugin-fonts/vite"
 // import ViteFonts from 'unplugin-fonts/vite'
-import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import { defineConfig } from "vite"
+import { VitePWA } from "vite-plugin-pwa"
+import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
 // https://vite.dev/config/
 export default defineConfig({
   // TM: important when deploying not into the webserver root dir
   // error message "was blocked due to MIME type (“text/html”) mismatch"
   // (X-Content-Type-Options: nosniff)
-  base: '/eta/',
+  base: "/eta/",
   build: {
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 600,
     cssCodeSplit: true,
-    minify: 'esbuild',
+    minify: "esbuild",
     sourcemap: false,
-    target: 'esnext',
+    target: "esnext",
     rollupOptions: {
       input: {
-        index: resolve(import.meta.dirname, 'index.html'),
-        eta: resolve(import.meta.dirname, 'index1.html'),
-        multitimer: resolve(import.meta.dirname, 'index2.html')
-      }
+        index: resolve(import.meta.dirname, "index.html"),
+        eta: resolve(import.meta.dirname, "index1.html"),
+        multitimer: resolve(import.meta.dirname, "index2.html"),
+      },
       // !!! this prevents lazy loading via defineAsyncComponent !!!
       // output: {
       //   manualChunks: {
@@ -35,29 +35,29 @@ export default defineConfig({
       //     eta: ['src/components/MainEta.vue']
       //   }
       // }
-    }
+    },
   },
   optimizeDeps: {
-    include: ['vue', 'vue-router', 'vuetify', 'echarts', 'vue-echarts']
+    include: ["vue", "vue-router", "vuetify", "echarts", "vue-echarts"],
   },
   plugins: [
     Vue({
-      template: { transformAssetUrls }
+      template: { transformAssetUrls },
     }),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     Vuetify({
-      autoImport: true
+      autoImport: true,
     }),
     Unfonts({
       fontsource: {
         families: [
           {
-            name: 'Roboto',
+            name: "Roboto",
             weights: [400, 700],
-            styles: ['normal'] // 'italic'
-          }
-        ]
-      }
+            styles: ["normal"], // 'italic'
+          },
+        ],
+      },
     }),
     // ViteFonts({
     //   google: {
@@ -70,33 +70,33 @@ export default defineConfig({
     //   }
     // }),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
       manifest: {
-        name: 'ETA and Multi-Timer',
-        short_name: 'ETA',
+        name: "ETA and Multi-Timer",
+        short_name: "ETA",
         description:
-          'ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0). Multi-Timer: Set and manage multiple countdown timers.',
+          "ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0). Multi-Timer: Set and manage multiple countdown timers.",
         icons: [
           {
-            src: 'icons/apple-touch-icon.png',
-            sizes: '180x180',
-            type: 'image/png',
-            purpose: 'any maskable'
+            src: "icons/apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
+            purpose: "any maskable",
           },
-          { src: 'icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icons/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
+          { src: "icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+          { src: "icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
         ],
-        theme_color: '#ffffff'
-      }
-    })
+        theme_color: "#ffffff",
+      },
+    }),
   ],
-  define: { 'process.env': {} },
+  define: { "process.env": {} },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue']
+    extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   preview: { port: 4173, strictPort: true },
-  server: { port: 5173, strictPort: true }
+  server: { port: 5173, strictPort: true },
 })

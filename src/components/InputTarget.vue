@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, toRefs, watch } from 'vue'
+import { ref, toRefs, watch } from "vue"
 
 interface Props {
   target?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  target: 0
+  target: 0,
 })
 
 const emit = defineEmits<{
@@ -23,13 +23,13 @@ watch(target, () => {
 const inputTarget = ref(target.value.toString())
 
 function enterTarget() {
-  const targetNew = Number.parseFloat(inputTarget.value.replace(',', '.'))
+  const targetNew = Number.parseFloat(inputTarget.value.replace(",", "."))
   if (Number.isNaN(targetNew) || targetNew < 0) {
-    inputTarget.value = ''
+    inputTarget.value = ""
     return
   }
   if (targetNew !== props.target) {
-    emit('setTarget', targetNew)
+    emit("setTarget", targetNew)
   }
 }
 </script>

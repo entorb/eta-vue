@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi } from "vitest"
 
 // Global objects and properties
 
@@ -22,18 +22,18 @@ const localStorageMock = (() => {
     get length(): number {
       return Object.keys(store).length
     },
-    key: (index: number): string | null => Object.keys(store)[index] ?? null
+    key: (index: number): string | null => Object.keys(store)[index] ?? null,
   }
 })()
 
-Object.defineProperty(globalThis, 'localStorage', {
+Object.defineProperty(globalThis, "localStorage", {
   value: localStorageMock,
-  writable: true
+  writable: true,
 })
 
-Object.defineProperty(globalThis, 'matchMedia', {
+Object.defineProperty(globalThis, "matchMedia", {
   writable: true,
-  value: vi.fn().mockImplementation(query => {
+  value: vi.fn().mockImplementation((query) => {
     return {
       matches: false,
       media: query,
@@ -42,7 +42,7 @@ Object.defineProperty(globalThis, 'matchMedia', {
       removeListener: vi.fn(), // deprecated
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn()
+      dispatchEvent: vi.fn(),
     }
-  })
+  }),
 })

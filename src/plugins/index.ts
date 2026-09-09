@@ -5,9 +5,9 @@
  */
 
 // Plugins
-import type { App } from 'vue'
+import type { App } from "vue"
 
-import vuetify from './vuetify'
+import vuetify from "./vuetify"
 
 // Types
 

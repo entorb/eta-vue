@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRefs, watch } from 'vue'
+import { computed, onMounted, ref, toRefs, watch } from "vue"
 
-import { colorItems, colorSpeed } from '../colors'
+import { colorItems, colorSpeed } from "../colors"
 import {
   helperDateToString,
   helperPlaySoundTimerDone,
   helperSecondsToString,
-  helperValueToString
-} from '../helper'
-import { helperLinReg } from '../helperLinReg'
-import type { DataRowType } from '../types'
+  helperValueToString,
+} from "../helper"
+import { helperLinReg } from "../helperLinReg"
+import type { DataRowType } from "../types"
 
-import TooltipSpeed from './TooltipSpeed.vue'
+import TooltipSpeed from "./TooltipSpeed.vue"
 
 // Not used any more, since I want to prevent hashed filenames and allow for caching on client side
 // import notificationSound from '@/assets/481151__matrixxx__cow-bells-01.mp3'
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  target: 0
+  target: 0,
 })
 
 const emit = defineEmits<{
@@ -46,7 +46,7 @@ watch(
     targetReached = false
     updateStats()
   },
-  { deep: true }
+  { deep: true },
 )
 
 watch(
@@ -54,7 +54,7 @@ watch(
   () => {
     targetReached = false
     updateStats()
-  }
+  },
 )
 
 const showETA = computed(() => eta.value.getTime() > 0)
@@ -149,7 +149,7 @@ function updateStats() {
 
   const { slope } = helperLinReg(props.data, props.settings.weightedReg ?? true)
   itemsPerSec.value = slope
-  emit('itemsPerSec', slope)
+  emit("itemsPerSec", slope)
 
   percentOfTarget.value = itemsDone.value / itemsTotal.value
   if (itemsDone.value >= itemsTotal.value) {
@@ -180,7 +180,7 @@ function timer_triggered_function() {
   // 1. timeSinceFirstRow and timeSinceLastRow
   if (targetReached) {
     secSinceFirstRow.value = Math.round(
-      (dateLast.value.getTime() - dateFirst.value.getTime()) / 1000
+      (dateLast.value.getTime() - dateFirst.value.getTime()) / 1000,
     )
   } else {
     secSinceFirstRow.value = Math.round((nowTS - dateFirst.value.getTime()) / 1000)
@@ -259,8 +259,8 @@ function valueToString(value: number): string {
 const speedAlt = computed(() => {
   const ips = itemsPerSec.value
   if (ips === 0) return null
-  if (ips >= 1000) return { value: (1000 / (ips * 60)).toFixed(2), unit: 'min/1000 items' }
-  if (ips < 1) return { value: (1 / (ips * 60)).toFixed(1), unit: 'min/item' }
+  if (ips >= 1000) return { value: (1000 / (ips * 60)).toFixed(2), unit: "min/1000 items" }
+  if (ips < 1) return { value: (1 / (ips * 60)).toFixed(1), unit: "min/item" }
   return null
 })
 </script>

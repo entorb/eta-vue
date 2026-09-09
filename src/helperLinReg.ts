@@ -1,7 +1,7 @@
 // LinReg on time series data
 export const helperLinReg = (
   data: Array<{ date: Date; items: number }>,
-  weighted = false
+  weighted = false,
 ): { slope: number; intercept: number } => {
   // handling of bad data -> return slope = 0
   const n = data.length
@@ -28,21 +28,21 @@ export const helperLinReg = (
 
 // this converts Date to Timestamp in sec and subtracts the first timestamp from all others
 export const calculateXAndY = (
-  data: Array<{ date: Date; items: number }>
+  data: Array<{ date: Date; items: number }>,
 ): { seconds: number[]; items: number[] } => {
-  const Y = data.map(point => point.items)
-  const Xms = data.map(point => point.date.getTime()) // timestamp in ms
+  const Y = data.map((point) => point.items)
+  const Xms = data.map((point) => point.date.getTime()) // timestamp in ms
   const firstTimestamp = Xms[0]
   if (firstTimestamp === undefined) {
     return { seconds: [], items: [] }
   }
-  const X = Xms.map(timestamp => (timestamp - firstTimestamp) / 1000)
+  const X = Xms.map((timestamp) => (timestamp - firstTimestamp) / 1000)
   return { seconds: X, items: Y }
 }
 
 const calculateLinearRegression = (
   X: number[],
-  Y: number[]
+  Y: number[],
 ): { slope: number; intercept: number } => {
   const n = X.length
 
@@ -59,11 +59,11 @@ const calculateLinearRegression = (
   const avgX = sumX / n
   const avgY = sumY / n
 
-  const xDifferencesToAverage = X.map(value => avgX - value)
-  const yDifferencesToAverage = Y.map(value => avgY - value)
-  const xDifferencesToAverageSquared = xDifferencesToAverage.map(value => value ** 2)
+  const xDifferencesToAverage = X.map((value) => avgX - value)
+  const yDifferencesToAverage = Y.map((value) => avgY - value)
+  const xDifferencesToAverageSquared = xDifferencesToAverage.map((value) => value ** 2)
   const xAndYDifferencesMultiplied = xDifferencesToAverage.map(
-    (curr, index) => curr * (yDifferencesToAverage[index] ?? 0)
+    (curr, index) => curr * (yDifferencesToAverage[index] ?? 0),
   )
   const denominator = xDifferencesToAverageSquared.reduce((prev, curr) => prev + curr, 0)
   const numerator = xAndYDifferencesMultiplied.reduce((prev, curr) => prev + curr, 0)
@@ -75,7 +75,7 @@ const calculateLinearRegression = (
 
 const calculateWeightedLinearRegression = (
   X: number[],
-  Y: number[]
+  Y: number[],
 ): { slope: number; intercept: number } => {
   const n = X.length
 

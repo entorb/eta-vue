@@ -20,8 +20,8 @@ import {
   mdiTimerMarkerOutline,
   mdiTimerOutline,
   mdiTrashCan,
-  mdiWeight
-} from '@mdi/js'
+  mdiWeight,
+} from "@mdi/js"
 // mdiContentSave
 // mdiPlus
 // mdiArrowUp, mdiArrowDown, mdiArrowUpDown
@@ -42,5 +42,5 @@ export const customIcons = {
   timeRunning: mdiTimerOutline,
   timeStart: mdiPlay,
   trash: mdiTrashCan,
-  weight: mdiWeight
+  weight: mdiWeight,
 }

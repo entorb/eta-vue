@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from "vue"
 
 import {
   helperClearName,
@@ -8,11 +8,11 @@ import {
   helperRunningOnMobile,
   helperRunningOnProd,
   helperSecondsToString,
-  helperStatsDataWrite
-} from '../helper'
+  helperStatsDataWrite,
+} from "../helper"
 
-const inputName = ref('')
-const inputTime = ref('')
+const inputName = ref("")
+const inputTime = ref("")
 const showDays = ref(false)
 
 const data = ref<Array<TimerType>>([])
@@ -40,18 +40,18 @@ function addViaInput() {
   // support unit as suffix
   let input = inputTime.value
   const u = input.slice(-1)
-  let unit = 'min'
-  if (['s', 'm', 'h', 'd'].includes(u)) {
+  let unit = "min"
+  if (["s", "m", "h", "d"].includes(u)) {
     input = input.slice(0, -1)
     switch (u) {
-      case 's':
-        unit = 'sec'
+      case "s":
+        unit = "sec"
         break
-      case 'h':
-        unit = 'hour'
+      case "h":
+        unit = "hour"
         break
-      case 'd':
-        unit = 'day'
+      case "d":
+        unit = "day"
         break
     }
   }
@@ -60,27 +60,27 @@ function addViaInput() {
   const regex = /:(\d{2})/
   const match = input.match(regex)
   if (match) {
-    const seconds = Number.parseInt(match[1] ?? '0', 10)
+    const seconds = Number.parseInt(match[1] ?? "0", 10)
     const minutes = Math.round((seconds / 60) * 100) / 100
-    input = input.replace(regex, minutes.toString().replace(/^0/, ''))
+    input = input.replace(regex, minutes.toString().replace(/^0/, ""))
   }
 
-  const time = Number.parseFloat(input.replace(',', '.'))
+  const time = Number.parseFloat(input.replace(",", "."))
   if (Number.isNaN(time)) {
-    inputTime.value = ''
+    inputTime.value = ""
     return
   }
   const cleanName = helperClearName(inputName.value)
-  const name = cleanName === '' ? 'Timer' : cleanName
+  const name = cleanName === "" ? "Timer" : cleanName
   // const unit = unitSelected.value
-  inputTime.value = ''
-  inputName.value = ''
+  inputTime.value = ""
+  inputName.value = ""
   add(name, time, unit)
   const thisTimerName = genTimerName(name, time, unit)
   if (!recentTimerNames.value.includes(thisTimerName)) {
     recentTimerNames.value.push(thisTimerName)
     recentTimerNames.value.sort((a, b) => a.localeCompare(b))
-    localStorage.setItem('eta_vue_mt_recent', JSON.stringify(recentTimerNames.value))
+    localStorage.setItem("eta_vue_mt_recent", JSON.stringify(recentTimerNames.value))
   }
 }
 
@@ -96,12 +96,12 @@ function add(name: string, time: number, unit: string) {
     dateStart,
     dateEnd,
     remainingTime: (dateEnd.getTime() - dateStart.getTime()) / 1000,
-    percent: 0
+    percent: 0,
   })
 
   updateLocalStorageData()
   if (helperRunningOnProd()) {
-    void helperStatsDataWrite('eta-mt')
+    void helperStatsDataWrite("eta-mt")
   }
   startTimer()
 }
@@ -185,25 +185,25 @@ function deleteRow(index: number) {
 function deleteAll() {
   data.value = []
   stopTimer()
-  localStorage.removeItem('eta_vue_mt_data')
+  localStorage.removeItem("eta_vue_mt_data")
 }
 
 function updateLocalStorageData() {
   if (data.value.length === 0) {
-    localStorage.removeItem('eta_vue_mt_data')
+    localStorage.removeItem("eta_vue_mt_data")
   } else {
     const dataReduced = data.value.map(({ name, dateStart, dateEnd }: TimerType) => ({
       name,
       dateStart,
-      dateEnd
+      dateEnd,
     }))
-    localStorage.setItem('eta_vue_mt_data', JSON.stringify(dataReduced))
+    localStorage.setItem("eta_vue_mt_data", JSON.stringify(dataReduced))
   }
 }
 
 function readLocalStorageData() {
   data.value = []
-  const stored = localStorage.getItem('eta_vue_mt_data')
+  const stored = localStorage.getItem("eta_vue_mt_data")
 
   if (stored === null) {
     return
@@ -213,7 +213,7 @@ function readLocalStorageData() {
   const dataReduced: TimerType[] = obj.map(({ name, dateStart, dateEnd }: TimerType) => ({
     name,
     dateStart: new Date(dateStart),
-    dateEnd: new Date(dateEnd)
+    dateEnd: new Date(dateEnd),
   }))
 
   const newData: TimerType[] = []
@@ -230,7 +230,7 @@ function readLocalStorageData() {
 
 function readLocalStorageRecentTimers() {
   recentTimerNames.value = []
-  const stored = localStorage.getItem('eta_vue_mt_recent')
+  const stored = localStorage.getItem("eta_vue_mt_recent")
   if (stored === null) {
     return
   }
@@ -247,13 +247,13 @@ function genTimerName(name: string, time: number, unit: string): string {
 function parseTimerName(title: string): { name: string; time: number; unit: string } {
   let s = title
   const unitShort = s.charAt(s.length - 1)
-  const shortToUnit: Record<string, string> = { s: 'sec', m: 'min', h: 'hour' }
-  const unit = shortToUnit[unitShort] ?? 'day'
+  const shortToUnit: Record<string, string> = { s: "sec", m: "min", h: "hour" }
+  const unit = shortToUnit[unitShort] ?? "day"
   s = s.slice(0, s.length - 1)
 
-  const parts = s.split(':')
-  const name = parts[0] ?? ''
-  const time = Number.parseFloat(parts[1] ?? '0')
+  const parts = s.split(":")
+  const name = parts[0] ?? ""
+  const time = Number.parseFloat(parts[1] ?? "0")
   return { name, time, unit }
 }
 
@@ -262,7 +262,7 @@ function removeFromRecentTimer(title: string) {
   if (index > -1) {
     recentTimerNames.value.splice(index, 1)
   }
-  localStorage.setItem('eta_vue_mt_recent', JSON.stringify(recentTimerNames.value))
+  localStorage.setItem("eta_vue_mt_recent", JSON.stringify(recentTimerNames.value))
 }
 
 function addFromRecentTimer(title: string) {

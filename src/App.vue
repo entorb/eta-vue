@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from "vue"
+import { useRoute } from "vue-router"
 
-import FooterText from './components/FooterText.vue'
+import FooterText from "./components/FooterText.vue"
 
 const tab = ref<string | null>(null)
 // Get the current route

@@ -1,9 +1,9 @@
 export const getEtaLocalStorageDataFistLastRowItems = () => {
-  const stored = localStorage.getItem('eta_vue_data')
+  const stored = localStorage.getItem("eta_vue_data")
   const obj = JSON.parse(stored as string)
   const data = obj.map((row: { date: string; items: number }) => ({
     date: new Date(row.date),
-    items: row.items
+    items: row.items,
   }))
   const firstValue = data[0].items
   const lastValue = data[data.length - 1].items
@@ -11,11 +11,11 @@ export const getEtaLocalStorageDataFistLastRowItems = () => {
 }
 
 export const getMTLocalStorageDataFistLastRowItems = () => {
-  const stored = localStorage.getItem('eta_vue_mt_data')
+  const stored = localStorage.getItem("eta_vue_mt_data")
   const obj = JSON.parse(stored as string)
   const data = obj.map((row: { name: string; dateEnd: string }) => ({
     name: row.name,
-    dateEnd: new Date(row.dateEnd)
+    dateEnd: new Date(row.dateEnd),
   }))
   const firstName = data[0].name
   const firstEnd = data[0].dateEnd
