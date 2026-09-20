@@ -1,55 +1,60 @@
 #!/bin/sh
+SCRIPT_DIR="$(dirname "$0")"
+cd "$SCRIPT_DIR/.."
 
 # exit upon error
 set -e
 
-# ensure we are in the root dir
-SCRIPT_DIR="$(dirname "$0")"
-cd "$SCRIPT_DIR/.."
+echo "## Node and PNPM Versions"
+# use the versions provided by the system, never install them here (brew upgrade is done in korrekturleser only)
+NODE_VER=$(node --version | sed 's/v//')
+# query outside of the repo, inside pnpm reports the version pinned in package.json
+PNPM_VER=$(cd / && pnpm --version)
+PNPM_MANAGER="pnpm@$PNPM_VER"
+printf '%s\n' "${NODE_VER%%.*}" >.nvmrc
+node -e "
+  const pkg = JSON.parse(require('fs').readFileSync('package.json','utf8'));
+  pkg.packageManager = '$PNPM_MANAGER';
+  pkg.engines ??= {};
+  pkg.engines.node = '>=$NODE_VER';
+  pkg.engines.pnpm = '>=$PNPM_VER';
+  require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+"
 
-# 0. prek pre-commit
-prek autoupdate
+echo "## Node"
+echo "### delete old node_modules and lock"
+rm -rf node_modules
+rm -f pnpm-lock.yaml
 
-echo === Vue ===
-
-rm -rf node_modules pnpm-lock.yaml
-pnpm self-update
+echo "### Node packages"
 pnpm up --latest
 pnpm exec biome migrate --write
 # npm i baseline-browser-mapping@latest -D
 # npx update-browserslist-db@latest
 
-echo === check code ===
-sh ./scripts/run_checks.sh
+echo "### Node package audit"
+./scripts/chk_js_package_audit.sh
 
-echo === Cypress ===
-# start dev server in background, bypassing pnpm wrapper to remove warning upon killing process
-# pnpm run dev
-./node_modules/.bin/vite >/dev/null 2>&1 &
-PID_VITE=$!
+echo "## Code checks"
+echo "### Prek autoupdate"
+prek autoupdate
 
-# wait for dev server to be ready (port 5173 is Vite's default)
-echo "Waiting for dev server..."
-while ! nc -z localhost 5173; do
-  sleep 0.5
-done
-echo "Dev server ready (PID $PID_VITE)"
+echo "### run_checks.sh"
+./scripts/run_checks.sh
 
-# run Cypress and capture its exit code immediately
-pnpm run cy:run || EXIT_CODE=$?
-EXIT_CODE=${EXIT_CODE:-0}
+echo "### run_e2e.sh"
+./scripts/run_e2e.sh
+
+echo "## Git"
 
 if [ -n "$(git status --porcelain)" ]; then
-  echo === git push ===
+  echo "## git push"
   git add pnpm-lock.yaml
-  git diff --staged --quiet -- pnpm-lock.yaml || git commit -m "Update Lock"
+  git diff --staged --quiet -- pnpm-lock.yaml || git commit -m "chore(deps): Lock"
 
-  git add package.json pnpm-workspace.yaml biome.json
-  git commit -m "Update packages and pnpm audit findings"
+  git add package.json pnpm-workspace.yaml biome.json .pre-commit-config.yaml .nvmrc
+  git commit -m "chore(deps): Package update" || true
   git push
 fi
 
 echo "update DONE, not yet deployed"
-kill $PID_VITE
-wait $PID_VITE 2>/dev/null || true
-exit $EXIT_CODE
