@@ -24,13 +24,11 @@ export default defineConfig({
       input: {
         index: resolve(import.meta.dirname, "index.html"),
         eta: resolve(import.meta.dirname, "index1.html"),
-        multitimer: resolve(import.meta.dirname, "index2.html"),
       },
       // !!! this prevents lazy loading via defineAsyncComponent !!!
       // output: {
       //   manualChunks: {
       //     'eta-chart': ['src/components/EtaChart.vue'],
-      //     multitimer: ['src/components/MainMultiTimer.vue'],
       //     info: ['src/components/MainInfo.vue'],
       //     eta: ['src/components/MainEta.vue']
       //   }
@@ -72,10 +70,10 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "ETA and Multi-Timer",
+        name: "ETA",
         short_name: "ETA",
         description:
-          "ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0). Multi-Timer: Set and manage multiple countdown timers.",
+          "ETA: Calculate remaining (waiting) time / estimated time of arrival. Modes: count-down (target = 0), count-up (target > 0).",
         icons: [
           {
             src: "icons/apple-touch-icon.png",

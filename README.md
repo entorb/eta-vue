@@ -1,8 +1,6 @@
-# ETA (Estimated Time of Arrival) and Multi-Timer
+# ETA (Estimated Time of Arrival)
 
 **ETA:** Calculate remaining (waiting) time / estimated time of arrival.
-
-**Multi-Timer:** Set and manage multiple countdown timers.
 
 Hosted at [entorb.net/eta/](https://entorb.net/eta/). [Feedback](https://entorb.net/contact.php?origin=eta) is highly appreciated.
 
@@ -19,17 +17,11 @@ This project is a complete rewrite of [github.com/entorb/eta](https://github.com
 
 [Weighted linear regression](https://en.wikipedia.org/wiki/Weighted_least_squares) is applied to calculate the speed with an emphasis on the latest data points
 
-## Multi-Timer Use Cases
-
-- Boiling eggs and cooking tea in parallel
-- Idle-Games
-
 ## Documentation
 
-- [docs/ideas.md](https://github.com/entorb/eta-vue/blob/main/docs/ideas.md) shows open and completed feature ideas
-- [docs/tools.md](https://github.com/entorb/eta-vue/blob/main/docs/tools.md) details how to set up the tools
-- [docs/vue-how-to.md](https://github.com/entorb/eta-vue/blob/main/docs/vue-how-to.md) outlines the Vue.js tech-stack and provides links to documentation and how-tos
-- [docs/issus.md](https://github.com/entorb/eta-vue/blob/main/docs/issues.md) lists problems and obstacles, faced during development
+- [docs/tools.md](docs/tools.md) details how to set up the tools
+- [docs/vue-how-to.md](docs/vue-how-to.md) outlines the Vue.js tech-stack and provides links to documentation and how-tos
+- [docs/issus.md](docs/issues.md) lists problems and obstacles, faced during development
 
 ## Build and Run this Project Locally
 

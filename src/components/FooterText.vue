@@ -16,12 +16,10 @@ const statsData = ref<StatsDataType>({
 const origin = computed(() => {
   const path = route.path
   if (path === "/eta/" || path === "/eta/eta") return "eta"
-  if (path === "/eta/multitimer") return "eta-mt"
   return ""
 })
 
 const showStats = computed(() => origin.value !== "")
-const statsLabel = computed(() => (origin.value === "eta" ? "etas" : "timers"))
 
 onMounted(() => {
   void fetchAccessStats()
@@ -49,7 +47,7 @@ async function fetchAccessStats() {
       v-if="showStats"
       class="text-disabled"
     >
-      {{ statsData.accesscounts7 }} {{ statsLabel }} in the last 7 days,
+      {{ statsData.accesscounts7 }} etas in the last 7 days,
       {{ statsData.accesscounts }} in total since {{ statsData.firstaccess }}.
     </p>
     <p class="text-disabled">

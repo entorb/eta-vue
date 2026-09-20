@@ -8,6 +8,5 @@ module.exports = defineConfig({
     setupNodeEvents() {
       // implement node event listeners here
     },
-    allowCypressEnv: false,
   },
 })

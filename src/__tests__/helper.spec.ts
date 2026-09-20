@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest"
 import {
   helperCalcSpeedFromPreviousRow,
-  helperClearName,
   helperDateToIsoString,
   helperDateToString,
   helperSecondsToString,
@@ -98,23 +97,5 @@ describe("helperClearName", () => {
     const prevRow = { date: new Date("2023-01-01 01:01:01"), items: 10 }
     const row = { date: new Date("2023-01-01 01:02:01"), items: 130 }
     expect(helperCalcSpeedFromPreviousRow(row, prevRow)).toBe(2.0)
-  })
-})
-
-describe("clearName", () => {
-  it("spaces", () => {
-    expect(helperClearName(" ab c ")).toBe("ab c")
-  })
-  it(":", () => {
-    expect(helperClearName("a:b::c d")).toBe("abc d")
-  })
-  it("slashes", () => {
-    expect(helperClearName("a//b||c\\\\d")).toBe("abcd")
-  })
-  it("quotations", () => {
-    expect(helperClearName("abcd")).toBe("abcd")
-  })
-  it("brackets", () => {
-    expect(helperClearName("a()b[]c{}d")).toBe("abcd")
   })
 })

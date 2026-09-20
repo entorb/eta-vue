@@ -89,11 +89,6 @@ onMounted(() => {
   // Start timer logic here
 })
 
-// not stopping to support sync work with multitimer
-// onBeforeUnmount(() => {
-//   stopTimer()
-// })
-
 function dateToString(datetime: Date): string {
   // Note: showDays setting is currently hardcoded here, could be moved to App settings in future
   return helperDateToString(datetime, props.settings.showDays)

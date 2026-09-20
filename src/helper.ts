@@ -86,11 +86,6 @@ function playSound(url: string) {
   audio.play()
 }
 
-// for multi-timer recent timers
-export const helperClearName = (name: string): string => {
-  return name.replace(/[/|\\:"'{}[\]()]+/g, "").trim()
-}
-
 export const helperStatsDataRead = async (origin: string): Promise<StatsDataType | undefined> => {
   try {
     const url = `https://entorb.net/web-stats-json.php?origin=${origin}&action=read`
@@ -123,12 +118,4 @@ export const helperStatsDataWrite = async (origin: string) => {
 export const helperRunningOnProd = () => {
   const currentURL = globalThis.location.href
   return currentURL.startsWith("https://entorb.net/")
-}
-
-export const helperRunningOnMobile = () => {
-  if (typeof globalThis === "undefined" || typeof globalThis.matchMedia !== "function") {
-    return false
-  }
-  const mobileMediaQuery = globalThis.matchMedia("(max-width: 768px)")
-  return mobileMediaQuery.matches
 }
