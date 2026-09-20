@@ -288,7 +288,7 @@ const speedAlt = computed(() => {
     <tbody>
       <tr v-if="showETA">
         <td><v-icon icon="$eta" /></td>
-        <td :style="{ fontWeight: 'bold' }">
+        <td class="font-weight-bold">
           {{ dateToString(eta) }}
         </td>
       </tr>
@@ -301,7 +301,7 @@ const speedAlt = computed(() => {
             height="30"
             :color="colorItems"
           >
-            <span :style="{ fontWeight: 'bold', fontSize: '1.2em' }">
+            <span class="font-weight-bold text-body-1">
               {{ itemsLast }} ({{ (100 * percentOfTarget).toFixed(1) }}%)
             </span>
           </v-progress-linear>
@@ -317,7 +317,10 @@ const speedAlt = computed(() => {
       </tr>
       <tr v-if="itemsPerSec !== 0.0">
         <td><v-icon icon="$speed" /></td>
-        <td :style="{ fontWeight: 'bold', color: colorSpeed }">
+        <td
+          class="font-weight-bold"
+          :style="{ color: colorSpeed }"
+        >
           <TooltipSpeed
             :ips="itemsPerSec"
             :unit="settings.unitSpeed"
@@ -333,20 +336,20 @@ const speedAlt = computed(() => {
         <td><v-icon icon="$timeLastInput" /></td>
         <td
           width="150"
-          :style="{ fontWeight: 'bold' }"
+          class="font-weight-bold"
         >
           {{ secToString(secSinceLastRow) }}
         </td>
       </tr>
       <tr>
         <td><v-icon icon="$timeRunning" /></td>
-        <td :style="{ fontWeight: 'bold' }">
+        <td class="font-weight-bold">
           {{ secToString(secSinceFirstRow) }}
         </td>
       </tr>
       <tr>
         <td><v-icon icon="$timeStart" /></td>
-        <td :style="{ fontWeight: 'bold' }">
+        <td class="font-weight-bold">
           {{ dateToString(dateFirst) }}
         </td>
       </tr>

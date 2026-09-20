@@ -45,20 +45,23 @@ function handleAddRow(row: { date: Date; items: number }) {
 </script>
 
 <template>
-  <v-container>
+  <v-container class="pa-2 pa-sm-4">
     <v-row v-if="!hasMultipleRows">
-      <v-col
-        cols="12"
-        md="12"
-      >
-        1. set <v-icon icon="$target" /> (target can be 0)<br />
-        2. periodically update <v-icon icon="$items" /> (current value) when it has changed
+      <v-col cols="12">
+        <v-alert
+          type="info"
+          variant="tonal"
+          density="compact"
+        >
+          1. set <v-icon icon="$target" /> (target can be 0)<br />
+          2. periodically update <v-icon icon="$items" /> (current value) when it has changed
+        </v-alert>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col
-        cols="5"
+        cols="6"
         md="3"
       >
         <InputTarget
@@ -80,7 +83,7 @@ function handleAddRow(row: { date: Date; items: number }) {
 
     <v-row v-if="hasData">
       <v-col cols="12">
-        <div class="d-flex align-center justify-center ga-4 flex-wrap">
+        <div class="d-flex align-center justify-center ga-2 ga-sm-4 flex-wrap">
           <v-btn
             id="btn-plus-1"
             type="button"

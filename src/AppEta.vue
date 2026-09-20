@@ -6,21 +6,10 @@ import MainEta from "./components/MainEta.vue"
 <template>
   <v-app>
     <v-main>
-      <v-container
-        fluid
-        fill-height
-      >
-        <v-row>
-          <v-col cols="12">
-            <MainEta />
-          </v-col>
-        </v-row>
-      </v-container>
+      <MainEta />
     </v-main>
-    <v-container>
-      <v-footer>
-        <FooterText />
-      </v-footer>
-    </v-container>
+    <v-footer class="d-flex justify-center">
+      <FooterText />
+    </v-footer>
   </v-app>
 </template>

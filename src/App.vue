@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from "vue"
+import { computed, defineAsyncComponent, ref } from "vue"
+import { useDisplay } from "vuetify"
 
 import FooterText from "./components/FooterText.vue"
 
@@ -7,12 +8,20 @@ import FooterText from "./components/FooterText.vue"
 const MainInfo = defineAsyncComponent(() => import("./components/MainInfo.vue"))
 
 const showInfo = ref(false)
+
+const { smAndDown } = useDisplay()
+
+// full title does not fit next to the info button on phones
+const title = computed(() => (smAndDown.value ? "ETA" : "Estimated Time of Arrival (ETA)"))
 </script>
 
 <template>
   <v-app>
-    <v-app-bar flat>
-      <v-app-bar-title>Remaining (ETA)</v-app-bar-title>
+    <v-app-bar
+      flat
+      :density="smAndDown ? 'compact' : 'default'"
+    >
+      <v-app-bar-title>{{ title }}</v-app-bar-title>
       <template #append>
         <v-btn
           type="button"
@@ -26,11 +35,14 @@ const showInfo = ref(false)
       v-model="showInfo"
       max-width="800"
       scrollable
+      :fullscreen="smAndDown"
     >
-      <v-card>
+      <v-card title="Info">
+        <v-divider />
         <v-card-text>
           <MainInfo />
         </v-card-text>
+        <v-divider />
         <v-card-actions>
           <v-spacer />
           <v-btn
@@ -43,21 +55,10 @@ const showInfo = ref(false)
       </v-card>
     </v-dialog>
     <v-main>
-      <v-container
-        fluid
-        fill-height
-      >
-        <v-row>
-          <v-col cols="12">
-            <router-view />
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view />
     </v-main>
-    <v-container>
-      <v-footer>
-        <FooterText />
-      </v-footer>
-    </v-container>
+    <v-footer class="d-flex justify-center">
+      <FooterText />
+    </v-footer>
   </v-app>
 </template>

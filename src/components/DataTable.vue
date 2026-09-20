@@ -84,7 +84,7 @@ function save(): void {
         <th
           v-for="column in columns"
           :key="String(column.value ?? 'default-key')"
-          :style="{ textAlign: column.align }"
+          class="text-center"
           scope="col"
         >
           <v-icon :icon="headers.find(h => h.value === column.value)?.icon || ''" />
@@ -94,36 +94,23 @@ function save(): void {
     <template #item="{ item, index }">
       <tr>
         <td>
-          <span
-            :style="{
-              textAlign: 'center',
-              display: 'block'
-            }"
-          >
+          <span class="d-block text-center">
             {{ dateToString(item.date) }}
           </span>
         </td>
 
         <td>
           <span
-            :style="{
-              color: colorItems,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              display: 'block'
-            }"
+            class="d-block text-center font-weight-bold"
+            :style="{ color: colorItems }"
           >
             {{ item.items }}
           </span>
         </td>
         <td>
           <span
-            :style="{
-              color: colorSpeed,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              display: 'block'
-            }"
+            class="d-block text-center font-weight-bold"
+            :style="{ color: colorSpeed }"
           >
             <TooltipSpeed
               :ips="item.speed"
@@ -131,7 +118,7 @@ function save(): void {
             />
           </span>
         </td>
-        <td>
+        <td class="text-center">
           <v-btn
             :id="'btn-edit-row-' + index"
             type="button"
@@ -181,13 +168,23 @@ function save(): void {
         />
       </v-card-text>
       <v-card-actions>
+        <v-spacer />
+        <v-btn
+          type="button"
+          @click="showEditDialog = false"
+        >
+          Cancel
+        </v-btn>
         <v-btn
           id="btn-dialog-save"
           type="button"
-          icon="$save"
-          aria-label="Save"
+          color="primary"
+          variant="tonal"
+          prepend-icon="$save"
           @click="save()"
-        />
+        >
+          Save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
