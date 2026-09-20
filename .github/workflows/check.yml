@@ -170,6 +170,7 @@ jobs:
           # build: pnpx vite build
           # start: pnpx vite preview
           start: pnpm run dev
+          browser: chrome
 
   all-checks-passed:
     if: always()
