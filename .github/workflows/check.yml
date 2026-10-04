@@ -163,7 +163,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Cypress
-        uses: cypress-io/github-action@v7
+        uses: cypress-io/github-action@c541a95ea92d9239347a2355f2e895cd4b3f8060  # v7
         with:
           # build: pnpx vite build
           # start: pnpx vite preview
