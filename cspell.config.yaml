@@ -13,8 +13,8 @@ language: en-US
 ignorePaths:
   - '.*.ts'
   - '.*'
-  - '.*'
   - '*.mp3'
+  - '/*.json'
   - /.vscode/
   - /LICENSE
   - biome.json
