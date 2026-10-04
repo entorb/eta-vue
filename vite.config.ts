@@ -1,9 +1,6 @@
 import { resolve } from "node:path"
 import { fileURLToPath, URL } from "node:url"
 import Vue from "@vitejs/plugin-vue"
-// locally hosting roboto font, instead of pointing to google
-import Unfonts from "unplugin-fonts/vite"
-// import ViteFonts from 'unplugin-fonts/vite'
 import { defineConfig } from "vite"
 import { VitePWA } from "vite-plugin-pwa"
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
@@ -46,27 +43,6 @@ export default defineConfig({
     Vuetify({
       autoImport: true,
     }),
-    Unfonts({
-      fontsource: {
-        families: [
-          {
-            name: "Roboto",
-            weights: [400, 700],
-            styles: ["normal"], // 'italic'
-          },
-        ],
-      },
-    }),
-    // ViteFonts({
-    //   google: {
-    //     families: [
-    //       {
-    //         name: 'Roboto',
-    //         styles: 'wght@100;300;400;500;700;900'
-    //       }
-    //     ]
-    //   }
-    // }),
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
