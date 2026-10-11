@@ -2,7 +2,6 @@
 import { defineAsyncComponent, onMounted } from "vue"
 
 import { useEtaData } from "../composables/useEtaData"
-import { helperRunningOnProd, helperStatsDataWrite } from "../helper"
 
 import DataTable from "./DataTable.vue"
 import InputItems from "./InputItems.vue"
@@ -34,14 +33,6 @@ const {
 onMounted(() => {
   loadFromStorage()
 })
-
-function handleAddRow(row: { date: Date; items: number }) {
-  addRow(row)
-
-  if (helperRunningOnProd() && data.value.length === 3) {
-    void helperStatsDataWrite("eta")
-  }
-}
 </script>
 
 <template>
@@ -76,7 +67,7 @@ function handleAddRow(row: { date: Date; items: number }) {
         <InputItems
           :target="target"
           :current-items="current"
-          @add-row="handleAddRow"
+          @add-row="addRow"
         />
       </v-col>
     </v-row>

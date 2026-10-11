@@ -1,6 +1,6 @@
 import { computed, ref } from "vue"
 
-import { helperCalcSpeedFromPreviousRow } from "../helper"
+import { helperCalcSpeedFromPreviousRow, helperStatsDataWrite } from "../helper"
 import type { DataRowRedType, DataRowType, UnitType } from "../types"
 
 const STORAGE_KEY_DATA = "eta_vue_data"
@@ -73,6 +73,7 @@ export function useEtaData() {
     }
 
     data.value.push({ ...row, speed })
+    if (data.value.length === 3) void helperStatsDataWrite("eta")
     updateShowDays()
     saveToStorage()
   }
