@@ -29,15 +29,13 @@ Install npm packages: `pnpm install`
 
 Run live-updated dev-instance: `pnpm run dev`
 
-### Cypress E2E tests
+### Playwright E2E tests
 
 ```sh
-pnpm run build
-pnpm run preview
-pnpm run cy:open
+pnpm exec playwright install chromium
+pnpm run e2e
+pnpm run e2e:ui
 ```
-
-Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
 
 ## Credits
 

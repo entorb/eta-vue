@@ -15,7 +15,6 @@ minimumReleaseAgeExclude:
   - qs@6.16.0
 
 allowBuilds:
-  cypress: true
   esbuild: true
   vue-demi: true
 

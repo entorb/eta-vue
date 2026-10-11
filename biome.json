@@ -6,9 +6,8 @@
     "includes": [
       "**",
       "!**/*.d.ts",
-      "!cypress/downloads",
-      "!cypress/screenshots",
-      "!cypress/videos",
+      "!playwright-report",
+      "!test-results",
       "!package.json",
       "!pnpm-lock.yaml",
       "!public",
@@ -232,7 +231,7 @@
       }
     },
     {
-      "includes": ["**/cypress/**"],
+      "includes": ["e2e/**"],
       "linter": {
         "rules": {
           "suspicious": {

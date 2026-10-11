@@ -164,15 +164,13 @@ jobs:
           cache: "pnpm"
 
       - name: Prepare
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - name: Run Cypress
-        uses: cypress-io/github-action@c541a95ea92d9239347a2355f2e895cd4b3f8060  # v7
-        with:
-          # build: pnpx vite build
-          # start: pnpx vite preview
-          start: pnpm run dev
-          browser: chrome
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright
+        run: pnpm exec playwright test
 
   all-checks-passed:
     if: always()

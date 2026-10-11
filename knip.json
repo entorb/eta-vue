@@ -3,6 +3,5 @@
   "tags": ["-lintignore"],
   "entry": ["scripts/*.sh"],
   "project": ["src/**/*.ts", "src/**/*.vue"],
-  "ignore": ["src/mainEta.ts"],
   "ignoreDependencies": ["@typescript/native"]
 }

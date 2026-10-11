@@ -4,6 +4,9 @@ import { configDefaults, defineConfig, mergeConfig } from "vitest/config"
 
 import viteConfig from "./vite.config.ts"
 
+// tests expect German local time, as in CI
+process.env.TZ = "Europe/Berlin"
+
 export default mergeConfig(
   viteConfig,
   defineConfig({

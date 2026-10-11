@@ -1,6 +1,5 @@
 import tsPlugin from "@typescript-eslint/eslint-plugin"
 import tsParser from "@typescript-eslint/parser"
-import pluginCypress from "eslint-plugin-cypress"
 import sonarjs from "eslint-plugin-sonarjs"
 import pluginVue from "eslint-plugin-vue"
 import pluginVueA11y from "eslint-plugin-vuejs-accessibility"
@@ -22,9 +21,6 @@ export default [
       "**/*.tsbuildinfo",
       "**/CLAUDE.md",
       "**/coverage",
-      "**/cypress/downloads",
-      "**/cypress/screenshots",
-      "**/cypress/videos",
       "**/dist",
       "**/GEMINI.md",
       "**/node_modules",
@@ -37,7 +33,7 @@ export default [
   // Base TypeScript files
   {
     files: ["**/*.{ts,mts,tsx}"],
-    ignores: ["**/*.{test,spec}.{ts,tsx}", "**/cypress/**"],
+    ignores: ["**/*.{test,spec}.{ts,tsx}", "e2e/**"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -340,9 +336,9 @@ export default [
     },
   },
 
-  // Cypress files - most relaxed rules
+  // Playwright E2E files - most relaxed rules
   {
-    files: ["cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}", "cypress/support/**/*.{js,ts,jsx,tsx}"],
+    files: ["e2e/**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -351,16 +347,13 @@ export default [
       },
       globals: {
         ...globals.browser,
-        cy: "readonly",
-        Cypress: "readonly",
+        ...globals.node,
       },
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
-      cypress: pluginCypress,
     },
     rules: {
-      ...pluginCypress.configs.recommended.rules,
       // Relaxed TypeScript rules for E2E tests
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
@@ -368,7 +361,6 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/prefer-optional-chain": "off",
-      // Relaxed code quality for E2E tests
       // Relaxed code quality for E2E tests
       "array-callback-return": "off",
       "no-console": "off",

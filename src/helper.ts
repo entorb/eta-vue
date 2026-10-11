@@ -100,7 +100,7 @@ export const helperStatsDataRead = async (origin: string): Promise<StatsDataType
 }
 
 export const helperStatsDataWrite = async (origin: string) => {
-  // Skip stats writes outside production to prevent dev/Cypress from spoiling stats
+  // Skip stats writes outside production to prevent dev/E2E from spoiling stats
   try {
     if (globalThis.location.hostname !== PROD_HOSTNAME) return
   } catch {

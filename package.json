@@ -9,9 +9,9 @@
   },
   "scripts": {
     "build": "vite build",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run --browser chrome",
     "dev": "vite",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
     "preview": "vite preview",
     "run": "vite build && vite preview"
   },
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",
     "@mdi/js": "^7.4.47",
+    "@playwright/test": "^1.63.0",
     "@tsconfig/node22": "^22.0.6",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.4",
@@ -42,10 +43,8 @@
     "@vitest/coverage-v8": "^5.0.3",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
-    "cypress": "^16.1.1",
     "esbuild": "^0.28.2",
     "eslint": "^10.12.0",
-    "eslint-plugin-cypress": "^7.0.2",
     "eslint-plugin-sonarjs": "^4.2.2",
     "eslint-plugin-vue": "~10.11.1",
     "eslint-plugin-vuejs-accessibility": "^2.6.0",

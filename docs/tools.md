@@ -33,35 +33,23 @@ see [docs/vue-how-to.md](https://github.com/entorb/eta-vue/blob/main/docs/vue-ho
 - [vitest.config.ts](https://github.com/entorb/eta-vue/blob/main/vitest.config.ts) configuration (note `exclude:`)
 - [package.json](https://github.com/entorb/eta-vue/blob/main/package.json) -> `scripts -> test` shows the runtime parameters. (note `--coverage` for v8 code-coverage report)
 
-## Cypress - Frontend end to end (E2E) testing
+## Playwright - Frontend end to end (E2E) testing
 
-see <https://www.cypress.io/>
-
-```sh
-npm install cypress --save-dev
-```
-
-To run against Vite preview: run in host mode via package.json
+see <https://playwright.dev/>
 
 ```sh
-npm i -g npm-check-updates
-ncu -u
-npm install
-
-"preview": "vite preview --host",
+pnpm add -D @playwright/test
+pnpm exec playwright install chromium
 ```
 
-than
+Dev server is started automatically via `webServer` in [playwright.config.ts](https://github.com/entorb/eta-vue/blob/main/playwright.config.ts)
 
 ```sh
-npm run build
-npm run preview
-npm run cy:open
+pnpm run e2e
+pnpm run e2e:ui
 ```
 
-Now in Cypress navigate to "E2E Testing" -> "Firefox" -> "Start E2E Testing in Firefox"
-
-My test cases: [cypress/e2e/](https://github.com/entorb/eta-vue/blob/main/cypress/e2e)
+My test cases: [e2e/](https://github.com/entorb/eta-vue/blob/main/e2e)
 
 ## Optionally
 
