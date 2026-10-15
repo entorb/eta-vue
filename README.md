@@ -1,5 +1,9 @@
 # ETA (Estimated Time of Arrival)
 
+2026-10-15: Deprecated, merged into [entorb/timer](https://github.com/entorb/timer) / [entorb.net/timer/](https://entorb.net/timer).
+
+---
+
 **ETA:** Calculate remaining (waiting) time / estimated time of arrival.
 
 Hosted at [entorb.net/eta/](https://entorb.net/eta/). [Feedback](https://entorb.net/contact.php?origin=eta) is highly appreciated.
